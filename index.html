@@ -4,6 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0b3a37">
+<meta name="application-name" content="Mnemónica AMIT">
+<meta name="apple-mobile-web-app-title" content="Mnemónica">
 <title>Mnemónica AMIT · Entrena el orden de Tamariz</title>
 <style>
 :root{
@@ -921,7 +923,7 @@ const DEF = () => ({
   streak: { n: 0, last: '', best: 0 },
   stats: { ans: 0, ok: 0, ses: 0, perfect: 0, bestStreak: 0, fast: 0, tourn: 0, wrongRun: 0, galaClean: 0, totalBest: null, totalRuns: 0 },
   hitos: {},
-  set: { sound: true, voice: true, fourc: false, calm: false, rank: false, names: true, fast: false },
+  set: { sound: true, voice: true, fourc: false, calm: false, rank: false, rankOut: false, fbAsked: false, names: true, fast: false },
   gr: -1, conf: {}, exp: {},
   poker: { bank: 500, hands: 0, won: 0, lost: 0, push: 0, peak: 500, clean: 0, bestClean: 0, rebuys: 0, fines: 0, dbl: 0, dblWin: 0, best: -1, bigWin: 0, daily: '', tbl: 0 },
 });
@@ -1461,7 +1463,7 @@ A['edit-profile'] = () => openSheet(`<h3>Tu perfil</h3><div class="field"><label
 A['pick-av'] = el => { S.avatar = el.dataset.v; $$('#av button').forEach(b => b.setAttribute('aria-pressed', b === el ? 'true' : 'false')); };
 A['save-profile'] = () => { S.name = ($('#nm').value || '').trim().slice(0, 18); save(); closeSheet(); render(); };
 A.export = () => { copyText(JSON.stringify({ app: 'mnemonica-tamariz', S: { ...S, draw: S.draw } })); };
-A.import = () => openSheet(`<h3>Importar progreso</h3><p class="mut small">Pega aquí lo que copiaste con «Copiar mi progreso». Sustituirá el progreso actual.</p><textarea id="imp" rows="6" placeholder="Pega aquí"></textarea><button class="btn brass block mt" data-a="do-import">Importar</button>`);
+A.import = () => openSheet(`<h3>Importar progreso</h3><p class="mut small">${L('Pega aquí lo que copiaste con «Copiar mi código». Sustituirá el progreso actual.', 'Enganxa aquí el que has copiat amb «Copiar el meu codi». Substituirà el progrés actual.')}</p><textarea id="imp" rows="6" placeholder="Pega aquí"></textarea><button class="btn brass block mt" data-a="do-import">Importar</button>`);
 A['do-import'] = () => {
   try { const o = JSON.parse($('#imp').value); if (o.app !== 'mnemonica-tamariz') throw 0; S = merge(DEF(), o.S); save(); applySettings(); closeSheet(); go('perfil'); toast('Progreso importado'); }
   catch (e) { toast('Eso no parece un progreso válido'); }
@@ -1477,15 +1479,15 @@ function onboarding() {
   const slides = [
     () => `<h2>¿Qué es una baraja ordenada?</h2><div class="cards-row mt">${[1, 2, 3, 4].map(p => cardHTML(p, { w: 62, paint: false })).join('')}</div><div class="gap mt"><div class="panel"><b style="color:var(--brass-hi)">Una baraja.</b> 52 cartas: cuatro palos de trece. Barajada, queda en uno de unos 8 × 10⁶⁷ órdenes posibles.</div><div class="panel"><b style="color:var(--brass-hi)">Una baraja ordenada.</b> La que dejas en un orden que te sabes de memoria. Al público le parece mezclada; tú sabes qué carta va en cada sitio.</div><div class="panel"><b style="color:var(--brass-hi)">La de Tamariz.</b> La Mnemónica: un orden de 52 cartas que Juan Tamariz (1942–2026) publicó en su libro y que permite más de treinta efectos.</div></div>`,
     () => `<h2>Cómo se entrena</h2><div class="gap mt"><div class="panel"><b style="color:var(--brass-hi)">Aprender.</b> Trece actos, cinco vías (oído, vista, voz, historias y comodín).</div><div class="panel"><b style="color:var(--brass-hi)">Jugar.</b> Carta al número, Vistazo, El Mentiroso, Orden a la vista y Memoria total.</div><div class="panel"><b style="color:var(--brass-hi)">Retar.</b> Reto del día, duelo en directo, torneos en grupo y Gala con público incluido.</div><div class="panel"><b style="color:var(--brass-hi)">Curiosear.</b> El Rincón del camerino: historia de las barajas ordenadas, chistes de magos y un verdadero o falso.</div></div><p class="mut small mt">Todo lo que respondes alimenta un mapa de memoria que decide qué repasar y cuándo.</p>`,
-    () => `<h2>¿Cómo te llamas, mago?</h2><div class="field"><label for="nm0">Nombre</label><input id="nm0" type="text" maxlength="18" value="${esc(S.name)}" placeholder="Tu nombre artístico"></div><div class="field"><label>Avatar</label><div class="avatars" id="av0">${AVATARS.map(a => avBtn('ob-av', a, a === av)).join('')}</div></div>`,
+    () => `<h2>¿Cómo te llamas, mago?</h2><div class="field"><label for="nm0">Nombre</label><input id="nm0" type="text" maxlength="18" value="${esc(S.name)}" placeholder="Tu nombre artístico"></div><div class="field"><label>Avatar</label><div class="avatars" id="av0">${AVATARS.map(a => avBtn('ob-av', a, a === av)).join('')}</div></div>${FB.web ? `<p class="tiny mut">${L('Este nombre y este avatar son los que verán los demás en el ranking de AMIT si creas cuenta. Puedes usar un apodo.', 'Aquest nom i aquest avatar són els que veuran els altres al rànquing d\'AMIT si crees compte. Pots fer servir un àlies.')}</p>` : ''}`,
   ];
   const draw = () => {
     openSheet(`${slides[step]()}${step === 0 ? '<p class="tiny mut" id="obPs" style="margin:10px 0 0"></p><button class="btn ghost sm block mt" data-a="ob-code">¿Ya tenías progreso? Pega tu código</button>' : ''}<div class="row mt2">${step < 2 ? `<button class="btn ghost sm" data-a="ob-skip">Saltar</button><span class="sp"></span><button class="btn brass" data-a="ob-next">Siguiente</button>` : `<span class="sp"></span><button class="btn brass big" data-a="ob-next">Levanta el telón</button>`}</div>`);
     const v = $('#veil'); v.onclick = null; // obligar a usar los botones
   };
-  A['ob-next'] = () => { if (step === 2) { S.name = ($('#nm0').value || '').trim().slice(0, 18); S.avatar = av; S.onboarded = true; save(); closeSheet(); render(); return; } step++; draw(); };
+  A['ob-next'] = () => { if (step === 2) { S.name = ($('#nm0').value || '').trim().slice(0, 18); S.avatar = av; S.onboarded = true; save(); closeSheet(); render(); if (typeof fbAskOnce === 'function') fbAskOnce(); return; } step++; draw(); };
   A['ob-code'] = () => A.import();
-  A['ob-skip'] = () => { S.onboarded = true; save(); closeSheet(); };
+  A['ob-skip'] = () => { S.onboarded = true; save(); closeSheet(); if (typeof fbAskOnce === 'function') fbAskOnce(); };
   A['ob-av'] = el => { av = el.dataset.v; $$('#av0 button').forEach(b => b.setAttribute('aria-pressed', b === el ? 'true' : 'false')); };
   draw();
 }
@@ -3779,6 +3781,20 @@ A['go-fuentes'] = () => go('learn', 'fuentes');
 A['copy-url'] = el => copyText(el.dataset.u);
 
 /* ---------- Cómo funciona + pantalla de inicio ---------- */
+/* Sección «Compartir la web» (solo en la web propia). */
+const guiaCompartir = () => `
+  <div class="sec" id="compartir"><h3>${L('🔗 Compartir la web con la peña', '🔗 Compartir la web amb la penya')}</h3></div>
+  <p class="small mut">${L('Es una web normal: no hay que mandar ningún archivo, basta con pasar el enlace.', 'És una web normal: no cal enviar cap arxiu, n\'hi ha prou amb passar l\'enllaç.')}</p>
+  <div class="panel stitch"><b>${L('El enlace', 'L\'enllaç')}</b><div class="small" style="word-break:break-all;margin-top:4px">${esc(fbWebUrl())}</div>
+    <div class="row wrap mt"><button class="btn sm brass" data-a="share-web">${L('Compartir enlace', 'Compartir enllaç')}</button><button class="btn sm" data-a="copy-web">${L('Copiar enlace', 'Copiar enllaç')}</button></div></div>
+  <ol class="steps small">
+    <li>${L('Toca <b>Compartir enlace</b> y elige WhatsApp o el grupo de la peña. Si tu móvil no abre el menú de compartir, usa <b>Copiar enlace</b> y pégalo tú en el chat.', 'Toca <b>Compartir enllaç</b> i tria WhatsApp o el grup de la penya. Si el teu mòbil no obre el menú de compartir, fes servir <b>Copiar enllaç</b> i enganxa\'l tu al xat.')}</li>
+    <li>${L('Quien lo reciba tiene que abrirlo en <b>Safari</b> o <b>Chrome</b>. Si se abre dentro de WhatsApp, que toque «Abrir en el navegador» (en iPhone, «Abrir en Safari»): el navegador interno no deja entrar con Google.', 'Qui el rebi l\'ha d\'obrir a <b>Safari</b> o <b>Chrome</b>. Si s\'obre dins de WhatsApp, que toqui «Obrir al navegador» (a iPhone, «Obrir a Safari»): el navegador intern no deixa entrar amb Google.')}</li>
+    <li>${L('La primera vez elige su nombre de mago y su avatar y toca <b>Crear cuenta</b> (con Google o con correo). En cuanto entra, aparece en el <b>Ranking de AMIT</b>.', 'La primera vegada tria el seu nom de mag i el seu avatar i toca <b>Crear compte</b> (amb Google o amb correu). Així que entra, apareix al <b>Rànquing d\'AMIT</b>.')}</li>
+    <li>${L('Para abrirla con un toque, que la añada a la pantalla de inicio (más arriba, 📲).', 'Per obrir-la amb un toc, que l\'afegeixi a la pantalla d\'inici (més amunt, 📲).')}</li>
+  </ol>
+  <blockquote class="warn">${L('Cualquiera que tenga el enlace puede abrir la app y crear una cuenta, así que pasadlo solo por los canales de la peña. Las mejoras llegan solas: quien abra el enlace verá la última versión, a veces después de recargar la página.', 'Qualsevol que tingui l\'enllaç pot obrir l\'app i crear un compte, així que passeu-lo només pels canals de la penya. Les millores arriben soles: qui obri l\'enllaç veurà l\'última versió, de vegades després de recarregar la pàgina.')}</blockquote>`;
+
 ROUTES['learn:guia'] = () => `
   <div class="row mt"><button class="ibtn" data-a="back" data-tab="home" aria-label="Volver">‹</button><h2 style="margin:0">Cómo funciona</h2></div>
   <p class="mut">Entrenador de la baraja Mnemónica de Tamariz: aprendes el orden de las 52 cartas por peldaños (13, 26, 52), lo practicas con juegos y compites con la peña.</p>
@@ -3808,12 +3824,12 @@ ROUTES['learn:guia'] = () => `
   <p class="small mut">Así se abre con un toque, como cualquier app. No hay que descargar nada.</p>
   <div class="gap">
     <div class="panel stitch"><b>iPhone y iPad</b>
-      <ol class="steps small"><li>Abre el enlace en <b>Safari</b> (es el navegador que lo permite de forma fiable).</li><li>Toca el botón <b>Compartir</b> (el cuadrado con la flecha hacia arriba).</li><li>Baja en la lista y toca <b>Añadir a pantalla de inicio</b>.</li><li>Pon el nombre que quieras y toca <b>Añadir</b>.</li></ol></div>
+      <ol class="steps small"><li>${FB.web ? L('Abre el enlace en <b>Safari</b>. Si te llegó por WhatsApp, usa «Abrir en Safari» (o copia el enlace y pégalo en Safari): el navegador interno de WhatsApp no deja instalarla.', 'Obre l\'enllaç a <b>Safari</b>. Si t\'ha arribat per WhatsApp, fes servir «Obrir a Safari» (o copia l\'enllaç i enganxa\'l a Safari): el navegador intern de WhatsApp no deixa instal·lar-la.') : 'Abre el enlace en <b>Safari</b> (es el navegador que lo permite de forma fiable).'}</li><li>Toca el botón <b>Compartir</b> (el cuadrado con la flecha hacia arriba).</li><li>Baja en la lista y toca <b>Añadir a pantalla de inicio</b>.</li><li>Pon el nombre que quieras y toca <b>Añadir</b>.</li></ol></div>
     <div class="panel stitch"><b>Android</b>
-      <ol class="steps small"><li>Abre el enlace en <b>Chrome</b>.</li><li>Toca el menú <b>⋮</b> (tres puntos, arriba a la derecha).</li><li>Toca <b>Añadir a la pantalla de inicio</b> (en algunas versiones, <b>Instalar aplicación</b>).</li><li>Confirma con <b>Añadir</b> o <b>Instalar</b>.</li></ol></div>
+      <ol class="steps small"><li>${FB.web ? L('Abre el enlace en <b>Chrome</b>. Si te llegó por WhatsApp, toca <b>⋮ › Abrir en Chrome</b> (o copia el enlace y pégalo en Chrome).', 'Obre l\'enllaç a <b>Chrome</b>. Si t\'ha arribat per WhatsApp, toca <b>⋮ › Obrir a Chrome</b> (o copia l\'enllaç i enganxa\'l a Chrome).') : 'Abre el enlace en <b>Chrome</b>.'}</li><li>Toca el menú <b>⋮</b> (tres puntos, arriba a la derecha).</li><li>Toca <b>Añadir a la pantalla de inicio</b> (en algunas versiones, <b>Instalar aplicación</b>).</li><li>Confirma con <b>Añadir</b> o <b>Instalar</b>.</li></ol></div>
   </div>
-  <blockquote class="warn"><b>Importante en iPhone:</b> la app de la pantalla de inicio suele guardar sus datos aparte de Safari. Si ya has entrenado en Safari, copia tu progreso antes (Perfil › «Copiar mi progreso») y pégalo desde la pantalla de inicio (Perfil › «Importar progreso»). Lo mejor es añadirla antes de empezar.</blockquote>
-  <div class="sec" id="archivo"><h3>${L('📄 Si te han pasado el archivo, no el enlace', '📄 Si t\'han passat l\'arxiu, no l\'enllaç')}</h3></div>
+  ${FB.web ? `<blockquote class="warn">${L('<b>Importante en iPhone:</b> la app de la pantalla de inicio suele guardar sus datos aparte de Safari. Si tienes cuenta, ábrela desde el icono y toca <b>Perfil › «Entrar para guardar en la nube»</b>: recuperarás todo tu progreso. Si Google no responde ahí, entra con <b>correo y contraseña</b>. Sin cuenta, copia tu progreso antes (Perfil › «Copiar mi código») y pégalo desde el icono (Perfil › «Importar progreso»). Lo mejor es añadirla antes de empezar.', '<b>Important a l\'iPhone:</b> l\'app de la pantalla d\'inici sol desar les seves dades a part de Safari. Si tens compte, obre-la des de la icona i toca <b>Perfil › «Entrar per desar al núvol»</b>: recuperaràs tot el teu progrés. Si Google no respon allà, entra amb <b>correu i contrasenya</b>. Sense compte, copia el teu progrés abans (Perfil › «Copiar el meu codi») i enganxa\'l des de la icona (Perfil › «Importar progrés»). El millor és afegir-la abans de començar.')}</blockquote>` : `<blockquote class="warn"><b>Importante en iPhone:</b> la app de la pantalla de inicio suele guardar sus datos aparte de Safari. Si ya has entrenado en Safari, copia tu progreso antes (Perfil › «Copiar mi progreso») y pégalo desde la pantalla de inicio (Perfil › «Importar progreso»). Lo mejor es añadirla antes de empezar.</blockquote>`}
+${FB.web ? guiaCompartir() : `  <div class="sec" id="archivo"><h3>${L('📄 Si te han pasado el archivo, no el enlace', '📄 Si t\'han passat l\'arxiu, no l\'enllaç')}</h3></div>
   <p class="small mut">${WL('La app es un único archivo <b>.html</b> que funciona sin internet. Todo lo del entrenamiento, los juegos y los retos sin conexión va igual; solo faltan la <b>Sala en directo</b> y el <b>Ranking en línea</b>, que necesitan abrirla desde el enlace de Claude.', 'L\'app és un únic arxiu <b>.html</b> que funciona sense internet. Tot l\'entrenament, els jocs i els reptes sense connexió van igual; només falten la <b>Sala en directe</b> i el <b>Rànquing en línia</b>, que necessiten obrir-la des de l\'enllaç de Claude.', 'Una vez cargada, la app funciona sin internet. Todo lo del entrenamiento, los juegos y los retos sin conexión va igual; la <b>Sala en directo</b>, el <b>Ranking en línea</b> y el guardado en la nube necesitan conexión y haber entrado con tu cuenta.', 'Un cop carregada, l\'app funciona sense internet. Tot l\'entrenament, els jocs i els reptes sense connexió van igual; la <b>Sala en directe</b>, el <b>Rànquing en línia</b> i el desat al núvol necessiten connexió i haver entrat amb el teu compte.')}</p>
   <div class="gap">
     <div class="panel stitch"><b>${L('Android', 'Android')}</b>
@@ -3825,15 +3841,23 @@ ROUTES['learn:guia'] = () => `
       <ol class="steps small"><li>${L('Guarda el archivo en una carpeta fija y haz <b>doble clic</b>: se abre en tu navegador (Chrome, Edge o Firefox).', 'Desa l\'arxiu en una carpeta fixa i fes <b>doble clic</b>: s\'obre al teu navegador (Chrome, Edge o Firefox).')}</li><li>${L('Guarda la pestaña en <b>marcadores</b> para abrirla rápido. No lo muevas ni le cambies el nombre una vez que hayas empezado a entrenar.', 'Afegeix la pestanya als <b>marcadors</b> per obrir-la ràpid. No el moguis ni li canviïs el nom un cop hagis començat a entrenar.')}</li></ol></div>
   </div>
   <blockquote class="warn">${L('<b>Tu progreso con el archivo</b> se guarda en el navegador y puede depender de dónde esté el archivo: si lo abres desde otra carpeta, con otro navegador o en otro móvil, puedes empezar de cero. Haz con frecuencia <b>Perfil › Copiar mi progreso</b> y pégalo en una nota o en un mensaje a ti mismo; se recupera con <b>Importar progreso</b>.', '<b>El teu progrés amb l\'arxiu</b> es desa al navegador i pot dependre d\'on sigui l\'arxiu: si l\'obres des d\'una altra carpeta, amb un altre navegador o en un altre mòbil, pots començar de zero. Fes sovint <b>Perfil › Copiar el meu progrés</b> i enganxa\'l en una nota o en un missatge a tu mateix; es recupera amb <b>Importar progrés</b>.')}</blockquote>
-  <p class="small mut">${L('Para pasar el archivo a otra persona: envíalo como <b>documento</b> (por WhatsApp, correo o Drive), no como imagen ni pegado en el texto. Pesa menos de 1 MB.', 'Per passar l\'arxiu a una altra persona: envia\'l com a <b>document</b> (per WhatsApp, correu o Drive), no com a imatge ni enganxat al text. Pesa menys d\'1 MB.')}</p>
-  <div class="sec"><h3>Tu progreso</h3></div>
+  <p class="small mut">${L('Para pasar el archivo a otra persona: envíalo como <b>documento</b> (por WhatsApp, correo o Drive), no como imagen ni pegado en el texto. Pesa menos de 1 MB.', 'Per passar l\'arxiu a una altra persona: envia\'l com a <b>document</b> (per WhatsApp, correu o Drive), no com a imatge ni enganxat al text. Pesa menys d\'1 MB.')}</p>`}
+${FB.web ? `  <div class="sec"><h3>${L('Tu progreso', 'El teu progrés')}</h3></div>
+  <p class="small">${L('Se guarda <b>en este dispositivo</b> y, si has entrado con tu cuenta, también <b>en la nube</b>: entrando con la misma cuenta (Perfil › «Entrar para guardar en la nube») lo recuperas en otro móvil, otra tableta o el ordenador. Los dibujos no viajan: se quedan en el dispositivo. Sin cuenta, si cambias de móvil o borras los datos del navegador, empiezas de cero; para evitarlo usa Perfil › <b>Copiar mi código</b> y, en el otro dispositivo, <b>Importar progreso</b>. En una ventana privada puede que no se guarde. Si juegas a la vez en dos dispositivos, el último que guarda sustituye al otro.', 'Es desa <b>en aquest dispositiu</b> i, si has entrat amb el teu compte, també <b>al núvol</b>: entrant amb el mateix compte (Perfil › «Entrar per desar al núvol») el recuperes en un altre mòbil, una altra tauleta o l\'ordinador. Els dibuixos no viatgen: es queden al dispositiu. Sense compte, si canvies de mòbil o esborres les dades del navegador, comences de zero; per evitar-ho fes servir Perfil › <b>Copiar el meu codi</b> i, a l\'altre dispositiu, <b>Importar progrés</b>. En una finestra privada pot ser que no es desi. Si jugues alhora en dos dispositius, l\'últim que desa substitueix l\'altre.')}</p>
+  <div class="sec"><h3>Si algo falla</h3></div>
+  <div class="gap">
+    <div class="panel"><b>${L('Google no me deja entrar', 'Google no em deixa entrar')}</b><div class="small mut">${L('Si abriste el enlace desde WhatsApp o Instagram, ábrelo en Safari o Chrome. Si sigue sin ir, entra con tu correo y contraseña.', 'Si has obert l\'enllaç des de WhatsApp o Instagram, obre\'l a Safari o Chrome. Si continua sense anar, entra amb el teu correu i contrasenya.')}</div></div>
+    <div class="panel"><b>${L('La Sala en directo no conecta', 'La Sala en directe no connecta')}</b><div class="small mut">${L('Hace falta haber entrado con tu cuenta (Perfil › «Entrar para guardar en la nube») y tener conexión. Comprobad que todos usáis el mismo código. Si no hay manera, usad el Duelo con código y la Clasificación de la peña.', 'Cal haver entrat amb el teu compte (Perfil › «Entrar per desar al núvol») i tenir connexió. Comproveu que tots feu servir el mateix codi. Si no hi ha manera, feu servir el Duel amb codi i la Classificació de la penya.')}</div></div>
+    <div class="panel"><b>${L('No suena nada', 'No sona res')}</b><div class="small mut">${L('Mira que el móvil no esté en silencio y que el sonido esté activo en Perfil › Ajustes.', 'Mira que el mòbil no estigui en silenci i que el so estigui actiu a Perfil › Ajustos.')}</div></div>
+    <div class="panel"><b>${L('Se ha ido mi progreso', 'S\'ha anat el meu progrés')}</b><div class="small mut">${L('Entra con tu cuenta (Perfil › «Entrar para guardar en la nube») y se recupera solo. Sin cuenta, importa tu última copia.', 'Entra amb el teu compte (Perfil › «Entrar per desar al núvol») i es recupera sol. Sense compte, importa la teva última còpia.')}</div></div>
+  </div>` : `  <div class="sec"><h3>Tu progreso</h3></div>
   <p class="small">Se guarda <b>solo en este móvil y en este navegador</b>. Si cambias de móvil, usas otro navegador o borras los datos del navegador, empiezas de cero. Para llevártelo: Perfil › <b>Copiar mi progreso</b> y, en el otro dispositivo, <b>Importar progreso</b>. En una ventana privada puede que no se guarde.</p>
   <div class="sec"><h3>Si algo falla</h3></div>
   <div class="gap">
     <div class="panel"><b>La Sala en directo no conecta</b><div class="small mut">Depende de que el enlace se abra donde la sala esté disponible. Usa el Duelo con código y la Clasificación de la peña.</div></div>
     <div class="panel"><b>No suena nada</b><div class="small mut">Mira que el móvil no esté en silencio y que el sonido esté activo en Perfil › Ajustes.</div></div>
     <div class="panel"><b>Se ha ido mi progreso</b><div class="small mut">Probablemente cambió el navegador o se borraron los datos. Importa tu última copia.</div></div>
-  </div>
+  </div>`}
   <div class="row wrap mt2"><button class="btn sm" data-a="go-juegos">🎴 Juegos</button><button class="btn sm" data-a="go-practica">🧭 Cómo practicar</button><button class="btn sm" data-a="go-fuentes">📚 Fuentes</button><button class="btn sm" data-a="go-rincon">🎩 Rincón</button><button class="btn sm" data-a="go-cachondeo">🍍 Cachondeo</button></div>
   <p class="credit">Fuentes: <a href="https://bugs.webkit.org/show_bug.cgi?id=181849" target="_blank" rel="noopener noreferrer">WebKit (datos aparte en iOS)</a>.</p>`;
 A['go-guia'] = () => go('learn', 'guia');
@@ -5630,7 +5654,7 @@ const HELP = () => ({
     t: L('Cómo funciona el Perfil', 'Com funciona el Perfil'),
     li: [
       L('Aquí cambias tu nombre, avatar, idioma, sonido y los chistes con nombres de socios.', 'Aquí canvies el teu nom, avatar, idioma, so i els acudits amb noms de socis.'),
-      L('Todo se guarda <b>solo en este dispositivo</b>. Para llevarte tu progreso a otro, usa «Copiar mi progreso» y pégalo allí con «Importar».', 'Tot es guarda <b>només en aquest dispositiu</b>. Per endur-te el teu progrés a un altre, fes servir «Copiar el meu progrés» i enganxa\'l allà amb «Importar».'),
+      WL('Todo se guarda <b>solo en este dispositivo</b>. Para llevarte tu progreso a otro, usa «Copiar mi código» y pégalo allí con «Importar».', 'Tot es guarda <b>només en aquest dispositiu</b>. Per endur-te el teu progrés a un altre, fes servir «Copiar el meu codi» i enganxa\'l allà amb «Importar».', 'Todo se guarda <b>en este dispositivo</b> y, si has entrado con tu cuenta, también en la nube. Para llevarte tu progreso a otro dispositivo, entra con la misma cuenta o usa «Copiar mi código» y pégalo allí con «Importar».', 'Tot es desa <b>en aquest dispositiu</b> i, si has entrat amb el teu compte, també al núvol. Per endur-te el teu progrés a un altre dispositiu, entra amb el mateix compte o fes servir «Copiar el meu codi» i enganxa\'l allà amb «Importar».'),
       L('«Empezar de cero» borra el aprendizaje, pero te deja elegir si conservas nombre y ajustes.', '«Començar de zero» esborra l\'aprenentatge, però et deixa triar si conserves nom i ajustos.')
     ]
   },
@@ -5661,7 +5685,7 @@ A.help = () => {
   openSheet(`<h3>${h.t}</h3>
   <ul class="small help-l">${h.li.map(x => `<li>${x}</li>`).join('')}</ul>
   <div class="panel stitch"><div class="small">${FP_NOTE()}</div></div>
-  <div class="row wrap mt"><button class="btn sm" data-a="go-guia">📲 ${L('Guía completa e instalar en el móvil', 'Guia completa i instal·lar al mòbil')}</button><button class="btn sm" data-a="conv">ℹ️ ${L('Cómo se lee el orden', 'Com es llegeix l\'ordre')}</button></div>
+  <div class="row wrap mt"><button class="btn sm" data-a="go-guia">📲 ${L('Guía completa e instalar en el móvil', 'Guia completa i instal·lar al mòbil')}</button><button class="btn sm" data-a="conv">ℹ️ ${L('Cómo se lee el orden', 'Com es llegeix l\'ordre')}</button>${FB.web ? `<button class="btn sm" data-a="go-compartir">🔗 ${L('Compartir la web', 'Compartir la web')}</button>` : ''}</div>
   <div class="langrow mt">${langPillsHTML()}</div>`);
 };
 const helpBtn = () => `<button class="btn sm ghost helpb" data-a="help">ℹ️ ${L('Cómo funciona esto', 'Com funciona això')}</button>`;
@@ -6452,15 +6476,27 @@ A['rank-join'] = async () => {
   if (!S.name) { toast('Primero ponle nombre a tu mago'); return A['edit-profile'](); }
   if (!RK.db) return toast(L('El ranking online no está disponible aquí', 'El rànquing en línia no està disponible aquí'));
   if (!RK.uid || RK.canWrite === false) return toast(L('Entras como visitante: para apuntarte hace falta permiso de colaborador', 'Entres com a visitant: per apuntar-t\'hi cal permís de col·laborador'), 3200);
-  S.set.rank = true; save(); await rankPush(true); rankPaint();
+  S.set.rank = true; S.set.rankOut = false; save(); await rankPush(true); rankPaint(); if (FB.web && FB.rkNow) FB.rkNow();
   if (RK.canWrite === false || RK.err) toast('No se pudo guardar tu fila: hace falta permiso de colaborador'); else toast('¡Apuntado al ranking de AMIT!');
 };
 async function rankLeave() {
-  const was = S && S.set && S.set.rank; if (S && S.set) S.set.rank = false;
+  const was = S && S.set && S.set.rank; if (S && S.set) { S.set.rank = false; S.set.rankOut = true; }   // rankOut: quien sale por su cuenta no vuelve a apuntarse solo
   if (RK.db && RK.uid) { try { await RK.db.doc('ranking/' + RK.uid).delete(); } catch (e) { } }
   RK.last = ''; if (was) save();
 }
-A['rank-leave'] = async () => { await rankLeave(); rankPaint(); toast('Tu fila se ha retirado del ranking'); };
+// Web propia: quien entra con su cuenta queda apuntado al ranking con el nombre de mago y el avatar que eligió al empezar (no con los de su cuenta de Google ni su correo).
+// Solo se hace una vez por cuenta y dispositivo: si luego sale, no se le vuelve a apuntar.
+async function rankAuto() {
+  if (!FB.web || !FB.user || !S || !S.set) return;
+  if (S.set.rank || S.set.rankOut || !S.onboarded || !(S.name || '').trim()) return;
+  if (RK.status === 'off' && !RK.tried) await rankInit();
+  if (!FB.user || !RK.db || !RK.uid || RK.canWrite === false || S.set.rank) return;
+  S.set.rank = true; save(); await rankPush(true);
+  if (RK.err) { S.set.rank = false; save(); rankPaint(); return; }   // p. ej. reglas aún sin publicar: no se da por apuntado
+  rankPaint(); if (FB.rkNow) FB.rkNow();
+  toast(L('Ya estás en el ranking de AMIT como «' + S.name + '». Puedes cambiar el nombre en Perfil o salir desde Retos.', 'Ja ets al rànquing d\'AMIT com a «' + S.name + '». Pots canviar el nom a Perfil o sortir des de Reptes.'), 4200);
+}
+A['rank-leave'] = async () => { await rankLeave(); rankPaint(); if (FB.web && FB.rkNow) FB.rkNow(); toast('Tu fila se ha retirado del ranking'); };
 A['rank-load'] = () => { rankInit(); rankPaint(); };
 A['rank-sort'] = el => { RK.sort = el.dataset.v; rankPaint(); };
 A['rank-refresh'] = () => { if (RK.status === 'error' || RK.status === 'slow') { RK.unsub = null; rankSubscribe(); } rankPush(true); };
@@ -6605,7 +6641,7 @@ const FB_CONFIG = {
   appId: '1:687411043370:web:cb429e88c9ff98d6a9b753'
 };
 const FB_VER = '10.14.1';
-const FB = { web: false, st: 'idle', A: null, F: null, app: null, auth: null, fs: null, user: null, err: '', ready: null, busy: false, msg: '', rkAt: 0, rkRun: null };
+const FB = { web: false, st: 'idle', A: null, F: null, app: null, auth: null, fs: null, user: null, err: '', ready: null, busy: false, msg: '', rkAt: 0, rkRun: null, rkNow: null };
 // Modo web: no estamos dentro de Claude, hay configuración y la página viene de internet (con file:// no hay login posible).
 FB.web = typeof window !== 'undefined' && !window.claude && !!FB_CONFIG.apiKey && /^https?:$/.test(location.protocol);
 // ¿Navegador integrado de otra app (WhatsApp, Instagram, Facebook, TikTok…)? Google no deja iniciar sesión ahí ("disallowed_useragent"); el correo y la contraseña sí funcionan.
@@ -6647,8 +6683,8 @@ function fbOnAuth() {
   if (LIVE.active) { liveLeave(); closeSheet(); }
   LIVE.ns = null;
   fbPaintAll();
-  psInit();
-  if (FB.user && S && S.set && S.set.rank) rankInit();
+  // Primero se recupera el progreso de la cuenta (puede traer el nombre y la decisión de ranking); después se abre el ranking o se hace el alta automática.
+  Promise.resolve(psInit()).then(() => { if (!FB.user) return; if (S && S.set && S.set.rank) rankInit(); else rankAuto(); }).catch(() => { });
 }
 function fbPaintAll() { try { psPaint(); rankPaint(); const b = $('#fbBox'); if (b && FB.user) closeSheet(); } catch (e) { } }
 
@@ -6680,6 +6716,7 @@ function fbPoll(name, lim, ok, err) {
   };
   const loop = () => { if (dead) return; if (!document.hidden && $('#rankBox')) run(); else tm = setTimeout(loop, 8000); };
   FB.rkRun = () => { if (!dead && Date.now() - FB.rkAt > 20000) { clearTimeout(tm); run(); } };
+  FB.rkNow = () => { if (!dead) { clearTimeout(tm); run(); } };   // al apuntarse o salir: se relee ya, sin esperar los 40 s
   run();
   return () => { dead = true; clearTimeout(tm); };
 }
@@ -6738,13 +6775,13 @@ if (FB.web) {
 }
 
 /* ----- Entrar, salir y borrar ----- */
-const fbSay = t => { FB.msg = t; const m = $('#fbMsg'); if (m) m.textContent = t; };
+const fbSay = t => { FB.msg = t; const m = $('#fbMsg'); if (m) { m.textContent = t; m.hidden = !t; if (t && m.scrollIntoView) { try { m.scrollIntoView({ block: 'nearest' }); } catch (e) { } } } };
 function fbMsg(e) {
   const c = (e && e.code) || '';
   const M = {
     'auth/popup-closed-by-user': '', 'auth/cancelled-popup-request': '',
     'auth/popup-blocked': L('Tu navegador ha bloqueado la ventana de Google. Permítela y vuelve a pulsar, o entra con correo.', 'El teu navegador ha bloquejat la finestra de Google. Permet-la i torna a prémer, o entra amb correu.'),
-    'auth/unauthorized-domain': L('Esta dirección aún no está autorizada en Firebase (Authentication › Configuración › Dominios autorizados).', 'Aquesta adreça encara no està autoritzada a Firebase (Authentication › Configuració › Dominis autoritzats).'),
+    'auth/unauthorized-domain': L('Falta autorizar esta dirección en Firebase: en Authentication › Configuración › Dominios autorizados, añade «' + location.hostname + '».', 'Falta autoritzar aquesta adreça a Firebase: a Authentication › Configuració › Dominis autoritzats, afegeix «' + location.hostname + '».'),
     'auth/operation-not-allowed': L('Este método de acceso no está activado en Firebase.', 'Aquest mètode d\'accés no està activat a Firebase.'),
     'auth/invalid-api-key': L('La clave de Firebase de la app no es válida.', 'La clau de Firebase de l\'app no és vàlida.'),
     'auth/api-key-not-valid.-please-pass-a-valid-api-key.': L('La clave de Firebase de la app no es válida.', 'La clau de Firebase de l\'app no és vàlida.'),
@@ -6767,7 +6804,8 @@ function fbMsg(e) {
 function fbLoginHTML() {
   const d = FB.busy ? ' disabled' : '';
   return `<div id="fbBox"><h3>${L('Entrar en tu cuenta', 'Entrar al teu compte')}</h3>
-  <p class="mut small">${L('Con tu cuenta, tu progreso se guarda en la nube y lo recuperas en cualquier móvil; además puedes entrar en el ranking de AMIT y jugar en directo. Sin cuenta, el resto de la app funciona igual.', 'Amb el teu compte, el teu progrés es desa al núvol i el recuperes en qualsevol mòbil; a més pots entrar al rànquing d\'AMIT i jugar en directe. Sense compte, la resta de l\'app funciona igual.')}</p>
+  <p class="mut small">${L('Con tu cuenta, tu progreso se guarda en la nube y lo recuperas en cualquier móvil, entras directamente en el ranking de AMIT y puedes jugar en directo. Sin cuenta, el resto de la app funciona igual.', 'Amb el teu compte, el teu progrés es desa al núvol i el recuperes en qualsevol mòbil, entres directament al rànquing d\'AMIT i pots jugar en directe. Sense compte, la resta de l\'app funciona igual.')}</p>
+  <blockquote class="warn" id="fbMsg" role="alert" aria-live="polite"${FB.msg ? '' : ' hidden'}>${esc(FB.msg || '')}</blockquote>
   ${FB.inapp ? `<blockquote class="warn" id="fbInapp">${L('Parece que has abierto esto dentro de otra app (WhatsApp, Instagram…). Google no deja entrar desde ahí: abre el enlace en Safari o Chrome (menú ⋯ › «Abrir en el navegador»), o entra con tu correo y contraseña.', 'Sembla que has obert això dins d\'una altra app (WhatsApp, Instagram…). Google no deixa entrar des d\'allà: obre l\'enllaç a Safari o Chrome (menú ⋯ › «Obrir al navegador»), o entra amb el teu correu i contrasenya.')}</blockquote>` : ''}
   <button class="btn brass big block" data-a="fb-google"${d}>${L('Continuar con Google', 'Continuar amb Google')}</button>
   <div class="hr"></div>
@@ -6775,14 +6813,29 @@ function fbLoginHTML() {
   <div class="field"><label for="fbPass">${L('Contraseña (mínimo 6 caracteres)', 'Contrasenya (mínim 6 caràcters)')}</label><input id="fbPass" type="password" autocomplete="current-password"></div>
   <div class="row"><button class="btn sp" data-a="fb-mail-in"${d}>${L('Entrar', 'Entrar')}</button><button class="btn sp" data-a="fb-mail-new"${d}>${L('Crear cuenta', 'Crear compte')}</button></div>
   <button class="btn ghost block mt" data-a="fb-reset">${L('He olvidado la contraseña', 'He oblidat la contrasenya')}</button>
-  <div id="fbMsg" class="small mt" role="status" aria-live="polite">${esc(FB.msg || '')}</div>
-  <p class="tiny mut">${L('Se guarda tu correo (para identificarte), tu progreso y, si te apuntas, tu apodo, avatar y puntos en el ranking. Puedes borrarlo todo desde Perfil › Dónde se guarda tu progreso.', 'Es desa el teu correu (per identificar-te), el teu progrés i, si t\'apuntes, el teu àlies, avatar i punts al rànquing. Ho pots esborrar tot des de Perfil › On es desa el teu progrés.')}</p></div>`;
+  <button class="btn ghost sm block mt" data-a="close">${L('Ahora no', 'Ara no')}</button>
+  <p class="tiny mut mt">${L('Se guarda tu correo (para identificarte), tu progreso y, en el ranking, tu nombre de mago, avatar y puntos (no se publica tu correo ni tu nombre de Google). Puedes salir del ranking desde Retos y borrarlo todo desde Perfil › Dónde se guarda tu progreso.', 'Es desa el teu correu (per identificar-te), el teu progrés i, al rànquing, el teu nom de mag, avatar i punts (no es publica el teu correu ni el teu nom de Google). Pots sortir del rànquing des de Reptes i esborrar-ho tot des de Perfil › On es desa el teu progrés.')}</p></div>`;
 }
+// Dirección pública de la web (sin «index.html»): es lo que se reparte por WhatsApp.
+const fbWebUrl = () => location.origin + location.pathname.replace(/index\.html$/, '');
+A['share-web'] = async () => {
+  const data = { title: 'Mnemónica AMIT', text: L('Entrena el orden de la baraja de Tamariz con la peña de AMIT:', 'Entrena l\'ordre de la baralla de Tamariz amb la penya d\'AMIT:'), url: fbWebUrl() };
+  if (navigator.share) { try { await navigator.share(data); return; } catch (e) { if (e && e.name === 'AbortError') return; } }
+  copyText(fbWebUrl());
+};
+A['copy-web'] = () => copyText(fbWebUrl());
+A['go-compartir'] = () => { go('learn', 'guia'); setTimeout(() => { const e = $('#compartir'); if (e) e.scrollIntoView({ behavior: S.set.calm ? 'auto' : 'smooth', block: 'start' }); }, 60); };
 A['fb-login'] = () => { fbReady(); FB.msg = ''; openSheet(fbLoginHTML()); };
+// Tras la bienvenida (solo la primera vez y solo en la web propia) se ofrece crear la cuenta, que es lo que mete a la persona en el ranking.
+function fbAskOnce() {
+  if (!FB.web || FB.user || !S || !S.set || S.set.fbAsked) return;
+  S.set.fbAsked = true; save();
+  setTimeout(() => { if (!FB.user && !$('#veil')) A['fb-login'](); }, 700);
+}
 A['fb-google'] = () => {
   // Importante: signInWithPopup se llama en el mismo gesto del clic, sin esperar nada antes, o el navegador bloquea la ventana.
   if (!FB.A || !FB.auth) { fbSay(L('Conectando… vuelve a pulsar en un segundo.', 'Connectant… torna a prémer d\'aquí a un segon.')); fbReady(); return; }
-  fbSay('');
+  fbSay(L('Abriendo la ventana de Google…', 'Obrint la finestra de Google…'));
   let p; try { p = FB.A.signInWithPopup(FB.auth, new FB.A.GoogleAuthProvider()); } catch (e) { return fbSay(fbMsg(e)); }
   p.then(() => { closeSheet(); toast(L('Sesión iniciada', 'Sessió iniciada')); }).catch(e => fbSay(fbMsg(e)));
 };
