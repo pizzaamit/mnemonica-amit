@@ -685,6 +685,21 @@ button.pkc.up{cursor:pointer}
 .y-and::before{content:'y'}
 html[lang=ca] .y-and::before{content:'i'}
 
+/* Tu propia baraja + selector de cartas */
+.kcs{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.kcs.s4{grid-template-columns:repeat(4,1fr)}
+.kc{min-height:44px;padding:0;border-radius:10px;border:1.5px solid var(--line);background:rgba(0,0,0,.28);color:var(--txt);font:700 16px var(--fb);cursor:pointer}
+.kc.red{color:#ff948b}
+.kc[aria-pressed=true]{background:var(--brass);color:#2a1c05;border-color:var(--brass)}
+.kc:disabled{opacity:.25;cursor:default}
+.mbbig{font-family:var(--fh);font-size:clamp(54px,18vw,84px);line-height:1;color:var(--brass-hi);margin:4px 0 6px}
+.mbgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(70px,1fr));gap:6px}
+.mbgrid>div{border:1px solid var(--line);border-radius:8px;padding:6px 4px;text-align:center;font-size:16px;color:var(--txt)}
+.mbl{display:flex;flex-wrap:wrap;gap:6px;align-items:center;margin:10px 0 0;min-height:30px}
+.mbc{padding:3px 8px;border-radius:8px;background:rgba(255,255,255,.1);font-size:16px}
+b.rd{color:#ff948b}
+#mbnum{width:96px;text-align:center;font-size:22px}
+
 </style>
 </head>
 <body>
@@ -849,7 +864,7 @@ const OK_MSGS = ['¡Clímax!', 'Sin empalme y sin red.', 'Eso es magia (y memori
 const KO_MSGS = ['Se te ha visto el doble lift.', 'Cuñado detectado.', 'Esa carta existe, pero vive en otro piso.', 'Se ha roto el hechizo.', 'Corte falso… y respuesta falsa.', 'Se te cayó la carta del puño.', 'El público lo ha notado.', 'Eso no sale ni con faro.', 'Pausa dramática… y error dramático.', 'Se ha visto el truco. Y el desastre.', 'La carta se ha escapado por la manga.', 'Tu memoria ha pedido un descanso sin avisar.', 'Hasta Houdini tuvo un mal día… y era Houdini.', 'La carta dice que no te conoce de nada.', 'Alguien en la tercera fila lo ha apuntado.', 'Esa respuesta era un truco de magia: ha desaparecido.', 'Se te ha pasado el cambio de baraja.', 'Sonríe: el público cree que es parte del número.', 'El 4♣ te mira con compasión.', 'Cuñado: «¡Eso no era!». Esta vez, tiene razón.', 'Error de bulto… de baraja.', 'La baraja se ha reordenado a tu espalda.', 'Un mago de verdad convertiría esto en un gag.', 'Fallo registrado en la libreta de camerino.', 'Ese nudo de memoria se deshace con repaso.', 'Esto, en AMIT, se arregla con café y otra ronda.'];
 const TO_MSGS = ['Los nervios hablan más alto que el mago.', 'Silencio incómodo de teatro.', 'Tiempo agotado: el espectador mira el móvil.', 'El reloj ha ganado esta vez.', 'Tiempo. El público se ha puesto a mirar el móvil.', 'Un segundo más y esto se convierte en monólogo.', 'La carta esperaba y se ha aburrido.', 'Ni el truco más largo de Las Vegas tarda tanto.', 'Sala de espera de memoria, con hilo musical.', 'El espectador ya ha bajado del escenario.'];
 
-const STREAK_MSGS = { 3: 'Tres seguidas: el público empieza a sospechar que no es casualidad.', 5: 'Cinco seguidas. El cuñado ha dejado de comentar.', 8: 'Ocho seguidas: ya puedes cobrar entrada.', 10: 'Diez seguidas. Esto ya es un número de gala.', 15: 'Quince seguidas: se rumorea que has pactado con la baraja.', 20: 'Veinte seguidas. Pide un camerino con tu nombre.', 30: 'Treinta seguidas. Hay que llamar a AMIT para que lo certifique.' };
+const STREAK_MSGS = { 3: 'Tres seguidas: el público empieza a sospechar que no es casualidad.', 5: 'Cinco seguidas. El cuñado ha dejado de comentar.', 8: 'Ocho seguidas: ya puedes salir en el cartel.', 10: 'Diez seguidas. Esto ya es un número de gala.', 15: 'Quince seguidas: se rumorea que has pactado con la baraja.', 20: 'Veinte seguidas. Pide un camerino con tu nombre.', 30: 'Treinta seguidas. Hay que llamar a AMIT para que lo certifique.' };
 
 const GRADES = [
   [0, 'Cuñado con baraja'], [100, 'Mago de comuniones'], [300, 'Aprendiz de peña'], [700, 'Cartomago de cafetería'],
@@ -882,11 +897,11 @@ const SPECS = [
 ];
 const AMIT_SPECS = [
   { av: '🪄', n: 'Mag Ger, en primera fila', say: ['con la mirada atenta del maestro', 'con media sonrisa de quien ya lo ha visto todo', 'al que mejor no le pidas que elija una carta: desmonta el juego'] },
-  { av: '🎩', n: 'Pedro, desde el fondo de la sala', say: ['asintiendo despacio', 'que parece anotar algo (¿tu nombre para el bis?)', 'que ya ha calculado lo que le debes por el truco'] },
+  { av: '🎩', n: 'Pedro, desde el fondo de la sala', say: ['asintiendo despacio', 'que parece anotar algo (¿tu nombre para el bis?)', 'que ya ha anotado la letra pequeña del truco'] },
   { av: '🎯', n: 'David, el pro, de pie al fondo', say: ['que toma notas para explicártelo luego', 'que sabe cómo acaba y cómo enseñarte a hacerlo'] },
   { av: '🪢', n: 'Harvi, con una cuerda en el bolsillo', say: ['que se ha liado con la cuerda otra vez', 'que mira las cartas con alivio: no tienen nudos'] },
   { av: '🐘', n: 'Melanie, entre bastidores', say: ['que ya tiene un elefante preparado por si acaso', 'que aplaude con la elegancia de quien llena escenarios'] },
-  { av: '🏝️', n: 'Carlos, el tesorero', say: ['con el recibo de la cuota en la mano', 'que sonríe mientras cuenta la recaudación'] },
+  { av: '🏝️', n: 'Carlos, el canario', say: ['con una baraja sacada del bolsillo (siempre lleva una)', 'que sonríe como quien está a punto de enseñar un juego con navajas'] },
   { av: '🧐', n: 'Un socio que se sabe el truco', say: ['que susurra el final a su vecino', 'que ya sabe cómo acaba'] },
   { av: '☕', n: 'La tertulia del café de después', say: ['que ya planea cómo comentar la función', 'que reparte sugerencias con cariño'] },
   { av: '🍕', n: 'La pizza del jueves, en la mesa de al lado', say: ['que se enfría mientras alguien termina el truco', 'que desaparece sin un solo empalme'] },
@@ -1364,6 +1379,7 @@ ROUTES.learn = () => {
     <button class="tool wide" data-a="comodin"><span class="ic">🃏</span><b>El comodín de seguridad</b><span>Vía de seguridad. Una chuleta del tamaño del dorso de una carta, por si los nervios traicionan.</span></button>
     <button class="tool wide" data-a="atlas"><span class="ic">🗺️</span><b>Atlas de la baraja</b><span>Las 52 cartas por orden, o por palos con su posición.</span></button>
   </div>
+  <button class="mode mt2" data-a="go-mia"><span class="ic">🃏</span><span><b>${L('Tu propia baraja', 'La teva pròpia baralla')}</b><span>${L('Aparte de la Mnemónica: carga tu orden de 52 cartas y practícalo aquí.', 'A part de la Mnemònica: carrega el teu ordre de 52 cartes i practica\'l aquí.')}</span></span></button>
   <p class="credit">Método de las cinco vías: <i>La baraja mnemónica de Tamariz</i>, vol. I, cap. 3. Ganchos y juegos de esta app: creación propia.</p>`;
 };
 A['open-act'] = el => go('learn', 'act', +el.dataset.act);
@@ -1446,7 +1462,7 @@ ROUTES.perfil = () => {
     <div class="langrow first"><span class="small mut" translate="no">Idioma · Llengua</span>${langPillsHTML()}</div>
     ${tg('sound', 'Sonido', 'Efectos, aplausos y tic-tac de la cuenta atrás. En el iPhone los calla el modo silencio.')}${tg('voice', 'Voz', 'Lectura en voz alta de estrofas y cartas.')}${tg('fourc', 'Baraja de cuatro colores', 'Tréboles verdes y rombos azules: se distinguen mejor a toda prisa.')}${tg('fast', 'Ritmo rápido', 'Activado: tras cada respuesta la pantalla pasa sola a los 2,5 segundos y el número se envía solo si es de dos cifras o del 6 al 9. Desactivado: confirmas con ✓ y pulsas «Siguiente».')}${tg('calm', 'Menos movimiento', 'Reduce animaciones y quita el confeti.')}${tg('names', 'Humor con nombres de socios', 'Los chistes mencionan con cariño a socios de AMIT. Desactívalo para ver solo chistes sin nombres.')}
   </div>
-  <div class="row wrap mt"><button class="btn sm" data-a="go-guia">📲 Cómo funciona</button><button class="btn sm" data-a="credits">🪄 Créditos</button><button class="btn sm" data-a="comodin">🃏 Comodín</button><button class="btn sm" data-a="export">Copiar mi progreso</button><button class="btn sm" data-a="import">Importar progreso</button></div>
+  <div class="row wrap mt"><button class="btn sm" data-a="go-guia">📲 Cómo funciona</button><button class="btn sm" data-a="credits">🪄 Créditos</button><button class="btn sm" data-a="comodin">🃏 Comodín</button><button class="btn sm" data-a="buzon">📮 Buzón</button><button class="btn sm" data-a="export">Copiar mi progreso</button><button class="btn sm" data-a="import">Importar progreso</button></div>
   <div class="sec"><h3>Guardado</h3></div>
   ${psHTML()}
   <div class="sec"><h3>Empezar de cero</h3></div>
@@ -1485,9 +1501,9 @@ function onboarding() {
     openSheet(`${slides[step]()}${step === 0 ? '<p class="tiny mut" id="obPs" style="margin:10px 0 0"></p><button class="btn ghost sm block mt" data-a="ob-code">¿Ya tenías progreso? Pega tu código</button>' : ''}<div class="row mt2">${step < 2 ? `<button class="btn ghost sm" data-a="ob-skip">Saltar</button><span class="sp"></span><button class="btn brass" data-a="ob-next">Siguiente</button>` : `<span class="sp"></span><button class="btn brass big" data-a="ob-next">Levanta el telón</button>`}</div>`);
     const v = $('#veil'); v.onclick = null; // obligar a usar los botones
   };
-  A['ob-next'] = () => { if (step === 2) { S.name = ($('#nm0').value || '').trim().slice(0, 18); S.avatar = av; S.onboarded = true; save(); closeSheet(); render(); if (typeof fbAskOnce === 'function') fbAskOnce(); return; } step++; draw(); };
+  A['ob-next'] = () => { if (step === 2) { S.name = ($('#nm0').value || '').trim().slice(0, 18); S.avatar = av; S.onboarded = true; save(); closeSheet(); render(); if (typeof fbAskOnce === 'function') fbAskOnce(); if (typeof rankAuto === 'function') rankAuto(); return; } step++; draw(); };
   A['ob-code'] = () => A.import();
-  A['ob-skip'] = () => { S.onboarded = true; save(); closeSheet(); if (typeof fbAskOnce === 'function') fbAskOnce(); };
+  A['ob-skip'] = () => { S.onboarded = true; save(); closeSheet(); if (typeof fbAskOnce === 'function') fbAskOnce(); if (typeof rankAuto === 'function') rankAuto(); };
   A['ob-av'] = el => { av = el.dataset.v; $$('#av0 button').forEach(b => b.setAttribute('aria-pressed', b === el ? 'true' : 'false')); };
   draw();
 }
@@ -1936,7 +1952,7 @@ function ordEnd() {
 
 /* ---------- Gala ---------- */
 // Catalán de las frases de los espectadores de la Gala (el español sale de SPECS y AMIT_SPECS)
-const SAY_CA = {"que se enfría mientras alguien termina el truco": "que es refreda mentre algú acaba el truc", "que desaparece sin un solo empalme": "que desapareix sense cap empalmament", "que lo ve todo": "que ho veu tot", "sin pestañear": "sense parpellejar", "asegurando que tiene truco": "assegurant que té truc", "que ya lo vio en YouTube": "que ja ho va veure a YouTube", "que aplaude antes de tiempo": "que aplaudeix abans d'hora", "que quiere llevarse la baraja": "que vol endur-se la baralla", "mirando el reloj": "mirant el rellotge", "que quiere ser voluntario": "que vol ser voluntari", "que busca el empalme": "que busca l'empalme", "con los brazos cruzados": "amb els braços creuats", "con una bandeja en equilibrio": "amb una safata en equilibri", "que pasa justo ahora": "que passa just ara", "que no se fía ni de su sombra": "que no es refia ni de la seva ombra", "con cara de póker": "amb cara de pòquer", "que baja al escenario sin que lo llamen": "que baixa a l'escenari sense que el cridin", "que improvisa": "que improvisa", "que calcula mentalmente las permutaciones": "que calcula mentalment les permutacions", "que recuerda que 52 factorial es mucho": "que recorda que 52 factorial és molt", "que mira fijamente la baraja": "que mira fixament la baralla", "que lanza una carta al suelo": "que llença una carta a terra", "que sube el volumen en el momento justo": "que puja el volum en el moment just", "que sigue con la misma pieza": "que continua amb la mateixa peça", "que lo graba todo en vertical": "que ho grava tot en vertical", "que te pide que lo repitas más despacio": "que et demana que ho repeteixis més a poc a poc", "que sonríe como quien conoce el truco": "que somriu com qui coneix el truc", "que murmura «eso yo lo hacía con cuerdas»": "que murmura «això jo ho feia amb cordes»", "que ha olfateado la carta antes que nadie": "que ha ensumat la carta abans que ningú", "que ladra justo cuando mientes": "que lladra just quan menteixes", "con la mirada atenta del maestro": "amb la mirada atenta del mestre", "con media sonrisa de quien ya lo ha visto todo": "amb mig somriure de qui ja ho ha vist tot", "al que mejor no le pidas que elija una carta: desmonta el juego": "al qual millor no li demanis que triï una carta: desmunta el joc", "asintiendo despacio": "assentint a poc a poc", "que parece anotar algo (¿tu nombre para el bis?)": "que sembla anotar alguna cosa (el teu nom per al bis?)", "que ya ha calculado lo que le debes por el truco": "que ja ha calculat el que li deus pel truc", "que toma notas para explicártelo luego": "que pren notes per explicar-t'ho després", "que sabe cómo acaba y cómo enseñarte a hacerlo": "que sap com acaba i com ensenyar-te a fer-ho", "que se ha liado con la cuerda otra vez": "que s'ha embolicat amb la corda una altra vegada", "que mira las cartas con alivio: no tienen nudos": "que mira les cartes amb alleujament: no tenen nusos", "que ya tiene un elefante preparado por si acaso": "que ja té un elefant preparat per si de cas", "que aplaude con la elegancia de quien llena escenarios": "que aplaudeix amb l'elegància de qui omple escenaris", "con el recibo de la cuota en la mano": "amb el rebut de la quota a la mà", "que sonríe mientras cuenta la recaudación": "que somriu mentre compta la recaptació", "que susurra el final a su vecino": "que xiuxiueja el final al seu veí", "que ya sabe cómo acaba": "que ja sap com acaba", "que ya planea cómo comentar la función": "que ja planeja com comentar la funció", "que reparte sugerencias con cariño": "que reparteix suggeriments amb afecte", "que apunta todo en una libreta": "que apunta tot en una llibreta", "que te mira como se mira a un ídolo": "que et mira com es mira un ídol"};
+const SAY_CA = {"que se enfría mientras alguien termina el truco": "que es refreda mentre algú acaba el truc", "que desaparece sin un solo empalme": "que desapareix sense cap empalmament", "que lo ve todo": "que ho veu tot", "sin pestañear": "sense parpellejar", "asegurando que tiene truco": "assegurant que té truc", "que ya lo vio en YouTube": "que ja ho va veure a YouTube", "que aplaude antes de tiempo": "que aplaudeix abans d'hora", "que quiere llevarse la baraja": "que vol endur-se la baralla", "mirando el reloj": "mirant el rellotge", "que quiere ser voluntario": "que vol ser voluntari", "que busca el empalme": "que busca l'empalme", "con los brazos cruzados": "amb els braços creuats", "con una bandeja en equilibrio": "amb una safata en equilibri", "que pasa justo ahora": "que passa just ara", "que no se fía ni de su sombra": "que no es refia ni de la seva ombra", "con cara de póker": "amb cara de pòquer", "que baja al escenario sin que lo llamen": "que baixa a l'escenari sense que el cridin", "que improvisa": "que improvisa", "que calcula mentalmente las permutaciones": "que calcula mentalment les permutacions", "que recuerda que 52 factorial es mucho": "que recorda que 52 factorial és molt", "que mira fijamente la baraja": "que mira fixament la baralla", "que lanza una carta al suelo": "que llença una carta a terra", "que sube el volumen en el momento justo": "que puja el volum en el moment just", "que sigue con la misma pieza": "que continua amb la mateixa peça", "que lo graba todo en vertical": "que ho grava tot en vertical", "que te pide que lo repitas más despacio": "que et demana que ho repeteixis més a poc a poc", "que sonríe como quien conoce el truco": "que somriu com qui coneix el truc", "que murmura «eso yo lo hacía con cuerdas»": "que murmura «això jo ho feia amb cordes»", "que ha olfateado la carta antes que nadie": "que ha ensumat la carta abans que ningú", "que ladra justo cuando mientes": "que lladra just quan menteixes", "con la mirada atenta del maestro": "amb la mirada atenta del mestre", "con media sonrisa de quien ya lo ha visto todo": "amb mig somriure de qui ja ho ha vist tot", "al que mejor no le pidas que elija una carta: desmonta el juego": "al qual millor no li demanis que triï una carta: desmunta el joc", "asintiendo despacio": "assentint a poc a poc", "que parece anotar algo (¿tu nombre para el bis?)": "que sembla anotar alguna cosa (el teu nom per al bis?)", "que ya ha anotado la letra pequeña del truco": "que ja ha anotat la lletra petita del truc", "que toma notas para explicártelo luego": "que pren notes per explicar-t'ho després", "que sabe cómo acaba y cómo enseñarte a hacerlo": "que sap com acaba i com ensenyar-te a fer-ho", "que se ha liado con la cuerda otra vez": "que s'ha embolicat amb la corda una altra vegada", "que mira las cartas con alivio: no tienen nudos": "que mira les cartes amb alleujament: no tenen nusos", "que ya tiene un elefante preparado por si acaso": "que ja té un elefant preparat per si de cas", "que aplaude con la elegancia de quien llena escenarios": "que aplaudeix amb l'elegància de qui omple escenaris", "con una baraja sacada del bolsillo (siempre lleva una)": "amb una baralla treta de la butxaca (sempre en porta una)", "que sonríe como quien está a punto de enseñar un juego con navajas": "que somriu com qui està a punt d\'ensenyar un joc amb navalles", "que susurra el final a su vecino": "que xiuxiueja el final al seu veí", "que ya sabe cómo acaba": "que ja sap com acaba", "que ya planea cómo comentar la función": "que ja planeja com comentar la funció", "que reparte sugerencias con cariño": "que reparteix suggeriments amb afecte", "que apunta todo en una libreta": "que apunta tot en una llibreta", "que te mira como se mira a un ídolo": "que et mira com es mira un ídol"};
 function startGala() {
   setTimeout(() => { if (SES && SES.id === 'gala') curtain(); }, 0);
   const V = VENUES[SETUP.venue], scope = resolveScope('seen', 0), kinds = ['nxt', 'nxt', 'p2c', 'c2p', 'prv'];
@@ -2772,11 +2788,12 @@ const HJ = { cat: 'all', cur: null };
 const HJ_CATS = [['all', '🎲', 'Cualquiera'], ['magos', '🎩', 'De magos'], ['vida', '🍺', 'De barra'], ['cuna', '🧔', 'El cuñado'], ['cana', '🔥', 'Con más caña'], ['pena', '🎭', 'La peña']];
 function hjNew() {
   let c = HJ.cat;
-  const pool = ['magos', 'vida', 'cuna', 'cana'].concat(namesOn() ? ['pena'] : []);
+  const pool = ['magos', 'vida', 'cuna', 'cana', 'vol'].concat(namesOn() ? ['pena'] : []);
   if (c === 'all' || !pool.includes(c)) c = pick(pool);
   if (c === 'magos') HJ.cur = { k: 't', who: '🎩 De camerino', t: flBag('hjm', () => QUIPS.slice()) };
   else if (c === 'vida') HJ.cur = { k: 't', who: '🍺 De barra', t: flBag('hjv', () => VIDA.slice()) };
   else if (c === 'cana') HJ.cur = { k: 't', who: '🔥 Con más caña', t: flBag('hjk', () => CANA.slice()) };
+  else if (c === 'vol') HJ.cur = { k: 't', who: '🙋 Voluntarios', t: flBag('hjvol', () => VOLU.slice()) };
   else if (c === 'cuna') { const d = flBag('hjc', () => DUELO.slice()); HJ.cur = { k: 'd', q: d[0], a: d[1] }; }
   else { const j = flBag('sala', () => penaLines('all')); HJ.cur = { k: 't', who: `${j.ic} ${j.n}`, t: j.t, ca: j.ca }; }
 }
@@ -2796,7 +2813,10 @@ ROUTES['learn:cachondeo'] = () => `
   <div class="panel stitch mt">${hjHTML()}<button class="btn brass block mt" data-a="hj-next">Otro chiste</button></div>
   <div class="sec"><h3>🤷 Excusas del mago</h3></div>
   <div class="panel stitch"><p class="small mut">Para cuando falles delante de gente. Cada excusa lleva una carta al azar de la Mnemónica.</p>${excHTML()}<div class="row wrap mt"><button class="btn sm brass sp" data-a="exc">Otra excusa</button><button class="btn sm sp" data-a="exc-copy">Copiar</button></div></div>
+  ${volPanelHTML()}
   ${namesOn() ? `<details class="basic mt2"><summary><span class="fi">🏛️</span><span>Quién es quién en AMIT (de broma)</span></summary><div class="bx"><div class="org">${ORG.map(([r, w]) => `<div class="orow"><span class="orole">${esc(r)}</span><b>${esc(w)}</b></div>`).join('')}</div><p class="tiny mut mt">Con todo el cariño del mundo para la peña de AMIT, los que están y los que vendrán.</p></div></details>` : ''}
+  <button class="mode mt2" data-a="buzon"><span class="ic">📮</span><span><b>${L('Buzón de sugerencias', 'Bústia de suggeriments')}</b><span>${L('Ideas, fallos, chistes que faltan y bromas que sobran. Se leen todas.', 'Idees, errors, acudits que falten i bromes que sobren. Es llegeixen totes.')}</span></span></button>
+  <button class="mode mt2" data-a="go-mia"><span class="ic">🃏</span><span><b>${L('Tu propia baraja', 'La teva pròpia baralla')}</b><span>${L('Carga tu orden de 52 cartas y practícalo aquí. Aparte de la Mnemónica, que sigue siendo lo principal.', 'Carrega el teu ordre de 52 cartes i practica\'l aquí. A part de la Mnemònica, que continua sent el principal.')}</span></span></button>
   <button class="mode mt2" data-a="go-rincon"><span class="ic">📜</span><span><b>Cultura mágica</b><span>Para cuando toque hablar en serio: historia de las barajas ordenadas y curiosidades con fuente.</span></span></button>
   <p class="credit">Humor original de la casa, escrito para los socios de AMIT. Cualquier parecido con un cuñado real es pura coincidencia estadística.</p>
   ${canaCredit()}`;
@@ -2833,9 +2853,9 @@ const SOCIOS = [
     ko: ["Harvi te entiende: él también se ha liado con cosas más fáciles que 52 cartas.", "Esa carta se te ha hecho un nudo. Harvi sabe de eso: te presta una cuerda."],
     gen: ["Una cuerda de Harvi y una baraja desordenada tienen algo en común: se enredan solas.", "Harvi corta la cuerda y la recompone. Lo difícil, dicen, es desenredarla antes del truco."] },
   { n: "Carlos, el canario", ic: "🏝️",
-    ok: ["Carlos, el canario y tesorero, lo apunta en el haber: ¡acierto!", "El tesorero lo aprueba: este acierto entra en caja."],
-    ko: ["Carlos, tesorero, anota esa carta en el debe. Con intereses.", "Carlos se ha llevado la mano al bolsillo. Será la navaja o el recibo de la cuota. Paga, por si acaso."],
-    gen: ["Carlos, el canario, es el tesorero. Dicen que a veces lleva navajas para cobrar la cuota. Es broma: lleva recibo.", "Carlos, tesorero, hace desaparecer la cuota de tu cartera mejor que cualquier mago de AMIT. Eso sí: con recibo."] },
+    ok: ["Carlos, el canario, saca una baraja del bolsillo para celebrarlo. Siempre lleva una.", "Carlos, profesor de ingeniería, lo aprueba con matrícula de honor."],
+    ko: ["Carlos, profesor de ingeniería, lo anota con cariño: «Suspenso, pero con recuperación».", "Carlos se ha llevado la mano al bolsillo. Será una navaja o una baraja de repuesto. Con él, casi seguro, las dos."],
+    gen: ["Carlos, el canario, es profesor de ingeniería, simpático a más no poder y nunca sale de casa sin una baraja.", "Carlos hace juegos con navajas y lleva siempre una baraja encima. Con él, hasta una cena de pizza acaba en demostración."] },
   { n: "Jordi Masgic", ic: "👓",
     ok: ["Jordi Masgic lo ha medido con sus gafas de colores: acierto en alta resolución.", "Jordi, ingeniero, lo certifica: cumple todas las especificaciones."],
     ko: ["Jordi diagnostica: error de sistema. Reinicia la memoria y vuelve a probar.", "Jordi, ingeniero, lo resume: margen de error del 100 % en esa carta."],
@@ -2849,9 +2869,9 @@ const SOCIOS = [
     ko: ["Mag Ger ha elegido una carta y el truco ya no tiene arreglo.", "Si Mag Ger hace de público y le toca elegir carta, el truco se desmonta solo. Con cariño."],
     gen: ["Mag Ger es el mejor maestro… y el peor público: pídele que elija una carta y verás cómo desmonta el juego. Con la mejor intención."] },
   { n: "Pedro", ic: "🧾",
-    ok: ["Pedro, fiscalista, lo da por bueno: acierto deducible al cien por cien.", "Pedro lo sella: carta bien declarada."],
-    ko: ["Pedro, fiscalista, lo ve claro: esa carta sale a pagar.", "Esa carta no cuadra. Pedro prepara una paralela… digo, una complementaria."],
-    gen: ["Pedro es un gran fiscalista y, en sus ratos libres, un crack de la Mnemónica: declara las 52 cartas sin una sola deducción.", "Pedro lleva los impuestos al día y los 52 naipes en la cabeza. Las dos cosas, sin errores."] },
+    ok: ["Pedro, fiscalista, lo da por bueno: acierto sin letra pequeña.", "Pedro lo sella: carta en regla."],
+    ko: ["Pedro, fiscalista, lo ve claro: esa carta tiene letra pequeña.", "Esa carta no cuadra. Pedro la repasa con lupa y encuentra el error en la nota al pie."],
+    gen: ["Pedro es un gran fiscalista y, en sus ratos libres, un crack de la Mnemónica: se sabe las 52 cartas y la letra pequeña de cada una.", "Pedro lleva los 52 naipes en la cabeza y los papeles en orden. Las dos cosas, sin errores."] },
   { n: "Melanie", ic: "🐘",
     ok: ["Melanie lo celebra sacando un elefante. Pequeño, de gala.", "Acierto de los que Melanie convierte en elefante: grande, escénico y sin trampa."],
     ko: ["Melanie hace aparecer un elefante en el escenario. Tú, de momento, solo la carta equivocada.", "Para Melanie un elefante en escena es un martes. Para ti, esa carta, un reto. Ánimo."],
@@ -2865,7 +2885,7 @@ const SOCIOS = [
     ko: ["Con una moneda habrías acertado el 50 %. Miquel lo sabe y no dice nada.", "Se te ha caído la carta. A Miquel se le caen las monedas… pero solo cuando él quiere."],
     gen: ["Miquel es un crack de las monedas: le pides cambio y te lo devuelve en forma de truco.", "Si Miquel dice «cara o cruz» y sale canto, es que ya lo tenía previsto."] },
   { n: "Santi", ic: "🐉",
-    ok: ["Santi, desde los madriles, te manda un aplauso por el grupo. Llegará con retraso.", "Santi se pone el disfraz de dragón y aplaude con las alas. Un Piff the Magic Dragon de bazar: menos presupuesto, mucho más cariño."],
+    ok: ["Santi, desde los madriles, te manda un aplauso por el grupo. Llegará con retraso.", "Santi se pone el disfraz de dragón y aplaude con las alas. Un Piff the Magic Dragon de bazar: menos lentejuelas, mucho más cariño."],
     ko: ["Santi se fue a los madriles… y esa carta se fue con él.", "Santi, vestido de dragón, ha chamuscado esa carta. Ya no aparece."],
     gen: ["Santi, nuestro argentino, nos dejó por los madriles: el mejor truco de desaparición de la asociación.", "Santi es argentino con raíces gallegas: en Argentina llaman «gallego» a cualquiera de aquí, y él lo es de verdad.", "A Santi le mola vestirse de dragón: es un Piff the Magic Dragon de bazar, con todo el respeto al original y bastante menos fuego."] },
   { n: "Albert", ic: "🃏",
@@ -2885,7 +2905,7 @@ const SOCIOS = [
     ko: ["Sergi, el novato pelón, te entiende: él también se ha quedado sin pelo pensando en esa carta."],
     gen: ["Sergi es el novato pelón de AMIT: la idea de esta app es suya y, con tanta Mnemónica, el pelo no es lo único que se le va.", "Sergi, el novato pelón, tiene una ventaja: no se despeina ni cuando la carta no sale."] }
 ];
-const ORG = [["Presi", "Kao (con imperdibles y auriculares)"], ["Presi en la sombra", "Salva"], ["Tesorero (con recibo)", "Carlos, el canario"], ["Bibliotecario", "Coquis"], ["Maestros de la Mnemónica", "Mag Ger y Pedro"], ["Infiltrado oficial", "Toni, del Vallès Oriental"], ["Dragón residente (en Madrid)", "Santi"], ["Novato pelón", "Sergi"]];
+const ORG = [["Presi", "Kao (con imperdibles y auriculares)"], ["Presi en la sombra", "Salva"], ["Profe de ingeniería (siempre con baraja)", "Carlos, el canario"], ["Bibliotecario", "Coquis"], ["Maestros de la Mnemónica", "Mag Ger y Pedro"], ["Infiltrado oficial", "Toni, del Vallès Oriental"], ["Dragón residente (en Madrid)", "Santi"], ["Novato pelón", "Sergi"]];
 const MEMBER_RX = /Àlex|Alex\b|Salva|\bKao\b|Toni\b|Jordi|Masgic|Domi|Mag Ger|Pedro|David|Harvi|Carlos|Carles|Melanie|Coquis|Miquel|Santi|Albert|Piña|Jared|Jaume|Sergi|Leia|AMIT/;
 const namesOn = () => !S || !S.set || S.set.names !== false;
 const pickMsg = pool => { const p = namesOn() ? pool : pool.filter(m => !MEMBER_RX.test(m)); return pick(p.length ? p : pool); };
@@ -2894,13 +2914,13 @@ const penaLines = kind => !namesOn() ? QUIPS.map(t => ({ n: 'Del camerino', ic: 
 /* ---- Titulares cortos (salen siempre, incluso en las rondas con reloj) ---- */
 OK_MSGS.push('Kao lo sujeta con un imperdible.', 'Salva asiente desde la sombra.', 'Miquel te paga con la misma moneda.', 'Coquis lo cataloga: «Acierto».',
   'Jordi Masgic: calidad certificada.', 'El Mag Domi diu: «Perfecte».', 'Jaume Andreu: demostración elegante.', 'Albert levanta una ceja. Aprobado.', 'Los Piña hacen piña contigo.',
-  'Carlos, el tesorero, lo ingresa en caja.', 'Pedro lo da por deducible.', 'David, el pro, asiente.', 'Melanie lo celebra con un elefante.', 'Harvi: acierto sin nudos.', 'Santi lo aplaude desde los madriles.',
+  'Carlos, el canario, saca la baraja del bolsillo.', 'Pedro lo revisa: sin letra pequeña.', 'David, el pro, asiente.', 'Melanie lo celebra con un elefante.', 'Harvi: acierto sin nudos.', 'Santi lo aplaude desde los madriles.',
   "Toni, desde el Vallès Oriental, asiente. Leia también.", "David tiene magia… y tú también, hoy.", "El Sr. Piña lo aprueba con la barba.", "Sergi, el novato pelón: «Ni un pelo de tonto».", "Santi te aplaude vestido de dragón.", "Kao asiente. Los auriculares, también.");
 KO_MSGS.push('Kao: «Eso no se sujeta ni con imperdibles».', 'Salva lo ha visto desde la sombra.', 'Miquel: «Cara o cruz: ha salido cruz».', 'Coquis lo archiva en «Para repasar».',
   'Jordi Masgic: error de sistema. Reinicia.', 'El Mag Domi, al rescat (la calculadora, no).', 'Jaume Andreu: contraejemplo encontrado.', 'Albert: «Esa carta era fácil».', 'Los Piña: eso no pasa ni en la brisca.',
-  'Carlos, el tesorero, lo apunta en el debe.', 'Pedro: esa carta sale a pagar.', 'David te lo explica otra vez. Con paciencia.', 'Harvi: «A mí también se me hacen nudos».', 'Santi se fue a los madriles y esa carta, con él.',
+  'Carlos, profe de ingeniería: «Suspenso, con recuperación».', 'Pedro: esa carta tiene letra pequeña.', 'David te lo explica otra vez. Con paciencia.', 'Harvi: «A mí también se me hacen nudos».', 'Santi se fue a los madriles y esa carta, con él.',
   "Toni: «Ayúdame, Mnemónica, eres mi única esperanza».", "David le pide a la IA un cartel para esto. Le saldrá con seis dedos.", "Al Sr. Piña se le escapa una risa… y la barba tiembla.", "Sergi, el novato pelón, también se queda sin pelo con esta carta.", "Santi, vestido de dragón, chamusca esa carta.", "Kao no te ha oído: lleva los auriculares puestos.");
-TO_MSGS.push('Tiempo agotado: ni el imperdible de Kao lo frena.', 'Se acabó el tiempo. Coquis tiene más, pero no te lo presta.', 'Salva lo tenía previsto: se te acababa el tiempo.', 'Tiempo. Carlos, el tesorero, ya lo ha cobrado.',
+TO_MSGS.push('Tiempo agotado: ni el imperdible de Kao lo frena.', 'Se acabó el tiempo. Coquis tiene más, pero no te lo presta.', 'Salva lo tenía previsto: se te acababa el tiempo.', 'Tiempo. Carlos, el canario, ya ha sacado otra baraja.',
   "Tiempo. Toni, el infiltrado, ya ha vuelto al Vallès Oriental.", "Tiempo agotado: David ya ha hecho el cartel con la IA anunciando el fallo.", "Tiempo. Hasta el Sr. Piña ha terminado el chiste y ha vuelto a empezar.");
 
 /* ---- Curiosidades nuevas de cartomagia (con fuente) ---- */
@@ -2985,7 +3005,7 @@ setPool(QUIPS, [
   H('El público cree que un mago tiene mucha memoria. El mago sabe que tiene mucho ensayo y un poco de cara.', 'El públic creu que un mag té molta memòria. El mag sap que té molt d\'assaig i una mica de barra.', 'El público cree que un mago tiene mucha memoria. El mago sabe que tiene mucho ensayo y un poco de caradurez.'),
   H('Si un truco falla, anuncia «y ahora, el efecto sorpresa». El público no sabe cuál era el primero.', 'Si un truc falla, anuncia «i ara, l\'efecte sorpresa». El públic no sap quin era el primer.'),
   H('Dicen que la práctica hace al maestro. En AMIT, la práctica hace que se haga tarde.', 'Diuen que la pràctica fa el mestre. A AMIT, la pràctica fa que es faci tard.'),
-  H('El mejor truco de un mago es que parezca fácil. El segundo mejor, que la cuenta de las birras salga bien entre seis.', 'El millor truc d\'un mag és que sembli fàcil. El segon millor, que el compte de les cerveses surti bé entre sis.'),
+  H('El mejor truco de un mago es que parezca fácil. El segundo mejor, que la última birra llegue a la mesa sin derramarse.', 'El millor truc d\'un mag és que sembli fàcil. El segon millor, que l\'última cervesa arribi a la taula sense vessar-se.'),
   H('Si de verdad te sabes la baraja, un día te pillarás recitándola en la cola del súper. Salúdala: ya es de la familia.', 'Si de debò et saps la baralla, un dia et pescaràs recitant-la a la cua del súper. Saluda-la: ja és de la família.'),
   H('Un buen mago lleva siempre una baraja encima. Un gran mago, dos, por si alguien dice que la primera era de goma.', 'Un bon mag porta sempre una baralla a sobre. Un gran mag, dues, per si algú diu que la primera era de goma.'),
   H('Nunca digas «ahora viene lo mejor». El público lo apunta y te lo recuerda a los diez minutos.', 'Mai no diguis «ara ve el millor». El públic ho apunta i te\'l recorda als deu minuts.'),
@@ -3067,7 +3087,7 @@ const VIDA = [
   H('Los grupos de WhatsApp tienen tres fases: entusiasmo, silencio y alguien que pregunta «¿esto sigue activo?». Nadie contesta.', 'Els grups de WhatsApp tenen tres fases: entusiasme, silenci i algú que pregunta «això continua actiu?». Ningú respon.'),
   H('Mi lista de tareas es perfecta. Lo único que falla es que la leo a las once de la noche.', 'La meva llista de tasques és perfecta. L\'únic que falla és que la llegeixo a les onze de la nit.'),
   H('Aparcar en paralelo es el único examen en el que el tribunal te suspende desde el balcón.', 'Aparcar en paral·lel és l\'únic examen en què el tribunal et suspèn des del balcó.'),
-  H('El gimnasio me ha dado dos cosas: una cuota mensual y la certeza de que mi sofá me echa de menos.', 'El gimnàs m\'ha donat dues coses: una quota mensual i la certesa que el meu sofà em troba a faltar.'),
+  H('El gimnasio me ha dado dos cosas: un carnet de socio y la certeza de que mi sofá me echa de menos.', 'El gimnàs m\'ha donat dues coses: un carnet de soci i la certesa que el meu sofà em troba a faltar.'),
   H('Dicen que el dinero no da la felicidad. Pero el aire acondicionado en agosto, sí.', 'Diuen que els diners no donen la felicitat. Però l\'aire condicionat a l\'agost, sí.'),
   H('En la cola del súper, la que eliges siempre es la lenta. No es mala suerte: es estadística con rencor.', 'A la cua del súper, la que tries sempre és la lenta. No és mala sort: és estadística amb rancor.'),
   H('Con los años pierdes memoria a corto plazo y, por suerte, vergüenza a medio plazo.', 'Amb els anys perds memòria a curt termini i, per sort, vergonya a mitjà termini.'),
@@ -3114,23 +3134,21 @@ setPool(TO_MSGS, [...TO_NEW, ...TO_NAMED]);
     ['Hazlo otra vez, pero más despacio.', 'Más despacio no sale. Más rápido, sí: me voy a por una birra.', 'Fes-ho una altra vegada, però més a poc a poc.', 'Més a poc a poc no surt. Més de pressa, sí: me\'n vaig a per una cervesa.'],
     ['A mí no me engañas.', 'Ya lo sé. Por eso sigues mirando.', 'A mi no m\'enganyes.', 'Ja ho sé. Per això continues mirant.'],
     ['Mi primo hace uno mejor.', 'Dile que pase por AMIT. Aquí cabe todo el mundo, hasta los primos que no existen.', 'El meu cosí en fa un de millor.', 'Digues-li que passi per AMIT. Aquí hi cap tothom, fins i tot els cosins que no existeixen.'],
-    ['¿Y cómo lo haces?', 'Hay una cuota anual. El tesorero te pasa el recibo… y una navaja, por si acaso.', 'I com ho fas?', 'Hi ha una quota anual. El tresorer et passa el rebut… i una navalla, per si de cas.'],
+    ['¿Y cómo lo haces?', 'Se aprende los jueves, con pizza y paciencia. Lo de la pizza es innegociable.', 'I com ho fas?', 'S\'aprèn els dijous, amb pizza i paciència. El de la pizza és innegociable.'],
     ['Eso se hace con un ayudante.', 'Lo tengo: se llama baraja, trabaja gratis y no pide family points.', 'Això es fa amb un ajudant.', 'El tinc: es diu baralla, treballa de franc i no demana family points.'],
     ['Ahora hazlo con los ojos vendados.', 'Cuando tú hagas algo con los ojos abiertos, lo hablamos.', 'Ara fes-ho amb els ulls embenats.', 'Quan tu facis alguna cosa amb els ulls oberts, en parlem.'],
     ['Seguro que las cartas están marcadas.', 'Marcadas están tus frases: llevas toda la noche repitiéndolas.', 'Segur que les cartes són marcades.', 'Marcades són les teves frases: fa tota la nit que les repeteixes.'],
-    ['Yo eso lo hago con una moneda.', 'Perfecto, préstame una. Es para pagar la ronda: tú has hablado, tú invitas.', 'Jo això ho faig amb una moneda.', 'Perfecte, deixa\'m-en una. És per pagar la ronda: tu has parlat, tu convides.'],
-    ['Seguro que ensayas mucho.', 'Cada noche. Mi familia lo sabe y me lo cobra en family points.', 'Segur que assages molt.', 'Cada nit. La meva família ho sap i m\'ho cobra en family points.']
+    ['Yo eso lo hago con una moneda.', 'Perfecto: la moneda hace el efecto y tú, de ayudante, haces el silencio.', 'Jo això ho faig amb una moneda.', 'Perfecte: la moneda fa l\'efecte i tu, d\'ajudant, fas el silenci.'],
+    ['Seguro que ensayas mucho.', 'Cada noche. Mi familia lo sabe y me lo descuenta en family points.', 'Segur que assages molt.', 'Cada nit. La meva família ho sap i m\'ho descompta en family points.']
   ];
   DUELO.length = 0;
   for (const [q, a, qc, ac] of D) { DUELO.push([q, a]); HX.ca[q] = qc; HX.ca[a] = ac; }
-  HX.ca['Hay una cuota anual. El tesorero te pasa el recibo… y una navaja, por si acaso.'] = 'Hi ha una quota anual. El tresorer et passa el rebut… i una navalla, per si de cas.';
   HX.ar['Ahora hazlo con los ojos vendados.'] = 'Ahora hacelo con los ojos vendados.';
   HX.ar['A mí no me engañas.'] = 'A mí no me engañás.';
   HX.ar['Eso lo he visto yo en YouTube.'] = 'Eso lo vi yo en YouTube.';
   HX.ar['Y yo he visto en YouTube cómo se opera un corazón. Aun así, no me ofrezco voluntario en la cena.'] = 'Y yo vi en YouTube cómo se opera un corazón. Aun así, no me ofrezco de voluntario en la cena.';
   HX.ar['Dile que pase por AMIT. Aquí cabe todo el mundo, hasta los primos que no existen.'] = 'Decile que pase por AMIT. Acá entra todo el mundo, hasta los primos que no existen.';
   HX.ar['Más despacio no sale. Más rápido, sí: me voy a por una birra.'] = 'Más despacio no sale. Más rápido, sí: me voy a tomar una birra.';
-  HX.ar['Perfecto, préstame una. Es para pagar la ronda: tú has hablado, tú invitas.'] = 'Perfecto, prestame una. Es para pagar la ronda: vos hablaste, vos invitás.';
 }
 
 /* ---- Excusas del mago ---- */
@@ -3208,7 +3226,7 @@ setPool(CANA, [
   H("Una baraja ordenada y un cuñado con ganas de opinar: lo más parecido a un duelo de wéstern. Solo uno sale con la dignidad intacta, y es la baraja.", "Una baralla ordenada i un cunyat amb ganes d'opinar: el més semblant a un duel de wèstern. Només un en surt amb la dignitat intacta, i és la baralla."),
   H("Tamariz tardó unos veinte años en dar forma a la Mnemónica. Tú tardas tres minutos en decir «ya me la sé». Entre medias, un abismo y una caña.", "Tamariz va tardar uns vint anys a donar forma a la Mnemònica. Tu tardes tres minuts a dir «ja me la sé». Pel mig, un abisme i una canya.", "Tamariz tardó unos veinte años en dar forma a la Mnemónica. Vos tardás tres minutos en decir «ya me la sé». Entre medio, un abismo y una birra."),
   H("Cuando la carta pedida es la última del mazo, el público dice «¡ooh!». Cuando es la primera, dice «ya lo sabía». Es la ley del cuñado.", "Quan la carta demanada és l'última de la baralla, el públic fa «ooh!». Quan és la primera, diu «ja ho sabia». És la llei del cunyat."),
-  H("Un mago y un cuñado se sientan en un bar. El cuñado dice «yo ya lo sabía». El camarero dice «son nueve euros». El mago desaparece. Es el único juego que sale siempre.", "Un mag i un cunyat seuen en un bar. El cunyat diu «jo ja ho sabia». El cambrer diu «són nou euros». El mag desapareix. És l'únic joc que surt sempre."),
+  H("Un mago y un cuñado se sientan en un bar. El cuñado dice «yo ya lo sabía». El camarero pregunta «¿y ustedes qué toman?». El mago desaparece. Es el único juego que sale siempre.", "Un mag i un cunyat seuen en un bar. El cunyat diu «jo ja ho sabia». El cambrer pregunta «i vostès què prenen?». El mag desapareix. És l'únic joc que surt sempre."),
   H("Asocio cada carta con un familiar. Funciona hasta la 31; a partir de ahí me quedo sin parientes y me sobran discusiones.", "Associo cada carta amb un familiar. Funciona fins a la 31; a partir d'aquí em quedo sense parents i m'hi sobren discussions.")
 ]);
 
@@ -3297,6 +3315,257 @@ TO_MSGS.push(
 );
 STREAK_MSGS[6] = H('Seis seguidas. «Y voló y yo volé»: así va la racha.', 'Sis seguides. «Y voló y yo volé»: així va la ratxa.');
 STREAK_MSGS[12] = H('Doce seguidas. Doce hombres sin piedad, y tú sin un solo fallo.', 'Dotze seguides. Dotze homes sense pietat, i tu sense cap error.', 'Doce seguidas. Doce hombres sin piedad, y vos sin una sola falla.');
+
+/* ===================== HUMOR 5 · más cachondeo, cultura popular y voluntarios del festival =====================
+   Todo el texto es original de la app. De la cultura popular solo se usan referencias y muletillas de dominio público
+   (cine, series, concursos, redes); nada se pone en boca de nadie y no se imita a personas reales.
+   Regla de la casa: se ríe de situaciones y manías con cariño, nunca de personas concretas ni de asuntos serios.
+   Cada entrada: H(es, ca, ar?). El boludo sale de la regla automática salvo retoque. */
+
+/* ---------- Con más caña (referencias pop) ---------- */
+CANA.push(
+  H('Pastilla azul: sigues con la lista de cartas en la nota del móvil. Pastilla roja: te la aprendes y ves hasta dónde llega la madriguera. Tu cuñado ya se ha tomado las dos.', 'Pastilla blava: continues amb la llista de cartes a la nota del mòbil. Pastilla vermella: te l\'aprens i veus fins on arriba el cau. El teu cunyat ja s\'ha pres les dues.'),
+  H('Yoda decía que no hay «intentar», solo hacer. Yoda nunca tuvo que cantar la 33 con un cuñado mirando.', 'Yoda deia que no hi ha «intentar», només fer. Yoda mai no va haver de cantar la 33 amb un cunyat mirant.'),
+  H('Un orden para gobernarlos a todos, un orden para encontrarlos… y ni uno se acuerda de qué carta era la 17.', 'Un ordre per governar-les totes, un ordre per trobar-les… i cap no recorda quina carta era la 17.'),
+  H('En Juego de Tronos, el trono se hacía con mil espadas fundidas. La Mnemónica, con 52 cartas y mucha vergüenza propia.', 'A Joc de Trons, el tron es feia amb mil espases foses. La Mnemònica, amb 52 cartes i molta vergonya pròpia.'),
+  H('Hogwarts tiene siete libros y mil hechizos. Tú tienes 52 cartas y un cuñado que dice que «eso lo hace cualquiera». El verdadero Voldemort.', 'Hogwarts té set llibres i mil encanteris. Tu tens 52 cartes i un cunyat que diu que «això ho fa qualsevol». El veritable Voldemort.'),
+  H('¿Sigues ahí? —te pregunta la plataforma de series cuando llevas veinte minutos mirando la carta 14 con cara de póker. Sí. Y sigo sin saber cuál es.', 'Continues aquí? —et pregunta la plataforma de sèries quan fa vint minuts que mires la carta 14 amb cara de pòquer. Sí. I continuo sense saber quina és.'),
+  H('Dos ticks azules de WhatsApp: has leído la carta 8. Cero ticks de que te la sepas.', 'Dos ticks blaus de WhatsApp: has llegit la carta 8. Zero ticks que te la sàpigues.'),
+  H('Tu resumen del año: 14.000 minutos con la misma baraja y un único artista en el top: el 4♣.', 'El teu resum de l\'any: 14.000 minuts amb la mateixa baralla i un únic artista al top: el 4♣.'),
+  H('La Mnemónica es como el Wordle: si no la pillas a la sexta, se lo cuentas a todo el grupo igual. Pero la de hoy es la 31.', 'La Mnemònica és com el Wordle: si no l\'enganxes a la sisena, ho expliques a tot el grup igualment. Però la d\'avui és la 31.'),
+  H('Hay quien se aprende 52 cartas y hay quien las pasa a un Excel «por si acaso». Spoiler: el Excel tampoco sale al escenario.', 'Hi ha qui s\'aprèn 52 cartes i hi ha qui les passa a un Excel «per si de cas». Spoiler: l\'Excel tampoc no surt a l\'escenari.'),
+  H('—Alexa, ¿qué carta es la 27? —Lo siento, no te he entendido. Exactamente lo mismo que dice tu memoria.', '—Alexa, quina carta és la 27? —Ho sento, no t\'he entès. Exactament el mateix que diu la teva memòria.'),
+  H('La IA te hace un cartel en cuatro segundos, con seis dedos por mano. La Mnemónica te cuesta dos meses, pero con los cinco de siempre. Elige tu aventura.', 'La IA et fa un cartell en quatre segons, amb sis dits per mà. La Mnemònica et costa dos mesos, però amb els cinc de sempre. Tria la teva aventura.'),
+  H('Esta noche, en la Academia de la Mnemónica: gala siete. Nominada, la 44. El profesorado dice que «le falta actitud».', 'Aquesta nit, a l\'Acadèmia de la Mnemònica: gala set. Nominada, la 44. El professorat diu que «li falta actitud».'),
+  H('Concurso de cocina, versión baraja: tu carta 12 llega cruda, sin técnica y con una presentación discutible.', 'Concurs de cuina, versió baralla: la teva carta 12 arriba crua, sense tècnica i amb una presentació discutible.'),
+  H('Gran Hermano, edición AMIT: encerrados con una baraja ordenada. A la tercera semana, nominados: todos.', 'Gran Germà, edició AMIT: tancats amb una baralla ordenada. A la tercera setmana, nominats: tots.'),
+  H('Esto es un caso para Cuarto Milenio: un socio que se sabe las 52 cartas y no sabe dónde ha dejado las llaves.', 'Això és un cas per a Cuarto Milenio: un soci que se sap les 52 cartes i no sap on ha deixat les claus.'),
+  H('Cuando aciertas la carta 1 a la primera, suena en tu cabeza la musiquita de la estrella de Super Mario. Cuando fallas, la de Game Over.', 'Quan encertes la carta 1 a la primera, sona al teu cap la musiqueta de l\'estrella de Super Mario. Quan falles, la de Game Over.'),
+  H('Como en Pokémon: hay que atraparlas todas. La diferencia es que aquí la Pokéball es una cantinela ridícula.', 'Com a Pokémon: les has d\'atrapar totes. La diferència és que aquí la Pokéball és una cantarella ridícula.'),
+  H('La Mnemónica es como una cebolla: tiene capas. Y de vez en cuando te hace llorar.', 'La Mnemònica és com una ceba: té capes. I de tant en tant et fa plorar.'),
+  H('Homer olvida dónde ha aparcado; tú, la 22. Pero Homer tiene una familia que sale en la tele y tú, un grupo de WhatsApp con quince magos.', 'L\'Homer oblida on ha aparcat; tu, la 22. Però l\'Homer té una família que surt a la tele i tu, un grup de WhatsApp amb quinze mags.'),
+  H('Pregunta de 50.000: ¿qué carta es la 37? Comodín del público: se ha ido a por una birra. Comodín de la llamada: tu cuñado, que dice que es cuestión de práctica.', 'Pregunta de 50.000: quina carta és la 37? Comodí del públic: se n\'ha anat a buscar una cervesa. Comodí de la trucada: el teu cunyat, que diu que és qüestió de pràctica.'),
+  H('«Cabíamos los dos en la puerta», dice Rose. El 7♦ y el 3♣ no caben el mismo día en tu cabeza.', '«Hi cabíem els dos a la porta», diu la Rose. El 7♦ i el 3♣ no hi caben el mateix dia al teu cap.'),
+  H('Cinco puntos de Andorra por tu actuación. Cero del jurado de la peña si se te cae la baraja.', 'Cinc punts d\'Andorra per la teva actuació. Zero del jurat de la penya si se\'t cau la baralla.'),
+  H('La Isla de las Tentaciones, versión mago: ¿te quedas con tu orden de siempre o te tienta uno nuevo? Final: hoguera, lágrimas y 52 cartas por el suelo.', 'L\'Illa de les Temptacions, versió mag: et quedes amb el teu ordre de sempre o te\'n temptes un de nou? Final: foguera, llàgrimes i 52 cartes pel terra.'),
+  H('Pasapalabra, edición Mnemónica: «Con la 7… contiene la 7». Tú: «Pasapalabra».', 'Pasapalabra, edició Mnemònica: «Amb la 7… conté la 7». Tu: «Pasapalabra».'),
+  H('En TikTok parece que la baraja se aprende en 60 segundos. En la vida real: dos meses, unas cuantas birras y un cuñado.', 'A TikTok sembla que la baralla s\'aprèn en 60 segons. A la vida real: dos mesos, unes quantes cerveses i un cunyat.'),
+  H('Houdini escapaba de cajas selladas bajo el agua. Tú, de la pregunta «¿y eso cómo se hace?». Mismo nivel de dificultad.', 'Houdini s\'escapava de caixes segellades sota l\'aigua. Tu, de la pregunta «i això com es fa?». Mateix nivell de dificultat.'),
+  H('Copperfield hizo desaparecer la Estatua de la Libertad. Tú, sin querer, la carta 9. A cada uno su público.', 'Copperfield va fer desaparèixer l\'Estàtua de la Llibertat. Tu, sense voler, la carta 9. A cadascú el seu públic.'),
+  H('Aprender la baraja por rodajas es como una calçotada: al principio te manchas hasta las cejas, luego no puedes parar.', 'Aprendre la baralla a rodanxes és com una calçotada: al principi et taques fins a les celles, després no pots parar.'),
+  H('Un castell de 52 cartas: si falla el de abajo, nos vamos todos al suelo. Pero siempre hay alguien que sube el enxaneta.', 'Un castell de 52 cartes: si falla el de baix, ens n\'anem tots a terra. Però sempre hi ha algú que puja l\'enxaneta.'),
+  H('El VAR revisa la jugada y concluye: esa carta no era la tuya. Sin fuera de juego, pero con agravante de cuñado.', 'El VAR revisa la jugada i conclou: aquesta carta no era la teva. Sense fora de joc, però amb agreujant de cunyat.'),
+  H('Tu cuñado, en cinco minutos de tutorial de YouTube, ya es mago. Tú, tras cinco años de baraja, sigues siendo «el de las cartitas». Pasa en las mejores familias.', 'El teu cunyat, en cinc minuts de tutorial de YouTube, ja és mag. Tu, després de cinc anys de baralla, continues essent «el de les cartetes». Passa a les millors famílies.'),
+  H('Mario necesita 32 monedas para una vida extra. Tú, para saber la 32, necesitas una vida extra.', 'En Mario necessita 32 monedes per a una vida extra. Tu, per saber la 32, necessites una vida extra.')
+);
+
+/* ---------- De camerino y de barra ---------- */
+QUIPS.push(
+  H('Mi truco favorito es el de desaparecer justo cuando hay que recoger las sillas.', 'El meu truc preferit és el de desaparèixer just quan cal recollir les cadires.'),
+  H('Ser mago es un diez por ciento de talento, un treinta de práctica y un sesenta de cara dura. La cara dura la traen de serie los cuñados.', 'Ser mag és un deu per cent de talent, un trenta de pràctica i un seixanta de barra. La barra la porten de sèrie els cunyats.'),
+  H('Tengo dos tipos de cartas: las que me sé y las que me miran fijamente justo cuando debería saberlas.', 'Tinc dos tipus de cartes: les que em sé i les que em miren fixament just quan les hauria de saber.'),
+  H('Un mago nunca revela sus secretos. El grupo de WhatsApp, en tres minutos y con captura de pantalla.', 'Un mag mai no revela els seus secrets. El grup de WhatsApp, en tres minuts i amb captura de pantalla.'),
+  H('Un truco sin presentación es un puzle. Una presentación sin truco es un monólogo. Sin ninguna de las dos cosas: reunión de jueves.', 'Un truc sense presentació és un trencaclosques. Una presentació sense truc és un monòleg. Sense cap de les dues coses: reunió de dijous.'),
+  H('El público no recuerda lo que hiciste, sino cómo les hiciste sentir… y que se te cayó la baraja al suelo, eso también.', 'El públic no recorda el que vas fer, sinó com els vas fer sentir… i que se\'t va caure la baralla a terra, això també.'),
+  H('Hay magos que levitan y magos que, cuando toca recoger las sillas, se vuelven invisibles. Los segundos son los que de verdad dominan el arte.', 'Hi ha mags que levitan i mags que, quan toca recollir les cadires, es tornen invisibles. Els segons són els que de veritat dominen l\'art.'),
+  H('Ensayo, ensayo, ensayo… y luego lo estrenas con tu suegra. La peor crítica del mundo, pero con tarta.', 'Assaig, assaig, assaig… i després l\'estrenes amb la sogra. La pitjor crítica del món, però amb pastís.')
+);
+VIDA.push(
+  H('Pizza del jueves: el único momento del mes en que la peña llega a un acuerdo unánime. Y aun así discuten por la piña.', 'Pizza de dijous: l\'únic moment del mes en què la penya arriba a un acord unànime. I tot i així discuteixen per la pinya.'),
+  H('«Una cerveza rápida», en AMIT, es un concepto tan elástico como la goma de un mago.', '«Una cervesa ràpida», a AMIT, és un concepte tan elàstic com la goma d\'un mag.'),
+  H('La reunión es a las ocho. El único truco que nunca falla es que a las ocho empiece a las ocho y media.', 'La reunió és a les vuit. L\'únic truc que mai no falla és que a les vuit comenci a les vuit i mitja.'),
+  H('El mago que dice «ahora vuelvo» en la barra tiene el mismo porcentaje de éxito que el que dice «solo una cartita».', 'El mag que diu «ara torno» a la barra té el mateix percentatge d\'èxit que el que diu «només una carteta».'),
+  H('Un mago no bebe nunca solo: siempre aparece alguien que se ofrece a «escoger una carta».', 'Un mag no beu mai sol: sempre apareix algú que s\'ofereix a «escollir una carta».'),
+  H('Tapas, cañas y barajas: el triángulo de las Bermudas del jueves. Entras con ganas de ensayar y sales con ganas de repetir.', 'Tapes, canyes i baralles: el triangle de les Bermudes del dijous. Entres amb ganes d\'assajar i surts amb ganes de repetir.'),
+  H('Una caña, una baraja y un cuñado: la receta del desastre perfecto.', 'Una canya, una baralla i un cunyat: la recepta del desastre perfecte.'),
+  H('Lo más difícil de un mago en la barra no es el juego de manos: es pedir otra ronda sin que parezca que lo tenía planeado.', 'El més difícil d\'un mag a la barra no és el joc de mans: és demanar una altra ronda sense que sembli que ho tenia planejat.')
+);
+
+/* ---------- Duelo con el cuñado ---------- */
+DUELO.push(
+  ['Eso es fácil, lo vi en un tutorial de YouTube.', 'Claro. Y yo sé operar de apendicitis porque vi un episodio de una serie de médicos.'],
+  ['¿Eso tiene truco o es magia de verdad?', 'Tiene truco, magia y público. Solo falta que uno de los tres se calle.'],
+  ['Yo con la IA hago eso en un momento.', 'Con la IA haces carteles con seis dedos. Con esto, la gente se queda boquiabierta.'],
+  ['Tú lo que tienes es un compinche entre el público, como los de la tele.', 'Mi único compinche eres tú, y llevas diez minutos hablando de tu coche.'],
+  ['Eso lo hacía mi tío con las cerillas y no le salía tan largo.', 'Tu tío haría el truco de las cerillas… y el de desaparecer a la hora de recoger.']
+);
+HX.ca['¿Eso tiene truco o es magia de verdad?'] = 'Això té truc o és màgia de veritat?';
+HX.ca['Tiene truco, magia y público. Solo falta que uno de los tres se calle.'] = 'Té truc, màgia i públic. Només falta que un dels tres calli.';
+HX.ca['Eso es fácil, lo vi en un tutorial de YouTube.'] = 'Això és fàcil, ho vaig veure en un tutorial de YouTube.';
+HX.ca['Claro. Y yo sé operar de apendicitis porque vi un episodio de una serie de médicos.'] = 'És clar. I jo sé operar d\'apendicitis perquè vaig veure un episodi d\'una sèrie de metges.';
+HX.ca['Yo con la IA hago eso en un momento.'] = 'Jo amb la IA faig això en un moment.';
+HX.ca['Con la IA haces carteles con seis dedos. Con esto, la gente se queda boquiabierta.'] = 'Amb la IA fas cartells amb sis dits. Amb això, la gent es queda bocabadada.';
+HX.ca['Tú lo que tienes es un compinche entre el público, como los de la tele.'] = 'El que tu tens és un còmplice entre el públic, com els de la tele.';
+HX.ca['Mi único compinche eres tú, y llevas diez minutos hablando de tu coche.'] = 'El meu únic còmplice ets tu, i fa deu minuts que parles del teu cotxe.';
+HX.ca['Eso lo hacía mi tío con las cerillas y no le salía tan largo.'] = 'Això ho feia el meu oncle amb els llumins i no li sortia tan llarg.';
+HX.ca['Tu tío haría el truco de las cerillas… y el de desaparecer a la hora de recoger.'] = 'El teu oncle faria el truc dels llumins… i el de desaparèixer a l\'hora de recollir.';
+
+/* ---------- Mensajes al responder ---------- */
+OK_MSGS.push(
+  H('Pastilla roja tomada: esa carta ya la ves en la Matrix.', 'Pastilla vermella presa: aquesta carta ja la veus a la Matrix.'),
+  H('Como Mario con la estrella: invencible durante diez segundos.', 'Com en Mario amb l\'estrella: invencible durant deu segons.'),
+  H('Shrek lo confirma: las capas se van pelando.', 'Shrek ho confirma: les capes es van pelant.'),
+  H('Wordle a la primera. Ya puedes presumir sin vergüenza.', 'Wordle a la primera. Ja pots presumir sense vergonya.'),
+  H('Doble tick azul: carta leída y memorizada.', 'Doble tick blau: carta llegida i memoritzada.'),
+  H('Pokéball lanzada, carta capturada.', 'Pokéball llançada, carta capturada.'),
+  H('Pasas de gala: aplauso del público y abrazo del jurado.', 'Passes de gala: aplaudiment del públic i abraçada del jurat.'),
+  H('Houdini escapó de peores. Tú has escapado de esa carta.', 'Houdini va escapar de pitjors. Tu has escapat d\'aquesta carta.'),
+  H('Hasta tu cuñado ha dejado de decir «tiene truco».', 'Fins i tot el teu cunyat ha deixat de dir «té truc».'),
+  H('Casilla verde en el Excel de la memoria.', 'Casella verda a l\'Excel de la memòria.'),
+  H('¿Sigues ahí? Sí. Y sigues acertando.', 'Continues aquí? Sí. I continues encertant.'),
+  H('Acierto de nivel Pasapalabra: una A y era esa.', 'Encert de nivell Pasapalabra: una A i era aquesta.')
+);
+KO_MSGS.push(
+  H('Pastilla azul: has vuelto a la lista del móvil.', 'Pastilla blava: has tornat a la llista del mòbil.'),
+  H('Game Over. Pulsa start y la carta te espera.', 'Game Over. Prem start i la carta t\'espera.'),
+  H('Esa carta ha hecho un Titanic: se ha hundido sin avisar.', 'Aquesta carta ha fet un Titanic: s\'ha enfonsat sense avisar.'),
+  H('VAR: jugada revisada. Esa carta no era la tuya.', 'VAR: jugada revisada. Aquesta carta no era la teva.'),
+  H('Pasapalabra… y la carta también.', 'Pasapalabra… i la carta també.'),
+  H('«Alexa, ¿qué carta era?» «Lo siento, no te he entendido.»', '«Alexa, quina carta era?» «Ho sento, no t\'he entès.»'),
+  H('Dos ticks grises: carta no entregada al cerebro.', 'Dos ticks grisos: carta no entregada al cervell.'),
+  H('La Isla de las Tentaciones: te has ido con otra carta.', 'L\'Illa de les Temptacions: te n\'has anat amb una altra carta.'),
+  H('El comodín de la llamada tampoco lo sabía. Normal: era tu cuñado.', 'El comodí de la trucada tampoc ho sabia. Normal: era el teu cunyat.'),
+  H('Casi. En una escala del 1 al 52, has fallado por poco. O no.', 'Quasi. En una escala de l\'1 al 52, has fallat per poc. O no.')
+);
+TO_MSGS.push(
+  H('Tiempo agotado: la plataforma de series te pregunta si sigues ahí.', 'Temps esgotat: la plataforma de sèries et pregunta si continues aquí.'),
+  H('Cenicienta se fue a las doce. Tú, sin saber la carta.', 'La Ventafocs se\'n va anar a les dotze. Tu, sense saber la carta.'),
+  H('Cuenta atrás de Eurovisión: cero puntos.', 'Compte enrere d\'Eurovisió: zero punts.'),
+  H('Tiempo. El comodín del público ya se ha ido a por una birra.', 'Temps. El comodí del públic ja se n\'ha anat a buscar una cervesa.'),
+  H('Se acabó el tiempo y el rosco no perdona.', 'S\'ha acabat el temps i el rosco no perdona.')
+);
+
+/* ---------- Excusas del mago ---------- */
+const excAdd = (es, ca) => { EXC_CULPA.push(es); EXC_CULPA_CA.push(ca); };
+excAdd('el público tenía el móvil en la mano y la carta le hizo «ghosting».', 'el públic tenia el mòbil a la mà i la carta li va fer «ghosting».');
+excAdd('Mercurio estaba retrógrado, y la 23, de vacaciones.', 'Mercuri estava retrògrad, i la 23, de vacances.');
+excAdd('mi cuñado ha empezado a explicarme el truco y se me ha borrado el disco duro.', 'el meu cunyat ha començat a explicar-me el truc i se m\'ha esborrat el disc dur.');
+excAdd('tenía la carta en la punta de la lengua… y me la he tragado con la birra.', 'tenia la carta a la punta de la llengua… i me l\'he empassat amb la cervesa.');
+excAdd('el algoritmo de mi cabeza se está actualizando a la versión 2.0.', 'l\'algoritme del meu cap s\'està actualitzant a la versió 2.0.');
+excAdd('esa carta estaba en modo «no molestar».', 'aquesta carta estava en mode «no molestar».');
+excAdd('la baraja no ha pasado la ITV de la memoria.', 'la baralla no ha passat la ITV de la memòria.');
+excAdd('he confundido la 14 con la 41, que es como confundir a Chiquito con Rubianes: parecidos solo para el que no los ve.', 'he confós la 14 amb la 41, que és com confondre Chiquito amb Rubianes: semblants només per a qui no els mira.');
+
+/* ---------- Consejos de camerino ---------- */
+TIPS.push(
+  'Repasa cinco cartas al día y apúntate a una tarea del festival: las dos cosas empiezan por poco y luego ya no hay quien te pare.',
+  'Las cartas rebeldes son como los voluntarios del festival: están todas en el grupo, pero hay que ir a buscarlas una a una.'
+);
+HX.ca['Repasa cinco cartas al día y apúntate a una tarea del festival: las dos cosas empiezan por poco y luego ya no hay quien te pare.'] = 'Repassa cinc cartes al dia i apunta\'t a una tasca del festival: les dues coses comencen per poc i després ja no hi ha qui et pari.';
+HX.ca['Las cartas rebeldes son como los voluntarios del festival: están todas en el grupo, pero hay que ir a buscarlas una a una.'] = 'Les cartes rebels són com els voluntaris del festival: són totes al grup, però cal anar a buscar-les una a una.';
+
+/* ---------- La peña: líneas nuevas (solo salen con los nombres activados) ---------- */
+const socioAdd = (n, es, ca) => { const s = SOCIOS.find(x => x.n === n); if (s) s.gen.push(H(es, ca)); };
+socioAdd('Kao', 'Kao sujeta con imperdibles lo que se descose. Si alguna vez falta un voluntario, probablemente también le ponga un imperdible.', 'En Kao subjecta amb imperdibles el que es descus. Si algun dia falta un voluntari, probablement també li posarà un imperdible.');
+socioAdd('Mag Ger', 'Pídele a Mag Ger que escoja una carta y descubrirás un efecto que ni el mago controla: el «efecto Mag Ger».', 'Demana al Mag Ger que esculli una carta i descobriràs un efecte que ni el mag controla: l\'«efecte Mag Ger».');
+socioAdd('David', 'David hizo un cartel con la IA y el cartel hizo a David con seis dedos. Aun así, tiene magia.', 'En David va fer un cartell amb la IA i el cartell va fer en David amb sis dits. Tot i així, té màgia.');
+socioAdd('Harvi', 'Harvi puede desenredar cualquier asunto de una asamblea… pero sus cuerdas, ya es otro cantar.', 'En Harvi pot desembolicar qualsevol afer d\'una assemblea… però les seves cordes, ja és una altra cançó.');
+socioAdd('Toni', 'Toni viene del Vallès Oriental: la distancia es corta, pero el tatuaje de Leia llega siempre antes.', 'En Toni ve del Vallès Oriental: la distància és curta, però el tatuatge de la Leia sempre arriba abans.');
+socioAdd('Melanie', 'Mientras otros sacan una moneda de la oreja, Melanie saca un elefante. La ambición es una virtud.', 'Mentre uns altres treuen una moneda de l\'orella, la Melanie treu un elefant. L\'ambició és una virtut.');
+socioAdd('Santi', 'Santi, vestido de dragón, es el único que consigue que un voluntario se sienta tranquilo: con un dragón al lado, nadie se mete contigo.', 'En Santi, vestit de drac, és l\'únic que aconsegueix que un voluntari se senti tranquil: amb un drac al costat, ningú no se\'n fica amb tu.');
+socioAdd('Coquis', 'Coquis, bibliotecario: si necesitas algo para el festival, seguro que ya hay un libro sobre ello… con fecha de devolución.', 'En Coquis, bibliotecari: si necessites alguna cosa per al festival, segur que ja hi ha un llibre sobre això… amb data de devolució.');
+socioAdd('Pedro', 'Pedro, fiscalista, te explica la Mnemónica y, de paso, la letra pequeña de cada carta.', 'En Pedro, fiscalista, t\'explica la Mnemònica i, de passada, la lletra petita de cada carta.');
+socioAdd('El Sr. Piña y Jared', 'El Sr. Piña y Jared defienden la piña en la pizza. Es la única discusión del jueves en la que los dos bandos tienen razón.', 'El Sr. Piña i en Jared defensen la pinya a la pizza. És l\'única discussió del dijous en què els dos bàndols tenen raó.');
+
+/* ---------- Voluntarios del festival ---------- */
+const VOLU = [
+  H('Se busca voluntario para el festival. Requisitos: tener manos, tener sábado y no tener «reunión de cole». Se valorará saber plegar sillas.', 'Es busca voluntari per al festival. Requisits: tenir mans, tenir dissabte i no tenir «reunió d\'escola». Es valorarà saber plegar cadires.'),
+  H('Los voluntarios ven el festival desde el mejor sitio: detrás del escenario. Los cuñados, desde la fila diez, también opinan.', 'Els voluntaris veuen el festival des del millor lloc: darrere l\'escenari. Els cunyats, des de la fila deu, també opinen.'),
+  H('Hay tres tipos de socios: los que se apuntan, los que dicen «cuenta conmigo» y los que están «de viaje» desde el 17 de diciembre.', 'Hi ha tres tipus de socis: els que s\'apunten, els que diuen «compta amb mi» i els que són «de viatge» des del 17 de desembre.'),
+  H('Un voluntario es como una carta de la Mnemónica: todos saben que tiene que estar, pero hay que ir a buscarlo.', 'Un voluntari és com una carta de la Mnemònica: tothom sap que hi ha de ser, però cal anar-lo a buscar.'),
+  H('Encuesta de voluntarios: siete puestos, un voto por puesto y el mismo socio votando en tres. Matemáticas de peña.', 'Enquesta de voluntaris: set llocs, un vot per lloc i el mateix soci votant en tres. Matemàtiques de penya.'),
+  H('«Cuenta conmigo para lo que haga falta». Traducción simultánea: cuenta conmigo para lo que no haga falta nada.', '«Compta amb mi per a tot el que faci falta». Traducció simultània: compta amb mi per a tot el que no faci falta res.'),
+  H('Hacer bulto con la camiseta del festival cuenta como voluntariado. Con la camiseta puesta, se entiende: en el armario no hace bulto.', 'Fer nombre amb la samarreta del festival compta com a voluntariat. Amb la samarreta posada, s\'entén: a l\'armari no fa nombre.'),
+  H('Control de acceso: la oportunidad de decirle «no» a un cuñado con total impunidad. Úsala bien.', 'Control d\'accés: l\'oportunitat de dir «no» a un cunyat amb total impunitat. Fes-la servir bé.'),
+  H('Montaje de sillas: la única disciplina de la magia donde nadie te pide que repitas el efecto.', 'Muntatge de cadires: l\'única disciplina de la màgia on ningú no et demana que repeteixis l\'efecte.'),
+  H('Ser voluntario tiene tres ventajas: la gratitud eterna de la peña, un sitio en la foto de grupo y cero sillas libres.', 'Ser voluntari té tres avantatges: l\'agraïment etern de la penya, un lloc a la foto de grup i cap cadira lliure.'),
+  H('Quien se apunta a todo y no va a nada es el verdadero mago: desaparece sin necesidad de pañuelo.', 'Qui s\'apunta a tot i no va enlloc és el veritable mag: desapareix sense necessitat de mocador.'),
+  H('Si llegas antes que el público y te marchas después, ya eres de los voluntarios que encienden la luz y la apagan.', 'Si arribes abans que el públic i te\'n vas després, ja ets dels voluntaris que encenen el llum i l\'apaguen.'),
+  H('El que lleva el cartel con IA y seis dedos también cuenta como voluntario. Se valora el esfuerzo, no los dedos.', 'El que porta el cartell amb IA i sis dits també compta com a voluntari. Es valora l\'esforç, no els dits.'),
+  H('«Se necesitan manos para el festival». Preferiblemente con guantes: ya sabemos cómo son los magos con las cuerdas.', '«Calen mans per al festival». Preferiblement amb guants: ja sabem com són els mags amb les cordes.'),
+  H('Montar, atender, guiar y desmontar: cuatro verbos y ni un solo truco. Aun así, es lo que hace que el truco ocurra.', 'Muntar, atendre, guiar i desmuntar: quatre verbs i cap truc. Tot i així, és el que fa que el truc passi.'),
+  H('Si de verdad no puedes ayudar, no pasa nada: ahí están las excusas de la Sala. Pero que sean buenas, que las del curso pasado ya nos las sabemos.', 'Si de veritat no pots ajudar, no passa res: aquí tens les excuses de la Sala. Però que siguin bones, que les del curs passat ja ens les sabem.')
+];
+const VOL_PUESTOS = [
+  ['Bienvenida y asientos', 'Benvinguda i seients', 'Tu misión: sonreír y guiar al público a su asiento. Sobre todo a los cuñados, que siempre quieren primera fila.', 'La teva missió: somriure i guiar el públic al seu seient. Sobretot els cunyats, que sempre volen primera fila.'],
+  ['Atención al público', 'Atenció al públic', 'Tu misión: contestar «¿a qué hora empieza?» unas ochenta veces. Con la sonrisa intacta.', 'La teva missió: contestar «a quina hora comença?» unes vuitanta vegades. Amb el somriure intacte.'],
+  ['Montaje de sillas', 'Muntatge de cadires', 'Tu misión: llegar antes que las sillas.', 'La teva missió: arribar abans que les cadires.'],
+  ['Apoyo a artistas', 'Suport a artistes', 'Tu misión: sujetar, pasar y desaparecer. Como un ayudante de los buenos.', 'La teva missió: subjectar, passar i desaparèixer. Com un ajudant dels bons.'],
+  ['Talleres de niños', 'Tallers de nens', 'Tu misión: sobrevivir. Lleva paciencia y cinta de doble cara.', 'La teva missió: sobreviure. Porta paciència i cinta de doble cara.'],
+  ['Cartelería', 'Cartelleria', 'Tu misión: pegar carteles. El que sale con seis dedos, al fondo.', 'La teva missió: enganxar cartells. El que surt amb sis dits, al fons.'],
+  ['Hacer bulto con la camiseta', 'Fer nombre amb la samarreta', 'Tu misión: existir, con camiseta. Es lo más difícil de todo.', 'La teva missió: existir, amb samarreta. És el més difícil de tot.']
+];
+const VOL_RESET = H('Cuadro completo. Ahora solo falta que vengan los voluntarios de verdad. Si te animas, la encuesta del grupo te está esperando.', 'Quadre complet. Ara només falta que vinguin els voluntaris de veritat. Si t\'animes, l\'enquesta del grup t\'està esperant.');
+const EXC_VOL = [];
+const excv = (es, ca) => EXC_VOL.push([es, ca]);
+excv('tengo reunión de cole… del hijo de mi vecino.', 'tinc reunió d\'escola… del fill del meu veí.');
+excv('mi horóscopo dice que es mal día para plegar sillas.', 'el meu horòscop diu que és mal dia per plegar cadires.');
+excv('me han dicho que hay que madrugar y mi mago interior no sale antes de las once.', 'm\'han dit que cal matinar i el meu mag interior no surt abans de les onze.');
+excv('estoy en un retiro espiritual… en el sofá.', 'sóc en un retir espiritual… al sofà.');
+excv('he quedado con mi gato para una sesión de coaching.', 'he quedat amb el meu gat per a una sessió de coaching.');
+excv('tengo una cena con mis suegros que lleva organizada desde 2019.', 'tinc un sopar amb els sogres que fa organitzat des del 2019.');
+excv('mi pañuelo de seda está en la lavadora y no sé si volverá.', 'el meu mocador de seda és a la rentadora i no sé si tornarà.');
+excv('me he apuntado a un curso online de «Cómo no apuntarse a nada».', 'm\'he apuntat a un curs en línia de «Com no apuntar-se a res».');
+excv('he agotado los family points del trimestre y el saldo está en rojo.', 'he esgotat els family points del trimestre i el saldo és en vermell.');
+excv('estoy en pleno ensayo de un número que nunca estrenaré.', 'sóc en ple assaig d\'un número que mai no estrenaré.');
+excv('le prometí a una carta que no la perdería de vista, y es la 27.', 'vaig prometre a una carta que no la perdria de vista, i és la 27.');
+excv('mi IA no me ha terminado todavía el cartel de la excusa.', 'la meva IA encara no m\'ha acabat el cartell de l\'excusa.');
+excv('tengo que actualizar el Excel de mi orden de baraja. Es urgente. Lo es.', 'he d\'actualitzar l\'Excel del meu ordre de baralla. És urgent. Ho és.');
+excv('hasta esa fecha estoy «de viaje» (de la cocina al sofá).', 'fins aquesta data sóc «de viatge» (de la cuina al sofà).');
+const VOLX = { i: 0 };
+const volExcText = () => { const e = EXC_VOL[VOLX.i % EXC_VOL.length]; return L('No puedo ser voluntario porque ' + e[0], 'No puc ser voluntari perquè ' + e[1]); };
+const volState = () => Math.max(0, Math.min(VOL_PUESTOS.length, (S.stats && S.stats.vol) | 0));
+function volPanelHTML() {
+  const n = volState(), tot = VOL_PUESTOS.length, last = n ? VOL_PUESTOS[n - 1] : null;
+  const msg = n >= tot ? VOL_RESET : (last ? L(last[2], last[3]) : L('Pulsa «Me apunto» y la app te asigna un puesto del festival. Es de broma… pero la encuesta del grupo es de verdad.', 'Prem «M\'apunto» i l\'app t\'assigna un lloc del festival. És de broma… però l\'enquesta del grup és de veritat.'));
+  return `<div id="volSec"><div class="sec"><h3>🙋 ${L('Voluntarios del festival', 'Voluntaris del festival')}</h3></div>
+  <div class="panel stitch" id="volBox"><p class="small mut" style="margin:0 0 8px">${L('Cuesta encontrar voluntarios. Aquí, al menos, el cuadro se llena en un minuto.', 'Costa trobar voluntaris. Aquí, almenys, el quadre s\'omple en un minut.')}</p>
+    <div class="row"><b>${L('Puestos cubiertos', 'Llocs coberts')}: ${n}/${tot}</b></div>
+    <div class="mbar" style="height:9px" role="img" aria-label="${n}/${tot}"><i style="width:${Math.round(100 * n / tot)}%"></i></div>
+    <div class="jk mt"><div class="jk-t" id="volMsg">${last ? '<b>' + esc(L(last[0], last[1])) + '.</b> ' : ''}${esc(msg)}</div></div>
+    <div class="row wrap mt"><button class="btn sm brass sp" data-a="vol-join">${n >= tot ? L('Vaciar el cuadro', 'Buidar el quadre') : L('🙋 Me apunto', '🙋 M\'apunto')}</button><button class="btn sm sp" data-a="vol-exc">${L('Dame una excusa', 'Dona\'m una excusa')}</button></div>
+    <p class="small mut mt" id="volExc" aria-live="polite" style="margin-bottom:0">${esc(volExcText())}</p>
+  </div></div>`;
+}
+A['vol-join'] = () => {
+  if (volState() >= VOL_PUESTOS.length) S.stats.vol = 0; else S.stats.vol = volState() + 1;
+  save(); const b = $('#volSec'); if (b) b.outerHTML = volPanelHTML();
+  if (volState() === 1) toast(L('¡Apuntado! (en la app, que es gratis)', 'Apuntat! (a l\'app, que és gratis)'), 2200);
+  hsBump('jokes');
+};
+A['vol-exc'] = () => { VOLX.i = Math.floor(Math.random() * EXC_VOL.length); const p = $('#volExc'); if (p) p.textContent = volExcText(); hsBump('jokes'); };
+ACH.push({ id: 'manos', ic: '🙋', n: 'Manos arriba', d: 'Te apuntas de voluntario… en la app.', f: () => (S.stats.vol || 0) >= 1 });
+
+HJ_CATS.push(['vol', '🙋', 'Voluntarios']);
+HX.ca['Voluntarios'] = 'Voluntaris';
+HX.ca['Manos arriba'] = 'Mans enlaire';
+HX.ca['Te apuntas de voluntario… en la app.'] = 'T\'apuntes de voluntari… a l\'app.';
+HX.ca['📮 Buzón'] = '📮 Bústia';
+
+/* ---------- Rev 41: retoques del humor de la peña y del festival ---------- */
+{ const T = (es, ca, ar) => { HX.ca[es] = ca; if (ar) HX.ar[es] = ar; };
+  T("Carlos, el canario, saca una baraja del bolsillo para celebrarlo. Siempre lleva una.", "En Carlos, el canari, treu una baralla de la butxaca per celebrar-ho. Sempre en porta una.");
+  T("Carlos, profesor de ingeniería, lo aprueba con matrícula de honor.", "En Carlos, professor d'enginyeria, ho aprova amb matrícula d'honor.");
+  T("Carlos, profesor de ingeniería, lo anota con cariño: «Suspenso, pero con recuperación».", "En Carlos, professor d'enginyeria, ho anota amb afecte: «Suspens, però amb recuperació».");
+  T("Carlos se ha llevado la mano al bolsillo. Será una navaja o una baraja de repuesto. Con él, casi seguro, las dos.", "En Carlos s'ha portat la mà a la butxaca. Serà una navalla o una baralla de recanvi. Amb ell, gairebé segur, les dues.");
+  T("Carlos, el canario, es profesor de ingeniería, simpático a más no poder y nunca sale de casa sin una baraja.", "En Carlos, el canari, és professor d'enginyeria, simpàtic fins a l'extrem i mai no surt de casa sense una baralla.");
+  T("Carlos hace juegos con navajas y lleva siempre una baraja encima. Con él, hasta una cena de pizza acaba en demostración.", "En Carlos fa jocs amb navalles i porta sempre una baralla a sobre. Amb ell, fins i tot un sopar de pizza acaba en demostració.");
+  T("Pedro, fiscalista, lo da por bueno: acierto sin letra pequeña.", "En Pedro, fiscalista, ho dona per bo: encert sense lletra petita.");
+  T("Pedro lo sella: carta en regla.", "En Pedro ho segella: carta en regla.");
+  T("Pedro, fiscalista, lo ve claro: esa carta tiene letra pequeña.", "En Pedro, fiscalista, ho veu clar: aquesta carta té lletra petita.");
+  T("Esa carta no cuadra. Pedro la repasa con lupa y encuentra el error en la nota al pie.", "Aquesta carta no quadra. En Pedro la repassa amb lupa i troba l'error a la nota al peu.");
+  T("Pedro es un gran fiscalista y, en sus ratos libres, un crack de la Mnemónica: se sabe las 52 cartas y la letra pequeña de cada una.", "En Pedro és un gran fiscalista i, en estones lliures, un crack de la Mnemònica: se sap les 52 cartes i la lletra petita de cadascuna.");
+  T("Pedro lleva los 52 naipes en la cabeza y los papeles en orden. Las dos cosas, sin errores.", "En Pedro porta les 52 cartes al cap i els papers en ordre. Les dues coses, sense errors.");
+  T("Santi se pone el disfraz de dragón y aplaude con las alas. Un Piff the Magic Dragon de bazar: menos lentejuelas, mucho más cariño.", "En Santi es posa la disfressa de drac i aplaudeix amb les ales. Un Piff the Magic Dragon de basar: menys lluentons, molt més carinyo.", "Santi se pone el disfraz de dragón y aplaude con las alas. Un Piff the Magic Dragon edición Once: menos lentejuelas, mucho más cariño.");
+  T("Profe de ingeniería (siempre con baraja)", "Profe d'enginyeria (sempre amb baralla)");
+  T("Carlos, el canario, saca la baraja del bolsillo.", "En Carlos, el canari, treu la baralla de la butxaca.");
+  T("Pedro lo revisa: sin letra pequeña.", "En Pedro ho revisa: sense lletra petita.");
+  T("Carlos, profe de ingeniería: «Suspenso, con recuperación».", "En Carlos, profe d'enginyeria: «Suspens, amb recuperació».");
+  T("Pedro: esa carta tiene letra pequeña.", "En Pedro: aquesta carta té lletra petita.");
+  T("Tiempo. Carlos, el canario, ya ha sacado otra baraja.", "Temps. En Carlos, el canari, ja ha tret una altra baralla.");
+  T("Ocho seguidas: ya puedes salir en el cartel.", "Vuit seguides: ja pots sortir al cartell.");
+  T("Carlos, el canario", "En Carlos, el canari");
+}
 
 /* ===================== LA ESCALERA 13 → 26 → 52 · CÓMO PRACTICAR · FUENTES · CÓMO FUNCIONA ===================== */
 // Los métodos se describen con palabras propias a partir de los volúmenes I y II de Tamariz. Las posiciones, las fórmulas
@@ -5172,7 +5441,7 @@ const PKQ = {
   ],
   fine: [
     H('«Pecador de la pradera»: multa al canto y la carta, enseñada.', '«Pecador de la pradera»: multa al moment i la carta, ensenyada.'),
-    H('Error de memoria: la peña lo cobra a tocateja.', 'Error de memòria: la penya ho cobra a tocateja.'),
+    H('Error de memoria: la peña lo anota y no se le olvida.', 'Error de memòria: la penya ho anota i no s\'oblida.'),
     H('«No puedor»: tú, la memoria o las dos cosas. Multa.', '«No puedor»: tu, la memòria o les dues coses. Multa.', '«No puedor»: vos, la memoria o las dos cosas. Multa.'),
     H('Esa carta se te ha escapado. La Banca ya está contando tu dinero.', 'Aquesta carta se t\'ha escapat. La Banca ja està comptant els teus diners.', 'Esa carta se te escapó. La Banca ya está contando tu plata.'),
     H('Se ha matao Paco… y tú, de paso, un par de fichas.', 'Se ha matao Paco… i tu, de passada, un parell de fitxes.', 'Se mató Paco… y vos, de paso, un par de fichas.'),
@@ -5717,7 +5986,7 @@ function pathHTML() {
     { ic: '🎴', t: L('Haz magia con ella', 'Fes màgia amb ella'), d: L('Juegos de 13, 26 y 52 cartas con efecto, guion, pasos y salidas si falla. Marca los que hagas con una persona.', 'Jocs de 13, 26 i 52 cartes amb efecte, guió, passos i sortides si falla. Marca els que facis amb una persona.'), p: st.done / st.gs, x: L(`${st.done} de ${st.gs} probados con personas`, `${st.done} de ${st.gs} provats amb persones`), go: 'go-juegos', ex: '', done: st.s3, cta: L('Ver los juegos', 'Veure els jocs'), links: '' },
     { ic: '🧭', t: L('Aprende a memorizar', 'Aprèn a memoritzar'), d: L('Los métodos de Tamariz y otros (historias, palacio de la memoria, sistema mayor) y cuál elegir.', 'Els mètodes de Tamariz i d\'altres (històries, palau de la memòria, sistema major) i quin triar.'), p: null, x: '', go: 'go-practica', ex: '', done: false, cta: L('Elegir método', 'Triar mètode'), links: '' },
     { ic: '🎩', t: L('Cultura mágica', 'Cultura màgica'), d: L('Quién ordenó qué y cuándo, barajas ordenadas comparadas, libros y fuentes.', 'Qui va ordenar què i quan, baralles ordenades comparades, llibres i fonts.'), p: null, x: '', go: 'go-rincon', ex: '', done: false, cta: L('Entrar al camerino', 'Entrar al camerino'),
-      links: `<div class="stg-l">${lk('⚖️', L('Barajas comparadas', 'Baralles comparades'), 'go-comparar')}${lk('📚', L('Fuentes', 'Fonts'), 'go-fuentes')}${lk('🍺', L('Sala del cachondeo', 'Sala del cachondeig'), 'go-cachondeo')}</div>` }
+      links: `<div class="stg-l">${lk('⚖️', L('Barajas comparadas', 'Baralles comparades'), 'go-comparar')}${lk('📚', L('Fuentes', 'Fonts'), 'go-fuentes')}${lk('🍺', L('Sala del cachondeo', 'Sala del cachondeig'), 'go-cachondeo')}${lk('📮', L('Buzón de sugerencias', 'Bústia de suggeriments'), 'buzon')}${lk('🃏', L('Tu propia baraja', 'La teva pròpia baralla'), 'go-mia')}</div>` }
   ];
   return `<div class="sec"><h3>${L('Tu camino', 'El teu camí')}</h3><span class="mut small">${L('5 etapas', '5 etapes')}</span></div>
   <div class="path">${stages.map((s, i) => `<div class="stage${st.now === i ? ' now' : ''}${s.done ? ' ok' : ''}">
@@ -6425,7 +6694,7 @@ A['live-leave'] = () => { liveLeave(); closeSheet(); };
 /* ===================== RANKING ONLINE DE AMIT (base de datos compartida del artefacto) =====================
    Una fila por socio en «ranking/<id>». Solo aparece quien se apunta (opt-in). Si la plataforma no ofrece la base de datos
    (archivo abierto fuera de Claude, sin sesión o sin permiso de escritura) la app sigue igual y lo explica. */
-const RK = { db: null, user: null, uid: null, canWrite: null, status: 'off', rows: [], unsub: null, sort: 'xp', tried: false, last: '', busy: false, tm: 0, loadT: 0, at: 0 };
+const RK = { db: null, user: null, uid: null, canWrite: null, status: 'off', rows: [], unsub: null, sort: 'xp', all: false, tried: false, last: '', busy: false, tm: 0, loadT: 0, at: 0 };
 const rankHas = () => !!(window.claude && typeof window.claude.use === 'function');
 const rankWithTimeout = (p, ms = 10000) => Promise.race([p, new Promise(res => setTimeout(() => res(null), ms))]);
 function rankState() { return { on: !!(S && S.set && S.set.rank), status: RK.status }; }
@@ -6488,16 +6757,20 @@ async function rankLeave() {
 // Solo se hace una vez por cuenta y dispositivo: si luego sale, no se le vuelve a apuntar.
 async function rankAuto() {
   if (!FB.web || !FB.user || !S || !S.set) return;
-  if (S.set.rank || S.set.rankOut || !S.onboarded || !(S.name || '').trim()) return;
+  if (S.set.rank || S.set.rankOut || !S.onboarded) return;   // sin nombre también se apunta («Mago anónimo»): quien pulsa «Saltar» en la bienvenida no se queda fuera
   if (RK.status === 'off' && !RK.tried) await rankInit();
   if (!FB.user || !RK.db || !RK.uid || RK.canWrite === false || S.set.rank) return;
   S.set.rank = true; save(); await rankPush(true);
   if (RK.err) { S.set.rank = false; save(); rankPaint(); return; }   // p. ej. reglas aún sin publicar: no se da por apuntado
   rankPaint(); if (FB.rkNow) FB.rkNow();
-  toast(L('Ya estás en el ranking de AMIT como «' + S.name + '». Puedes cambiar el nombre en Perfil o salir desde Retos.', 'Ja ets al rànquing d\'AMIT com a «' + S.name + '». Pots canviar el nom a Perfil o sortir des de Reptes.'), 4200);
+  const nm = (S.name || '').trim();
+  toast(nm
+    ? L('Ya estás en el ranking de AMIT como «' + nm + '». Puedes cambiar el nombre en Perfil o salir desde Retos.', 'Ja ets al rànquing d\'AMIT com a «' + nm + '». Pots canviar el nom a Perfil o sortir des de Reptes.')
+    : L('Ya estás en el ranking de AMIT como «Mago anónimo». Ponle nombre a tu mago en Perfil o sal desde Retos.', 'Ja ets al rànquing d\'AMIT com a «Mago anònim». Posa nom al teu mag a Perfil o surt des de Reptes.'), 4800);
 }
 A['rank-leave'] = async () => { await rankLeave(); rankPaint(); if (FB.web && FB.rkNow) FB.rkNow(); toast('Tu fila se ha retirado del ranking'); };
 A['rank-load'] = () => { rankInit(); rankPaint(); };
+A['rank-all'] = () => { RK.all = !RK.all; rankPaint(); };
 A['rank-sort'] = el => { RK.sort = el.dataset.v; rankPaint(); };
 A['rank-refresh'] = () => { if (RK.status === 'error' || RK.status === 'slow') { RK.unsub = null; rankSubscribe(); } rankPush(true); };
 
@@ -6511,10 +6784,11 @@ function rankHTML() {
   else if (st === 'loading') body = '<p class="small mut">Cargando el ranking…</p>';
   else if (st === 'error') body = '<p class="small mut">No se ha podido leer el ranking ahora mismo.</p><button class="btn sm" data-a="rank-refresh">Reintentar</button>';
   else {
-    const rows = rankOrder(), top = rows.slice(0, 15), me = rows.findIndex(r => r.id === RK.uid);
+    const rows = rankOrder(), full = FB.web && RK.all, top = full ? rows : rows.slice(0, 15), me = rows.findIndex(r => r.id === RK.uid);
     const line = (r, i) => `<div class="r${r.id === RK.uid ? ' me' : ''}"><span class="p">${medal[i] || i + 1}</span><span class="av">${esc(r.av || '🎩')}</span><div style="flex:1;min-width:0"><b>${esc(r.n || 'Mago')}</b><div class="small mut">${r.m}/52 dominadas · racha ${r.b || 0} d</div></div><span class="pt">${r.xp}</span></div>`;
     body = `<div class="pills" role="group" aria-label="Ordenar">${[['xp', 'Family points'], ['m', 'Cartas dominadas']].map(([v, l]) => `<button class="pill" data-a="rank-sort" data-v="${v}" aria-pressed="${RK.sort === v}">${l}</button>`).join('')}</div>
-      ${top.length ? `<div class="hall rank">${top.map(line).join('')}${me >= 15 ? `<div class="gapline">…</div>${line(rows[me], me)}` : ''}</div>` : '<p class="small mut">Todavía no hay nadie apuntado. ¡Sé el primero!</p>'}
+      ${top.length ? `<div class="hall rank">${top.map(line).join('')}${me >= 15 && !full ? `<div class="gapline">…</div>${line(rows[me], me)}` : ''}</div>` : '<p class="small mut">Todavía no hay nadie apuntado. ¡Sé el primero!</p>'}
+      ${FB.web && rows.length > 15 ? `<button class="btn sm block mt" data-a="rank-all">${full ? L('Ver solo los 15 primeros', 'Veure només els 15 primers') : L('Ver los ' + rows.length + ' apuntados', 'Veure els ' + rows.length + ' apuntats')}</button>` : ''}
       ${st === 'slow' ? '<p class="tiny mut">Tarda más de lo normal: puede que no sea la última clasificación.</p>' : ''}`;
     const roNote = !joined && (!RK.uid || RK.canWrite === false);
     if (roNote) body += `<p class="small mut mt">${L('Estás viendo el ranking como visitante: puedes leerlo, pero para apuntarte hace falta permiso de colaborador. Pídeselo al organizador de la peña. Mientras tanto, el Duelo con código y la Clasificación de la peña funcionan sin cuenta.', 'Estàs veient el rànquing com a visitant: el pots llegir, però per apuntar-t\'hi cal permís de col·laborador. Demana-l\'hi a l\'organitzador de la penya. Mentrestant, el Duel amb codi i la Classificació de la penya funcionen sense compte.')}</p>`;
@@ -6913,6 +7187,282 @@ if (FB.web) {
   window.addEventListener('pagehide', () => { if (S && S.set && S.set.rank && RK.db) rankPush(); });
 }
 
+/* ===================== BUZÓN DE SUGERENCIAS =====================
+   En la web propia (con sesión) la sugerencia se guarda en «suggestions/<id aleatorio>» de Firestore: las reglas solo dejan
+   CREAR (no leer ni editar), así que solo la ve quien administra, desde la consola de Firebase. No se guarda la cuenta ni el
+   correo: es anónima salvo que la persona firme con su nombre de mago. Sin sesión (o dentro de Claude) quedan dos salidas
+   que no necesitan servidor: enviarla por WhatsApp o copiarla. */
+const BZ = { k: 'idea', t: 0, n: 0 };
+const BZ_K = [['idea', '💡', 'Idea', 'Idea'], ['fallo', '🐞', 'Algo falla', 'Alguna cosa falla'], ['chiste', '🤭', 'Chiste o pulla', 'Acudit o pulla'], ['otro', '📮', 'Otra cosa', 'Una altra cosa']];
+const bzCan = () => !!(FB.web && FB.user && FB.F && FB.fs && typeof fbDbObj !== 'undefined');
+const bzKindLabel = k => { const x = BZ_K.find(q => q[0] === k) || BZ_K[3]; return L(x[2], x[3]); };
+function bzId() {
+  try { return Array.from(crypto.getRandomValues(new Uint8Array(10)), b => b.toString(36).padStart(2, '0')).join(''); }
+  catch (e) { return Date.now().toString(36) + Math.random().toString(36).slice(2, 12); }
+}
+function bzMsg(t) { const m = $('#bzm'); if (!m) return; m.textContent = t || ''; m.hidden = !t; if (t && m.scrollIntoView) m.scrollIntoView({ block: 'nearest' }); }
+const bzText = () => (($('#bzx') && $('#bzx').value) || '').trim();
+const bzSigned = () => { const c = $('#bzs'); return !!(c && c.checked && (S.name || '').trim()); };
+function bzShare() {
+  const x = bzText(), n = bzSigned() ? '\n— ' + S.name.trim().slice(0, 18) : '';
+  return `📮 ${L('Sugerencia para Mnemónica AMIT', 'Suggeriment per a Mnemònica AMIT')} (${bzKindLabel(BZ.k)})\n\n${x}${n}`;
+}
+A.buzon = () => {
+  const can = bzCan(), nm = (S.name || '').trim();
+  openSheet(`<h3>📮 ${L('Buzón de sugerencias', 'Bústia de suggeriments')}</h3>
+  <p class="small mut" style="margin:0">${L('Ideas, fallos, chistes que faltan y bromas que sobran. Se leen todas. Y si tienes un chiste de la peña que no ofenda a nadie, mejor todavía.', 'Idees, errors, acudits que falten i bromes que sobren. Es llegeixen totes. I si tens un acudit de la penya que no ofengui ningú, encara millor.')}</p>
+  <div class="fchips mt" id="bzk" role="group" aria-label="${L('Tipo', 'Tipus')}">${BZ_K.map(([k, ic, es, ca]) => `<button class="fchip" data-a="bz-kind" data-k="${k}" aria-pressed="${BZ.k === k}">${ic} ${L(es, ca)}</button>`).join('')}</div>
+  <div class="field"><label for="bzx">${L('Tu mensaje', 'El teu missatge')}</label><textarea id="bzx" rows="5" maxlength="500" placeholder="${esc(L('Escribe aquí…', 'Escriu aquí…'))}"></textarea><div class="tiny mut" id="bzc" style="text-align:right">0/500</div></div>
+  ${nm ? `<label class="small" style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="bzs"> ${L('Firmar con mi nombre de mago', 'Signar amb el meu nom de mag')} («${esc(nm)}»)</label>` : ''}
+  <blockquote class="warn" id="bzm" role="alert" hidden></blockquote>
+  <div class="gap mt">
+    ${can ? `<button class="btn brass block" data-a="bz-send">${L('Enviar al buzón', 'Enviar a la bústia')}</button>` : `<p class="small mut" style="margin:0">${FB.web ? L('Para dejarla en el buzón, entra antes con tu cuenta (Perfil → «Entrar para guardar en la nube»). Mientras tanto puedes mandarla por WhatsApp.', 'Per deixar-la a la bústia, entra abans amb el teu compte (Perfil → «Entrar per desar al núvol»). Mentrestant la pots enviar per WhatsApp.') : L('Aquí no hay buzón en línea: puedes mandarla por WhatsApp o copiarla y pegarla donde quieras.', 'Aquí no hi ha bústia en línia: la pots enviar per WhatsApp o copiar-la i enganxar-la on vulguis.')}</p>`}
+    <div class="row wrap"><button class="btn sm sp" data-a="bz-wa">💬 ${L('Enviar por WhatsApp', 'Enviar per WhatsApp')}</button><button class="btn sm sp" data-a="bz-copy">${L('Copiar', 'Copiar')}</button></div>
+  </div>
+  <p class="tiny mut" style="margin:10px 0 0">${can ? L('El buzón es anónimo salvo que firmes: no se guarda tu cuenta ni tu correo. Lo lee quien administra la app.', 'La bústia és anònima tret que signis: no es desa el teu compte ni el teu correu. La llegeix qui administra l\'app.') : L('Por WhatsApp elegirás tú a quién va.', 'Per WhatsApp triaràs tu a qui va.')}</p>`);
+  const x = $('#bzx'); if (x) x.addEventListener('input', () => { const c = $('#bzc'); if (c) c.textContent = x.value.length + '/500'; });
+};
+A['bz-kind'] = el => { BZ.k = el.dataset.k; $$('#bzk .fchip').forEach(b => b.setAttribute('aria-pressed', b === el ? 'true' : 'false')); };
+A['bz-send'] = async () => {
+  const x = bzText();
+  if (x.length < 5) return bzMsg(L('Escribe algo más: mínimo cinco letras.', 'Escriu una mica més: mínim cinc lletres.'));
+  if (!bzCan()) return bzMsg(L('Ahora mismo no hay conexión con el buzón. Usa WhatsApp o copia el texto.', 'Ara mateix no hi ha connexió amb la bústia. Fes servir WhatsApp o copia el text.'));
+  if (Date.now() - BZ.t < 45000) return bzMsg(L('Acabas de enviar una. Espera un momentito antes de mandar otra.', 'Acabes d\'enviar-ne una. Espera un momentet abans d\'enviar-ne una altra.'));
+  if (BZ.n >= 5) return bzMsg(L('Ya van cinco en esta sesión: el buzón necesita un respiro. Vuelve más tarde.', 'Ja en van cinc en aquesta sessió: la bústia necessita respirar. Torna més tard.'));
+  const doc = { k: BZ.k, x: x.slice(0, 500), n: bzSigned() ? S.name.trim().slice(0, 18) : '', t: Date.now(), v: 1 };
+  const b = $('[data-a=bz-send]'); if (b) b.disabled = true;
+  try {
+    await fbDbObj.doc('suggestions/' + bzId()).set(doc);
+    BZ.t = Date.now(); BZ.n++; S.stats.bz = (S.stats.bz | 0) + 1; save();
+    closeSheet(); toast(L('¡Gracias! Tu sugerencia ya está en el buzón.', 'Gràcies! El teu suggeriment ja és a la bústia.'), 3200);
+  } catch (e) {
+    if (b) b.disabled = false;
+    bzMsg(L('No se ha podido enviar (' + ((e && e.code) || 'error') + '). Prueba más tarde o mándala por WhatsApp.', 'No s\'ha pogut enviar (' + ((e && e.code) || 'error') + '). Prova-ho més tard o envia-la per WhatsApp.'));
+  }
+};
+A['bz-wa'] = () => {
+  if (bzText().length < 5) return bzMsg(L('Escribe algo más: mínimo cinco letras.', 'Escriu una mica més: mínim cinc lletres.'));
+  const u = 'https://wa.me/?text=' + encodeURIComponent(bzShare());
+  let w = null; try { w = window.open(u, '_blank', 'noopener'); } catch (e) { }
+  if (!w) { copyText(bzShare()); bzMsg(L('No he podido abrir WhatsApp desde aquí; he copiado el mensaje: pégalo en el grupo.', 'No he pogut obrir WhatsApp des d\'aquí; he copiat el missatge: enganxa\'l al grup.')); }
+};
+A['bz-copy'] = () => { if (bzText().length < 5) return bzMsg(L('Escribe algo más: mínimo cinco letras.', 'Escriu una mica més: mínim cinc lletres.')); copyText(bzShare()); };
+
+/* ===================== TU PROPIA BARAJA (práctica aparte) =====================
+   La Mnemónica Tamariz sigue siendo lo principal. Esto es una zona aparte para quien ya tiene (o está montando) su propio
+   orden de 52 cartas: se carga pegándolo, montándolo carta a carta o con el código de otro socio, y se practica
+   posición → carta, carta → posición y «la que va después». No da family points, no cuenta para el ranking y no toca el
+   progreso de la Mnemónica. El orden y su práctica viajan con el resto del progreso (S.mine). */
+const MB = { buf: [], ses: null };
+const MB_SN = { C: ['tréboles', 'trèvols'], D: ['rombos', 'rombes'], H: ['corazones', 'cors'], S: ['picas', 'piques'] };
+const MB_CODES = SUITS.flatMap(s => RANKS.map(r => r + s));
+const mbDeck = () => (S.mine && Array.isArray(S.mine.o) && S.mine.o.length === 52 ? S.mine.o : null);
+const mbSym = c => c.slice(0, -1) + SUIT_SYM[c.slice(-1)];
+const mbRed = c => /[DH]$/.test(c);
+const mbTag = c => `<b class="${mbRed(c) ? 'rd' : ''}">${esc(mbSym(c))}</b>`;
+const mbFace = (c, w) => `<span class="pc" style="--w:${w || 64}px">${faceSVG(c)}</span>`;
+const mbK = p => ((S.mine && S.mine.k && S.mine.k[p]) | 0);
+const mbKnown = () => { let n = 0; for (let p = 1; p <= 52; p++) if (mbK(p) >= 4) n++; return n; };
+const mbText = codes => codes.map(mbSym).join(' ');
+
+/* ---------- Leer un orden pegado (símbolos, letras en inglés, palabras, o código de socio) ---------- */
+const MB_RANK = { as: 'A', ace: 'A', a: 'A', uno: 'A', jota: 'J', sota: 'J', jack: 'J', valet: 'J', j: 'J', reina: 'Q', dama: 'Q', queen: 'Q', q: 'Q', rey: 'K', king: 'K', k: 'K', dos: '2', tres: '3', cuatro: '4', cinco: '5', seis: '6', siete: '7', ocho: '8', nueve: '9', diez: '10' };
+const mbSuitOf = w => /^trebol|^club/.test(w) ? 'C' : /^rombo|^diamant|^diamond/.test(w) ? 'D' : /^coraz|^heart/.test(w) ? 'H' : /^pica|^spade/.test(w) ? 'S' : w.toUpperCase();
+const MB_RX = /(?<![a-z0-9])(10|[2-9]|as|ace|jota|sota|jack|valet|reina|dama|queen|rey|king|uno|dos|tres|cuatro|cinco|seis|siete|ocho|nueve|diez|[ajqk])\s*(?:(?:de|of)\s+)?(treboles?|rombos?|diamantes?|diamonds?|corazon(?:es)?|hearts?|picas?|spades?|clubs?)(?![a-z])|(?<![a-z0-9])(10|[2-9]|[ajqk])([cdhs])(?![a-z0-9])/g;
+function mbCheck(codes, name, rest) {
+  const uniq = [...new Set(codes)], dup = codes.filter((c, i) => codes.indexOf(c) !== i), miss = MB_CODES.filter(c => !uniq.includes(c));
+  return { ok: codes.length === 52 && uniq.length === 52, codes, uniq, dup: [...new Set(dup)], miss, name: name || '', rest: rest || [] };
+}
+function mbParse(txt) {
+  let t = String(txt || '');
+  const m1 = t.match(/MB1\|([^|]*)\|([A-Za-z0-9]{104})/);
+  if (m1) {
+    const s = m1[2].toUpperCase(), out = [];
+    for (let i = 0; i < 104; i += 2) out.push((s[i] === 'T' ? '10' : s[i]) + s[i + 1]);
+    return mbCheck(out.filter(c => MB_CODES.includes(c)), m1[1].trim().slice(0, 24));
+  }
+  t = t.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+  t = t.replace(/[♣♧]/g, ' treboles ').replace(/[♦♢]/g, ' rombos ').replace(/[♥♡]/g, ' corazones ').replace(/[♠♤]/g, ' picas ');
+  t = t.replace(/^\s*\d{1,2}\s*[.):\-–]\s+/gm, '');
+  const codes = []; let m; MB_RX.lastIndex = 0;
+  while ((m = MB_RX.exec(t))) {
+    const rw = m[1] || m[3], sw = m[2] || m[4], r = /^\d+$/.test(rw) ? rw : MB_RANK[rw], s = mbSuitOf(sw);
+    if (r && s.length === 1 && 'CDHS'.includes(s)) codes.push(r + s);
+  }
+  const rest = t.replace(MB_RX, ' ').replace(/\b(de|of|y|and)\b/g, ' ').replace(/[^a-z0-9]+/g, ' ').trim().split(' ').filter(Boolean);
+  return mbCheck(codes, '', rest);
+}
+function mbShareCode(name, codes) { return 'MB1|' + (name || 'Mi baraja').replace(/\|/g, ' ').slice(0, 24) + '|' + codes.map(c => (c.slice(0, -1) === '10' ? 'T' : c.slice(0, -1)) + c.slice(-1)).join(''); }
+function mbDiag(r) {
+  const n = r.codes.length, u = r.uniq.length;
+  let s = L(`He entendido ${n} cartas (${u} distintas). Hacen falta 52 distintas.`, `He entès ${n} cartes (${u} de diferents). Calen 52 de diferents.`);
+  if (r.dup.length) s += ' ' + L('Repetidas: ', 'Repetides: ') + r.dup.slice(0, 8).map(mbSym).join(' ') + '.';
+  if (r.miss.length && r.miss.length <= 12) s += ' ' + L('Faltan: ', 'Falten: ') + r.miss.map(mbSym).join(' ') + '.';
+  else if (r.miss.length) s += ' ' + L(`Faltan ${r.miss.length} cartas.`, `Falten ${r.miss.length} cartes.`);
+  if (r.rest.length) s += ' ' + L('No he entendido: ', 'No he entès: ') + r.rest.slice(0, 5).map(x => '«' + x + '»').join(' ') + (r.rest.length > 5 ? '…' : '') + '.';
+  return s;
+}
+
+/* ---------- Entrada y portada ---------- */
+A['go-mia'] = () => go('learn', 'mia');
+const mbBack = `<button class="ibtn" data-a="back" data-tab="learn" aria-label="${'Volver'}">‹</button>`;
+ROUTES['learn:mia'] = () => {
+  const d = mbDeck();
+  if (!d) return `<div class="row mt">${mbBack}<h2 style="margin:0">${L('Tu propia baraja', 'La teva pròpia baralla')}</h2></div>
+  <p class="mut">${L('Una zona aparte para quien ya tiene su propio orden de 52 cartas (o lo está montando). La Mnemónica sigue siendo lo principal; esto es solo una pista de ensayo.', 'Una zona a part per a qui ja té el seu propi ordre de 52 cartes (o el està muntant). La Mnemònica continua sent el principal; això és només una pista d\'assaig.')}</p>
+  <div class="panel stitch"><p class="small" style="margin:0 0 6px">${L('Cargas tu orden y practicas con él las mismas pruebas de siempre: <b>posición → carta</b>, <b>carta → posición</b> y <b>la que va después</b>.', 'Carregues el teu ordre i hi practiques les mateixes proves de sempre: <b>posició → carta</b>, <b>carta → posició</b> i <b>la que va després</b>.')}</p>
+  <p class="tiny mut" style="margin:0">${L('No da family points, no cuenta para el ranking y no toca tu progreso de la Mnemónica.', 'No dóna family points, no compta per al rànquing i no toca el teu progrés de la Mnemònica.')}</p></div>
+  <div class="gap mt"><button class="btn brass block" data-a="mb-paste">✍️ ${L('Pegar mi orden', 'Enganxar el meu ordre')}</button><button class="btn block" data-a="mb-build">🧩 ${L('Montarlo carta a carta', 'Muntar-lo carta a carta')}</button><button class="btn block" data-a="mb-paste">📥 ${L('Tengo un código de otro socio', 'Tinc un codi d\'un altre soci')}</button></div>`;
+  const k = mbKnown();
+  return `<div class="row mt">${mbBack}<h2 style="margin:0">${esc(S.mine.name || 'Mi baraja')}</h2></div>
+  <p class="mut small">${L('Práctica aparte de la Mnemónica: no suma family points ni ranking.', 'Pràctica a part de la Mnemònica: no suma family points ni rànquing.')}</p>
+  <div class="panel stitch"><div class="row"><b>${L('Dominadas', 'Dominades')}: ${k}/52</b></div><div class="mbar" style="height:9px" role="img" aria-label="${k}/52"><i style="width:${Math.round(100 * k / 52)}%"></i></div></div>
+  <div class="gap mt">
+    <button class="mode" data-a="mb-go" data-m="p2c"><span class="ic">🔢</span><span><b>${L('Posición → carta', 'Posició → carta')}</b><span>${L('Te doy un número, tú dices qué carta es.', 'Et dono un número, tu dius quina carta és.')}</span></span></button>
+    <button class="mode" data-a="mb-go" data-m="c2p"><span class="ic">🃏</span><span><b>${L('Carta → posición', 'Carta → posició')}</b><span>${L('Te enseño una carta, tú dices en qué número está.', 'Et ensenyo una carta, tu dius en quin número és.')}</span></span></button>
+    <button class="mode" data-a="mb-go" data-m="nxt"><span class="ic">➡️</span><span><b>${L('La que va después', 'La que va després')}</b><span>${L('Te enseño una carta, tú dices cuál le sigue.', 'Et ensenyo una carta, tu dius quina la segueix.')}</span></span></button>
+  </div>
+  <div class="row wrap mt2"><button class="btn sm" data-a="mb-view">👁️ ${L('Ver mi orden', 'Veure el meu ordre')}</button><button class="btn sm" data-a="mb-share">📤 ${L('Compartir', 'Compartir')}</button><button class="btn sm" data-a="mb-edit">✎ ${L('Cambiar el orden', 'Canviar l\'ordre')}</button><button class="btn sm red" data-a="mb-del">🗑️ ${L('Borrar', 'Esborrar')}</button></div>
+  <div id="mbv"></div>`;
+};
+
+/* ---------- Pegar / editar ---------- */
+function mbPasteSheet(prefill, nm) {
+  openSheet(`<h3>✍️ ${L('Tu orden de 52 cartas', 'El teu ordre de 52 cartes')}</h3>
+  <p class="small mut" style="margin:0">${L('Pega las 52 cartas de la primera (arriba) a la última. También vale el código que te haya pasado otro socio.', 'Enganxa les 52 cartes de la primera (a dalt) a l\'última. També val el codi que t\'hagi passat un altre soci.')}</p>
+  <div class="field"><label for="mbn0">${L('Nombre', 'Nom')}</label><input id="mbn0" type="text" maxlength="24" value="${esc(nm || 'Mi baraja')}"></div>
+  <div class="field"><label for="mbt">${L('Tu orden', 'El teu ordre')}</label><textarea id="mbt" rows="6" placeholder="4♣ 2♥ 7♦ 3♣ …">${esc(prefill || '')}</textarea></div>
+  <details class="basic"><summary><span class="fi">ℹ️</span><span>${L('Formatos que entiendo', 'Formats que entenc')}</span></summary><div class="bx"><p class="small">${L('Con símbolos: <b>4♣ 2♥ 7♦ A♠ 10♥ K♦</b>.<br>Con letras en inglés: <b>4C 2H 7D AS 10H KD</b> (C=♣ D=♦ H=♥ S=♠).<br>Con palabras: <b>cuatro de tréboles, as de picas, reina de corazones</b>.<br>Sirve separar con espacios, comas o una carta por línea.', 'Amb símbols: <b>4♣ 2♥ 7♦ A♠ 10♥ K♦</b>.<br>Amb lletres en anglès: <b>4C 2H 7D AS 10H KD</b> (C=♣ D=♦ H=♥ S=♠).<br>Amb paraules: <b>quatre de trèvols, as de piques</b>, escrit en castellà o en anglès.<br>Serveix separar amb espais, comes o una carta per línia.')}</p></div></details>
+  <blockquote class="warn" id="mbm" role="alert" hidden></blockquote>
+  <div class="gap mt"><button class="btn brass block" data-a="mb-load">${L('Cargar', 'Carregar')}</button><button class="btn block" data-a="mb-build">🧩 ${L('Prefiero montarlo carta a carta', 'Prefereixo muntar-lo carta a carta')}</button></div>`);
+}
+A['mb-paste'] = () => mbPasteSheet('', '');
+A['mb-edit'] = () => { const d = mbDeck(); mbPasteSheet(d ? mbText(d) : '', S.mine && S.mine.name); };
+A['mb-load'] = () => {
+  const r = mbParse(($('#mbt') && $('#mbt').value) || ''), m = $('#mbm');
+  const nm = (($('#mbn0') && $('#mbn0').value) || '').trim().slice(0, 24) || r.name || 'Mi baraja';
+  if (!r.ok) {
+    MB.pending = r.uniq.slice();
+    if (m) { m.innerHTML = esc(mbDiag(r)) + (r.uniq.length ? `<br><button class="btn sm mt" data-a="mb-cont">${esc(L(`Seguir en el selector con las ${r.uniq.length} cartas buenas`, `Seguir al selector amb les ${r.uniq.length} cartes bones`))}</button>` : ''); m.hidden = false; }
+    return;
+  }
+  const same = mbDeck() && mbDeck().join() === r.codes.join();
+  S.mine = { name: nm, o: r.codes.slice(), k: same ? (S.mine.k || {}) : {} };
+  save(); closeSheet(); toast(L('Baraja cargada: ya puedes practicar.', 'Baralla carregada: ja pots practicar.'), 2600); go('learn', 'mia');
+};
+A['mb-cont'] = () => { MB.buf = (MB.pending || []).slice(); closeSheet(); go('learn', 'miab'); };
+
+/* ---------- Montarlo carta a carta ---------- */
+A['mb-build'] = () => { if (!MB.buf || MB.buf.length >= 52) MB.buf = []; closeSheet(); go('learn', 'miab'); };
+function mbBuildHTML() {
+  const b = MB.buf, n = b.length, used = new Set(b), li = LANG === 'ca' ? 1 : 0;
+  const grp = SUITS.map(s => `<div class="small mut" style="margin:10px 0 4px">${SUIT_SYM[s]} ${MB_SN[s][li]}</div><div class="kcs">${RANKS.map(r => { const c = r + s; return `<button class="kc${mbRed(c) ? ' red' : ''}" data-a="mb-add" data-c="${c}"${used.has(c) ? ' disabled' : ''} aria-label="${esc(cLong(CARDS[POS[c] - 1]))}">${r}${SUIT_SYM[s]}</button>`; }).join('')}</div>`).join('');
+  const last = b.slice(-8).map((c, i) => `<span class="mbc">${mbTag(c)}</span>`).join('');
+  const done = n === 52;
+  return `<div id="mbb"><div class="panel stitch"><div class="row"><b>${done ? L('¡Las 52!', 'Les 52!') : L(`Carta n.º ${n + 1} de 52`, `Carta núm. ${n + 1} de 52`)}</b><span class="sp"></span><span class="mut small">${n}/52</span></div><div class="mbar" style="height:8px"><i style="width:${Math.round(100 * n / 52)}%"></i></div>
+    <div class="mbl" aria-live="polite">${n > 8 ? '<span class="mut">…</span>' : ''}${last || `<span class="mut small">${L('Pulsa las cartas por orden, de la primera a la última.', 'Prem les cartes per ordre, de la primera a l\'última.')}</span>`}</div>
+    <div class="row wrap mt"><button class="btn sm" data-a="mb-undo"${n ? '' : ' disabled'}>↩︎ ${L('Deshacer', 'Desfer')}</button><button class="btn sm" data-a="mb-clear"${n ? '' : ' disabled'}>${L('Vaciar', 'Buidar')}</button></div></div>
+  ${done ? `<div class="panel stitch mt"><div class="field" style="margin-top:0"><label for="mbname">${L('Nombre de la baraja', 'Nom de la baralla')}</label><input id="mbname" type="text" maxlength="24" value="${esc((S.mine && S.mine.name) || 'Mi baraja')}"></div><button class="btn brass block" data-a="mb-save">${L('Guardar mi baraja', 'Desar la meva baralla')}</button></div>` : ''}
+  ${grp}</div>`;
+}
+ROUTES['learn:miab'] = () => `<div class="row mt"><button class="ibtn" data-a="back" data-tab="learn" data-sub="mia" aria-label="Volver">‹</button><h2 style="margin:0">${L('Montar tu orden', 'Muntar el teu ordre')}</h2></div>${mbBuildHTML()}`;
+const mbRepaintB = () => { const b = $('#mbb'); if (b) b.outerHTML = mbBuildHTML(); };
+A['mb-add'] = el => { const c = el.dataset.c; if (MB.buf.length < 52 && !MB.buf.includes(c)) MB.buf.push(c); mbRepaintB(); };
+A['mb-undo'] = () => { MB.buf.pop(); mbRepaintB(); };
+A['mb-clear'] = () => { MB.buf = []; mbRepaintB(); };
+A['mb-save'] = () => {
+  if (MB.buf.length !== 52) return;
+  const nm = (($('#mbname') && $('#mbname').value) || '').trim().slice(0, 24) || 'Mi baraja';
+  const same = mbDeck() && mbDeck().join() === MB.buf.join();
+  S.mine = { name: nm, o: MB.buf.slice(), k: same ? (S.mine.k || {}) : {} }; MB.buf = [];
+  save(); toast(L('Baraja guardada: ya puedes practicar.', 'Baralla desada: ja pots practicar.'), 2600); go('learn', 'mia');
+};
+
+/* ---------- Ver, compartir, borrar ---------- */
+A['mb-view'] = () => {
+  const d = mbDeck(), box = $('#mbv'); if (!d || !box) return;
+  if (box.innerHTML) { box.innerHTML = ''; return; }
+  box.innerHTML = `<div class="sec"><h3>${L('Tu orden', 'El teu ordre')}</h3></div><div class="mbgrid">${d.map((c, i) => `<div style="background:${levelColor(Math.min(5, mbK(i + 1)))}${mbK(i + 1) ? '' : ';background:rgba(255,255,255,.07)'}"><span class="mut small">${i + 1}</span> ${mbTag(c)}</div>`).join('')}</div>`;
+};
+A['mb-share'] = () => {
+  const d = mbDeck(); if (!d) return;
+  const code = mbShareCode(S.mine.name, d);
+  openSheet(`<h3>📤 ${L('Compartir mi orden', 'Compartir el meu ordre')}</h3>
+  <p class="small mut" style="margin:0">${L('Este código lleva tu orden. Quien lo reciba lo pega en Aprender → Tu propia baraja → «Pegar mi orden».', 'Aquest codi porta el teu ordre. Qui el rebi l\'enganxa a Aprendre → La teva pròpia baralla → «Enganxar el meu ordre».')}</p>
+  <div class="field"><textarea id="mbcode" rows="3" readonly>${esc(code)}</textarea></div>
+  <div class="gap"><button class="btn brass block" data-a="mb-copycode">${L('Copiar el código', 'Copiar el codi')}</button><button class="btn block" data-a="mb-sendcode">💬 ${L('Enviar por WhatsApp', 'Enviar per WhatsApp')}</button></div>`);
+};
+const mbCodeMsg = () => `🃏 ${L('Mi orden de baraja para Mnemónica AMIT', 'El meu ordre de baralla per a Mnemònica AMIT')}\n${$('#mbcode') ? $('#mbcode').value : ''}\n${L('Pégalo en Aprender → Tu propia baraja → «Pegar mi orden».', 'Enganxa\'l a Aprendre → La teva pròpia baralla → «Enganxar el meu ordre».')}`;
+A['mb-copycode'] = () => copyText(mbCodeMsg());
+A['mb-sendcode'] = () => {
+  let w = null; try { w = window.open('https://wa.me/?text=' + encodeURIComponent(mbCodeMsg()), '_blank', 'noopener'); } catch (e) { }
+  if (!w) copyText(mbCodeMsg());
+};
+A['mb-del'] = () => openSheet(`<h3>🗑️ ${L('Borrar tu baraja', 'Esborrar la teva baralla')}</h3><p class="small">${L('Se borra tu orden y lo que llevas practicado con él. No afecta a la Mnemónica.', 'S\'esborra el teu ordre i el que hi portes practicat. No afecta la Mnemònica.')}</p><div class="gap mt"><button class="btn red block" data-a="mb-del-ok">${L('Sí, borrar', 'Sí, esborrar')}</button><button class="btn block" data-a="close">${L('Cancelar', 'Cancel·lar')}</button></div>`);
+A['mb-del-ok'] = () => { S.mine = null; save(); closeSheet(); toast(L('Baraja borrada.', 'Baralla esborrada.'), 2200); go('learn', 'mia'); };
+
+/* ---------- Práctica ---------- */
+A['mb-go'] = el => {
+  const d = mbDeck(); if (!d) return;
+  if (!S.mine.k) S.mine.k = {};
+  const arr = []; for (let p = 1; p <= 52; p++) arr.push({ p, w: 6 - Math.min(5, mbK(p)) });
+  const qs = [];
+  while (qs.length < 10 && arr.length) {
+    let r = Math.random() * arr.reduce((a, x) => a + x.w, 0), j = 0;
+    for (; j < arr.length; j++) { r -= arr[j].w; if (r <= 0) break; }
+    qs.push(arr.splice(Math.min(j, arr.length - 1), 1)[0].p);
+  }
+  MB.ses = { mode: el.dataset.m, qs, i: 0, ok: 0, miss: [], ans: null, pr: null, ps: null, done: false };
+  go('learn', 'miaq');
+};
+const mbQ = () => { const s = MB.ses, d = mbDeck(), p = s.qs[s.i]; return { p, d, s, card: d[p - 1], next: d[nextPos(p) - 1] }; };
+function mbQHTML() {
+  const { p, s, card, next } = mbQ();
+  const head = s.mode === 'p2c' ? `<div class="mbbig">${p}</div><p class="mut" style="margin:0">${L('¿Qué carta está en esta posición?', 'Quina carta és en aquesta posició?')}</p>`
+    : s.mode === 'c2p' ? `<div>${mbFace(card, 92)}</div><p class="mut" style="margin:6px 0 0">${L('¿En qué posición está?', 'En quina posició és?')}</p>`
+      : `<div>${mbFace(card, 92)}</div><p class="mut" style="margin:6px 0 0">${L('¿Qué carta va justo después? (la 52 enlaza con la 1)', 'Quina carta va just després? (la 52 enllaça amb l\'1)')}</p>`;
+  let body;
+  if (s.ans) {
+    const right = s.ans.ok, want = s.mode === 'c2p' ? `${L('Posición', 'Posició')} <b>${p}</b>` : s.mode === 'nxt' ? `${mbTag(next)} (${L('posición', 'posició')} ${nextPos(p)})` : `${mbTag(card)}`;
+    body = `<div class="jk mt"><div class="jk-t">${right ? '✅ ' + L('¡Bien!', 'Ben fet!') : '❌ ' + L('Era', 'Era')} ${want}</div></div><div class="center mt">${s.mode === 'c2p' ? '' : mbFace(s.mode === 'nxt' ? next : card, 64)}</div>
+    <button class="btn brass block mt" data-a="mb-next">${s.i + 1 >= s.qs.length ? L('Ver resultado', 'Veure resultat') : L('Siguiente', 'Següent')}</button>`;
+  } else if (s.mode === 'c2p') {
+    body = `<div class="row mt"><input id="mbnum" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="2" placeholder="1-52" aria-label="${L('Posición', 'Posició')}" autocomplete="off"><button class="btn brass" data-a="mb-ok">OK</button></div>`;
+  } else {
+    body = `<div class="small mut mt">${L('Rango', 'Rang')}</div><div class="kcs">${RANKS.map(r => `<button class="kc" data-a="mb-r" data-v="${r}" aria-pressed="${s.pr === r}">${r}</button>`).join('')}</div>
+    <div class="small mut mt">${L('Palo', 'Pal')}</div><div class="kcs s4">${SUITS.map(c => `<button class="kc${c === 'D' || c === 'H' ? ' red' : ''}" data-a="mb-s" data-v="${c}" aria-pressed="${s.ps === c}" aria-label="${MB_SN[c][LANG === 'ca' ? 1 : 0]}">${SUIT_SYM[c]}</button>`).join('')}</div>`;
+  }
+  return `<div id="mbq" class="panel stitch center">${head}${body}</div>`;
+}
+ROUTES['learn:miaq'] = () => {
+  const s = MB.ses; if (!s || !mbDeck()) return ROUTES['learn:mia']();
+  if (s.done) {
+    return `<div class="row mt"><button class="ibtn" data-a="back" data-tab="learn" data-sub="mia" aria-label="Volver">‹</button><h2 style="margin:0">${L('Resultado', 'Resultat')}</h2></div>
+    <div class="panel stitch center"><div class="mbbig">${s.ok}/${s.qs.length}</div><p class="mut" style="margin:0">${s.ok === s.qs.length ? L('Tu baraja, bajo control.', 'La teva baralla, sota control.') : L('Se van quedando. Las que fallas vuelven antes.', 'Es van quedant. Les que falles tornen abans.')}</p></div>
+    ${s.miss.length ? `<div class="sec"><h3>${L('Para repasar', 'Per repassar')}</h3></div><div class="mbgrid">${s.miss.map(p => `<div><span class="mut small">${p}</span> ${mbTag(mbDeck()[p - 1])}</div>`).join('')}</div>` : ''}
+    <div class="gap mt"><button class="btn brass block" data-a="mb-go" data-m="${s.mode}">${L('Otra ronda', 'Una altra ronda')}</button><button class="btn block" data-a="back" data-tab="learn" data-sub="mia">${L('Volver a mi baraja', 'Tornar a la meva baralla')}</button></div>`;
+  }
+  return `<div class="row mt"><button class="ibtn" data-a="back" data-tab="learn" data-sub="mia" aria-label="Volver">‹</button><h2 style="margin:0">${esc(S.mine.name || 'Mi baraja')}</h2><span class="sp"></span><span class="mut small">${s.i + 1}/${s.qs.length}</span></div>${mbQHTML()}`;
+};
+const mbRepaintQ = () => { const q = $('#mbq'); if (q) q.outerHTML = mbQHTML(); };
+function mbSubmit(ok) {
+  const { p, s } = mbQ(); if (s.ans) return;
+  S.mine.k = S.mine.k || {}; S.mine.k[p] = ok ? Math.min(5, mbK(p) + 1) : 0;
+  s.ans = { ok }; if (ok) s.ok++; else s.miss.push(p);
+  save(); (ok ? SFX.ok : SFX.ko) && (ok ? SFX.ok() : SFX.ko());
+  mbRepaintQ(); const b = $('[data-a=mb-next]'); if (b && b.focus) b.focus();
+}
+A['mb-r'] = el => { const s = MB.ses; if (!s || s.ans) return; s.pr = el.dataset.v; $$('[data-a=mb-r]').forEach(b => b.setAttribute('aria-pressed', b === el ? 'true' : 'false')); mbPick(); };
+A['mb-s'] = el => { const s = MB.ses; if (!s || s.ans) return; s.ps = el.dataset.v; $$('[data-a=mb-s]').forEach(b => b.setAttribute('aria-pressed', b === el ? 'true' : 'false')); mbPick(); };
+function mbPick() { const s = MB.ses, { card, next } = mbQ(); if (s.pr && s.ps) mbSubmit((s.pr + s.ps) === (s.mode === 'nxt' ? next : card)); }
+A['mb-ok'] = () => {
+  const s = MB.ses; if (!s || s.ans) return; const v = parseInt((($('#mbnum') && $('#mbnum').value) || '').replace(/\D/g, ''), 10);
+  if (!(v >= 1 && v <= 52)) { const i = $('#mbnum'); if (i) i.focus(); return toast(L('Escribe un número del 1 al 52', 'Escriu un número de l\'1 al 52'), 1800); }
+  mbSubmit(v === mbQ().p);
+};
+A['mb-next'] = () => { const s = MB.ses; if (!s) return; s.ans = null; s.pr = null; s.ps = null; s.i++; if (s.i >= s.qs.length) s.done = true; render(); const i = $('#mbnum'); if (i && i.focus) i.focus(); };
+document.addEventListener('keydown', e => { if (e.key === 'Enter' && e.target && e.target.id === 'mbnum') { e.preventDefault(); A['mb-ok'](); } });
+
 /* ===================== IDIOMAS · Español · Català · Boludo =====================
    Los textos de la app se escriben en español. Este módulo traduce el DOM al vuelo: busca cada fragmento de texto en un
    diccionario (catalán) o lo convierte con reglas al español rioplatense (Boludo), con retoques a mano en los textos que
@@ -7221,7 +7771,6 @@ trAdd('ca', {
 "Canta o recita el orden con un soniquete (el de la tabla de multiplicar sirve) y cambia de voz en cada estrofa: cuanto más ridícula, mejor se pega.": "Canta o recita l'ordre amb una cantarella (la de la taula de multiplicar serveix) i canvia de veu a cada estrofa: com més ridícula, millor s'enganxa.",
 "Canturrea y pronuncia exagerando: la boca aprende la letra, como los actores con sus textos.": "Taral·leja i pronuncia exagerant: la boca aprèn la lletra, com els actors amb els seus textos.",
 "Carbuquillo": "Carbonet",
-"Carlos, el tesorero, lo apunta en el debe.": "Carles, el tresorer, ho apunta al deure.",
 "Carta al número, Vistazo, Mentiroso y más.": "Carta al número, Ullada, Mentider i més.",
 "Carta al número, Vistazo, Mentiroso, La carta que falta, Memoria total y Gala. Lo que falles vuelve antes para repasarlo.": "Carta al número, Ullada, Mentider, La carta que falta, Memòria total i Gala. El que falles torna abans per repassar-ho.",
 "Carta siguiente": "Carta següent",
@@ -7262,7 +7811,6 @@ trAdd('ca', {
 "Con rotuladores de colores, dibuja sobre cada carta un dibujo que relacione su número de orden con ella. Unos dos minutos por carta.": "Amb retoladors de colors, dibuixa sobre cada carta un dibuix que relacioni el seu número d'ordre amb ella. Uns dos minuts per carta.",
 "Con solo las trece primeras cartas (del 4♣ a la Q♣) haces los dos juegos clásicos: adivinas la carta que toca un amigo y, si te dan carta y número, haces que aparezca justo en ese puesto.": "Amb només les tretze primeres cartes (del 4♣ a la Q♣) fas els dos jocs clàssics: endevines la carta que toca un amic i, si et donen carta i número, fas que aparegui just en aquell lloc.",
 "Con solo las veintiséis primeras cartas (del 4♣ al K♦) haces los dos juegos clásicos: adivinas la carta que toca un amigo y, si te dan carta y número, haces que aparezca justo en ese puesto.": "Amb només les vint-i-sis primeres cartes (del 4♣ al K♦) fas els dos jocs clàssics: endevines la carta que toca un amic i, si et donen carta i número, fas que aparegui just en aquell lloc.",
-"Con todo el cariño del mundo: Alex, Salva, Kao, Jordi Masgic, el Mag Domi, Mag Ger, Pedro, David, Harvi, Carlos (el canario), Melanie, Coquis, Miquel, Santi, Albert, Jared y Piña, y Jaume Andreu. Y los muchos más que faltan.": "Amb tot l'afecte del món: Alex, Salva, Kao, Jordi Masgic, el Mag Domi, Mag Ger, Pedro, David, Harvi, Carles (el canari), Melanie, Coquis, Miquel, Santi, Albert, Jared i Piña, i Jaume Andreu. I els molts més que falten.",
 "Con trece cartas es un ejercicio, no un número para público: en escena manda el de 52, con su salto. Aquí solo entrenas el cálculo sin salirte del rango.": "Amb tretze cartes és un exercici, no un número per al públic: a escena mana el de 52, amb el seu salt. Aquí només entrenes el càlcul sense sortir del rang.",
 "Con tus cartas": "Amb les teves cartes",
 "Con veintiséis cartas es un ejercicio, no un número para público: en escena manda el de 52, con su salto. Aquí solo entrenas el cálculo sin salirte del rango.": "Amb vint-i-sis cartes és un exercici, no un número per al públic: a escena mana el de 52, amb el seu salt. Aquí només entrenes el càlcul sense sortir del rang.",
@@ -7789,8 +8337,6 @@ trAdd('ca', {
 "Parece barajada, pero empieza en el 4♣ y acaba en el 9♦ y esconde, según el propio autor, más de treinta efectos específicos: póquer, deletreos, Chinchón, blackjack, apariciones de un palo entero y un final en el que toda la baraja se ordena por palos y números. Se puede alcanzar desde una baraja recién abierta con cuatro faros exteriores y uno parcial (o sin faros).": "Sembla barrejada, però comença al 4♣ i acaba al 9♦ i amaga, segons el mateix autor, més de trenta efectes específics: pòquer, lletrejos, Chinchón, blackjack, aparicions d'un pal sencer i un final en què tota la baralla s'ordena per pals i números. Es pot assolir des d'una baralla recent oberta amb quatre faros exteriors i un de parcial (o sense faros).",
 "Paso a paso": "Pas a pas",
 "Pausa dramática… y error dramático.": "Pausa dramàtica… i error dramàtic.",
-"Pedro lo sella: carta bien declarada.": "Pedro ho segella: carta ben declarada.",
-"Pedro, fiscalista, lo ve claro: esa carta sale a pagar.": "Pedro, fiscalista, ho veu clar: aquesta carta surt a pagar.",
 "Pega aquí los resultados del grupo": "Enganxa aquí els resultats del grup",
 "Pega los resultados del grupo de WhatsApp y la app los ordena con podio y premios.": "Enganxa els resultats del grup de WhatsApp i l'app els ordena amb podi i premis.",
 "Pelando la piña": "Pelant la pinya",
@@ -8354,7 +8900,6 @@ trAdd('ca', {
 "El orden matemático que hoy se llama «Si Stebbins» ya aparece explicado en 1612.": "L'ordre matemàtic que avui s'anomena «Si Stebbins» ja apareix explicat el 1612.",
 "El público no sabe qué ha pasado. Tú tampoco: perfecto.": "El públic no sap què ha passat. Tu tampoc: perfecte.",
 "El taxi 34 pincha: diez picas clavadas en las ruedas.": "El taxi 34 punxa: deu piques clavades a les rodes.",
-"El «truco del suelo» consiste en que se te caiga la baraja y anuncies «y ahora, la segunda parte». Se cobra aparte.": "El «truc del terra» consisteix que et caigui la baralla i anunciïs «i ara, la segona part». Es cobra a part.",
 "Empieza la función: cuatro tréboles forman el cuadrado del escenario y sube el telón.": "Comença la funció: quatre trèvols formen el quadrat de l'escenari i puja el teló.",
 "Empieza la segunda mitad: 27 letras con la Ñ y dos tréboles de estreno.": "Comença la segona meitat: 27 lletres amb la Ñ i dos trèvols d'estrena.",
 "En AMIT, el café de después de la función es parte del programa. Y de la memoria.": "A AMIT, el cafè de després de la funció és part del programa. I de la memòria.",
@@ -8398,7 +8943,6 @@ trAdd('ca', {
 "Once jugadores y la Reina de Corazones de árbitro: «¡Que les corten la cabeza!».": "Onze jugadors i la Reina de Cors d'àrbitre: «Que els tallin el cap!».",
 "Para Jaume Andreu la Mnemónica es un grupo cíclico de orden 52. Para el resto, un lío con cariño.": "Per a en Jaume Andreu la Mnemònica és un grup cíclic d'ordre 52. Per als altres, un embolic amb carinyo.",
 "Pareja de enamorados: dos corazones en el puesto dos. Aquí la carta coincide con su número.": "Parella d'enamorats: dos cors al lloc dos. Aquí la carta coincideix amb el seu número.",
-"Pedro lo da por deducible.": "El Pedro ho dóna per deduïble.",
 "Quince-cero en el pádel: seis palas (picas) en la pista y nadie saca.": "Quinze-zero al pàdel: sis pales (piques) a la pista i ningú no serveix.",
 "Se te ha pasado el cambio de baraja.": "Se't ha passat el canvi de baralla.",
 "Se te ha visto el doble lift.": "T'han vist el doble lift.",
@@ -8584,7 +9128,6 @@ trAdd('ca', {
 "Melanie": "Melanie",
 "Coquis": "Coquis",
 "Miquel": "Miquel",
-"Santi se pone el disfraz de dragón y aplaude con las alas. Un Piff the Magic Dragon de bazar: menos presupuesto, mucho más cariño.": "En Santi es posa la disfressa de drac i aplaudeix amb les ales. Un Piff the Magic Dragon de basar: menys pressupost, molt més carinyo.",
 "Santi, vestido de dragón, ha chamuscado esa carta. Ya no aparece.": "En Santi, vestit de drac, ha socarrimat aquesta carta. Ja no apareix.",
 "A Santi le mola vestirse de dragón: es un Piff the Magic Dragon de bazar, con todo el respeto al original y bastante menos fuego.": "A en Santi li agrada disfressar-se de drac: és un Piff the Magic Dragon de basar, amb tot el respecte a l'original i bastant menys foc.",
 "Santi": "En Santi",
@@ -8617,11 +9160,9 @@ trAdd('ca', {
 "Tiempo. Toni, el infiltrado, ya ha vuelto al Vallès Oriental.": "Temps. En Toni, l'infiltrat, ja ha tornat al Vallès Oriental.",
 "Tiempo agotado: David ya ha hecho el cartel con la IA anunciando el fallo.": "Temps esgotat: en David ja ha fet el cartell amb la IA anunciant l'errada.",
 "Tiempo. Hasta el Sr. Piña ha terminado el chiste y ha vuelto a empezar.": "Temps. Fins i tot el Sr. Piña ha acabat l'acudit i ha tornat a començar.",
-"Con todo el cariño del mundo: Àlex, Salva, Kao, Toni, Jordi Masgic, el Mag Domi, Mag Ger, Pedro, David, Harvi, Carlos (el canario), Melanie, Coquis, Miquel, Santi, Albert, el Sr. Piña y Jared, Jaume Andreu y Sergi. Y los muchos más que faltan.": "Amb tot l'afecte del món: l'Àlex, el Salva, el Kao, en Toni, en Jordi Masgic, el Mag Domi, el Mag Ger, en Pedro, en David, en Harvi, en Carlos (el canari), la Melanie, en Coquis, en Miquel, en Santi, l'Albert, el Sr. Piña i en Jared, en Jaume Andreu i en Sergi. I els molts més que falten.",
 "Presi": "President",
 "Kao (con imperdibles y auriculares)": "El Kao (amb imperdibles i auriculars)",
 "Presi en la sombra": "President a l'ombra",
-"Tesorero (con recibo)": "Tresorer (amb rebut)",
 "Bibliotecario": "Bibliotecari",
 "Maestros de la Mnemónica": "Mestres de la Mnemònica",
 "Mag Ger y Pedro": "Mag Ger i Pedro",
@@ -8648,7 +9189,6 @@ trAdd('ca', {
 "Miquel te paga con la misma moneda.": "En Miquel te'n paga amb la mateixa moneda.",
 "Coquis lo cataloga: «Acierto».": "En Coquis ho cataloga: «Encert».",
 "Jaume Andreu: demostración elegante.": "Jaume Andreu: demostració elegant.",
-"Carlos, el tesorero, lo ingresa en caja.": "En Carlos, el tresorer, ho ingressa a caixa.",
 "Harvi: acierto sin nudos.": "Harvi: encert sense nusos.",
 "Santi lo aplaude desde los madriles.": "En Santi t'aplaudeix des de Madrid.",
 "Cuñado detectado.": "Cunyat detectat.",
@@ -8664,7 +9204,6 @@ trAdd('ca', {
 "Esa carta vive en otro barrio, colega.": "Aquesta carta viu en un altre barri, company.",
 "Se te ha olvidado hasta el nombre artístico.": "Fins i tot t'has oblidat del nom artístic.",
 "Jordi Masgic: error de sistema. Reinicia.": "Jordi Masgic: error de sistema. Reinicia.",
-"Pedro: esa carta sale a pagar.": "Pedro: aquesta carta surt a pagar.",
 "Los nervios hablan más alto que el mago.": "Els nervis parlen més alt que el mag.",
 "Silencio incómodo de teatro.": "Silenci incòmode de teatre.",
 "Tiempo agotado: el espectador mira el móvil.": "Temps esgotat: l'espectador mira el mòbil.",
@@ -8684,7 +9223,6 @@ trAdd('ca', {
 "Tiempo agotado: ni el imperdible de Kao lo frena.": "Temps esgotat: ni l'imperdible del Kao ho frena.",
 "Se acabó el tiempo. Coquis tiene más, pero no te lo presta.": "S'ha acabat el temps. En Coquis en té més, però no te'n deixa.",
 "Salva lo tenía previsto: se te acababa el tiempo.": "El Salva ho tenia previst: se't acabava el temps.",
-"Tiempo. Carlos, el tesorero, ya lo ha cobrado.": "Temps. En Carlos, el tresorer, ja ho ha cobrat.",
 "Dicen que un mago ensaya ante el espejo. El espejo ya pide el sindicato.": "Diuen que un mag assaja davant del mirall. El mirall ja demana sindicat.",
 "El «otra vez» del público suena a triunfo. El «otra vez» del mago suena a «se me cayó».": "El «una altra vegada» del públic sona a triomf. El del mag sona a «se m'ha caigut».",
 "Hay dos tipos de mago: los que reconocen que se equivocan y los que lo llaman «efecto secundario».": "Hi ha dos tipus de mag: els que reconeixen que s'equivoquen i els que en diuen «efecte secundari».",
@@ -8697,7 +9235,6 @@ trAdd('ca', {
 "Me sé la Mnemónica entera. Lo que no me sé es dónde he dejado el móvil, que lo tengo en la mano.": "Me sé la Mnemònica sencera. El que no sé és on he deixat el mòbil, que el tinc a la mà.",
 "Un mago sin cuñado es como un bar sin barra: técnicamente posible, pero muy triste.": "Un mag sense cunyat és com un bar sense barra: tècnicament possible, però molt trist.",
 "Cuñado: persona que explica con total seguridad el truco que no ha visto, porque no lo ha entendido.": "Cunyat: persona que explica amb tota la seguretat el truc que no ha vist, perquè no l'ha entès.",
-"Mi mejor truco es hacer desaparecer la factura del café. Aún estoy puliendo el método.": "El meu millor truc és fer desaparèixer la factura del cafè. Encara estic polint el mètode.",
 "La 31 es el K♠: el único rey que, cuando llega, obliga a levantarse.": "La 31 és el K♠: l'únic rei que, quan arriba, t'obliga a aixecar-te.",
 "La excusa más usada en magia: «es que hoy llevo la baraja nueva».": "L'excusa més usada en màgia: «és que avui porto la baralla nova».",
 "Un mago de comunión se distingue por tres cosas: la baraja, la chistera y que todos los niños lo llaman «el de la tarta».": "Un mag de comunions es distingeix per tres coses: la baralla, la xistera i que tots els nens li diuen «el del pastís».",
@@ -8869,7 +9406,6 @@ trAdd('ca', {
 "Pedro, desde el fondo de la sala": "En Pedro, des del fons de la sala",
 "asintiendo despacio": "assentint a poc a poc",
 "que parece anotar algo (¿tu nombre para el bis?)": "que sembla anotar alguna cosa (el teu nom per al bis?)",
-"que ya ha calculado lo que le debes por el truco": "que ja ha calculat el que li deus pel truc",
 "David, el pro, de pie al fondo": "En David, el pro, dempeus al fons",
 "que toma notas para explicártelo luego": "que pren notes per explicar-t'ho després",
 "que sabe cómo acaba y cómo enseñarte a hacerlo": "que sap com acaba i com ensenyar-te a fer-ho",
@@ -8879,9 +9415,6 @@ trAdd('ca', {
 "Melanie, entre bastidores": "La Melanie, entre bastidors",
 "que ya tiene un elefante preparado por si acaso": "que ja té un elefant preparat per si de cas",
 "que aplaude con la elegancia de quien llena escenarios": "que aplaudeix amb l'elegància de qui omple escenaris",
-"Carlos, el tesorero": "En Carlos, el tresorer",
-"con el recibo de la cuota en la mano": "amb el rebut de la quota a la mà",
-"que sonríe mientras cuenta la recaudación": "que somriu mentre compta la recaptació",
 "Un socio que se sabe el truco": "Un soci que se sap el truc",
 "que susurra el final a su vecino": "que xiuxiueja el final al seu veí",
 "que ya sabe cómo acaba": "que ja sap com acaba",
@@ -8902,21 +9435,11 @@ trAdd('ca', {
 "Harvi te entiende: él también se ha liado con cosas más fáciles que 52 cartas.": "En Harvi t'entén: ell també s'ha embolicat amb coses més fàcils que 52 cartes.",
 "Esa carta se te ha hecho un nudo. Harvi sabe de eso: te presta una cuerda.": "Aquesta carta se t'ha fet un nus. En Harvi en sap: et deixa una corda.",
 "Harvi corta la cuerda y la recompone. Lo difícil, dicen, es desenredarla antes del truco.": "En Harvi talla la corda i la recompon. El difícil, diuen, és desembolicar-la abans del truc.",
-"Carlos, el canario y tesorero, lo apunta en el haber: ¡acierto!": "En Carlos, el canari i tresorer, ho apunta a l'haver: encert!",
-"El tesorero lo aprueba: este acierto entra en caja.": "El tresorer ho aprova: aquest encert entra a caixa.",
-"Carlos, tesorero, anota esa carta en el debe. Con intereses.": "En Carlos, tresorer, anota aquesta carta al deure. Amb interessos.",
-"Carlos se ha llevado la mano al bolsillo. Será la navaja o el recibo de la cuota. Paga, por si acaso.": "En Carlos s'ha portat la mà a la butxaca. Serà la navalla o el rebut de la quota. Paga, per si de cas.",
-"Carlos, el canario, es el tesorero. Dicen que a veces lleva navajas para cobrar la cuota. Es broma: lleva recibo.": "En Carlos, el canari, és el tresorer. Diuen que de vegades porta navalles per cobrar la quota. És broma: porta rebut.",
-"Carlos, tesorero, hace desaparecer la cuota de tu cartera mejor que cualquier mago de AMIT. Eso sí: con recibo.": "En Carlos, tresorer, fa desaparèixer la quota de la teva cartera millor que qualsevol mag d'AMIT. Això sí: amb rebut.",
 "Jordi diagnostica: error de sistema. Reinicia la memoria y vuelve a probar.": "En Jordi diagnostica: error de sistema. Reinicia la memòria i torna-ho a provar.",
 "Con un apellido como Masgic, el destino de Jordi estaba escrito: más magia, imposible.": "Amb un cognom com Masgic, el destí d'en Jordi estava escrit: més màgia, impossible.",
 "Jordi mira la baraja con gafas de colores: así hasta el 4♣ parece de otro palo.": "En Jordi mira la baralla amb ulleres de colors: així fins i tot el 4♣ sembla d'un altre pal.",
 "Mag Ger asiente. Y ya está pensando cómo desmontar este truco: es lo que tiene ser maestro.": "El Mag Ger assenteix. I ja està pensant com desmuntar aquest truc: és el que té ser mestre.",
 "Mag Ger lo aprueba. Lo que no aprueba es que alguien le pida que elija una carta.": "El Mag Ger ho aprova. El que no aprova és que algú li demani que triï una carta.",
-"Pedro, fiscalista, lo da por bueno: acierto deducible al cien por cien.": "En Pedro, fiscalista, ho dona per bo: encert deduïble al cent per cent.",
-"Esa carta no cuadra. Pedro prepara una paralela… digo, una complementaria.": "Aquesta carta no quadra. En Pedro prepara una paral·lela… vull dir, una complementària.",
-"Pedro es un gran fiscalista y, en sus ratos libres, un crack de la Mnemónica: declara las 52 cartas sin una sola deducción.": "En Pedro és un gran fiscalista i, en les estones lliures, un crack de la Mnemònica: declara les 52 cartes sense cap deducció.",
-"Pedro lleva los impuestos al día y los 52 naipes en la cabeza. Las dos cosas, sin errores.": "En Pedro porta els impostos al dia i les 52 cartes al cap. Les dues coses, sense errors.",
 "Melanie lo celebra sacando un elefante. Pequeño, de gala.": "La Melanie ho celebra traient un elefant. Petit, de gala.",
 "Acierto de los que Melanie convierte en elefante: grande, escénico y sin trampa.": "Encert dels que la Melanie converteix en elefant: gran, escènic i sense trampa.",
 "Melanie saca un elefante en medio de un escenario. Una baraja ordenada, a su lado, es un juego de niños.": "La Melanie treu un elefant enmig d'un escenari. Una baralla ordenada, al seu costat, és un joc de nens.",
@@ -9109,7 +9632,6 @@ trAdd('ca', {
   'Acto perfecto': 'Acte perfecte', 'Acto superado': 'Acte superat', 'Aún no: repasa y vuelve': 'Encara no: repassa i torna',
   // Rachas
   'Cinco seguidas. El cuñado ha dejado de comentar.': 'Cinc seguides. El cunyat ha deixat de comentar.',
-  'Ocho seguidas: ya puedes cobrar entrada.': 'Vuit seguides: ja pots cobrar entrada.',
   'Diez seguidas. Esto ya es un número de gala.': 'Deu seguides. Això ja és un número de gala.',
   'Quince seguidas: se rumorea que has pactado con la baraja.': 'Quinze seguides: es rumoreja que has pactat amb la baralla.',
   'Veinte seguidas. Pide un camerino con tu nombre.': 'Vint seguides. Demana un camerino amb el teu nom.',
@@ -9395,7 +9917,6 @@ trAdd('ar', {
 
 /* Boludo · peña (generado por gen_pena.py) */
 trAdd('ar', {
-"Santi se pone el disfraz de dragón y aplaude con las alas. Un Piff the Magic Dragon de bazar: menos presupuesto, mucho más cariño.": "Santi se pone el disfraz de dragón y aplaude con las alas. Un Piff the Magic Dragon edición Once: menos presupuesto, mucho más cariño.",
 "Santi, vestido de dragón, ha chamuscado esa carta. Ya no aparece.": "Santi, vestido de dragón, chamuscó esa carta. Ya no aparece.",
 "A Santi le mola vestirse de dragón: es un Piff the Magic Dragon de bazar, con todo el respeto al original y bastante menos fuego.": "A Santi le copa vestirse de dragón: es un Piff the Magic Dragon edición Once, con todo el respeto al original y bastante menos fuego.",
 "Sergi, el novato pelón, lo celebra pasándose la mano por la cabeza: ni un pelo de tonto.": "Sergi, el novato pelado, lo celebra pasándose la mano por la cabeza: ni un pelo de tonto.",
