@@ -1,10 +1,13 @@
 <!DOCTYPE html>
+<!-- Mnemónica AMIT · Idea, diseño y desarrollo: Sergi · © 2026 Sergi · Todos los derechos reservados. -->
 <html lang="es">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <meta name="theme-color" content="#0b3a37">
 <meta name="application-name" content="Mnemónica AMIT">
+<meta name="author" content="Sergi">
+<meta name="copyright" content="© 2026 Sergi. Todos los derechos reservados.">
 <meta name="apple-mobile-web-app-title" content="Mnemónica">
 <title>Mnemónica AMIT · Entrena el orden de Tamariz</title>
 <style>
@@ -708,6 +711,7 @@ b.rd{color:#ff948b}
 <script>
 (() => {
 'use strict';
+/* Mnemónica AMIT · Idea, diseño y desarrollo: Sergi · © 2026 Sergi · Todos los derechos reservados. */
 /* ===================== DATOS ===================== */
 // Orden de la Mnemónica Tamariz (Vol. I, cap. 2, "Orden de la Mnemónica Tamariz"). C=tréboles, D=rombos, H=corazones, S=picas.
 const STACK = '4C 2H 7D 3C 4H 6D AS 5H 9S 2S QH 3D QC 8H 6S 5S 9H KC 2D JH 3S 8S 6H 10C 5D KD 2C 3H 8D 5C KS JD 8C 10S KH JC 7S 10H AD 4S 7H 4D AC 9C JS QD 7C QS 10D 6C AH 9D'.split(' ');
@@ -1217,24 +1221,36 @@ function closeSheet() { const v = $('#veil'); if (v) { stopSong(); v.remove(); }
 A.close = () => closeSheet();
 A.credits = () => openSheet(`<h3>Créditos</h3>
   <div class="gap mt">
-    <div class="panel stitch"><div class="tiny mut">Idea y diseño</div><b style="font-family:var(--fh);font-weight:400;font-size:22px;color:var(--brass-hi)">Sergi</b></div>
+    <div class="panel stitch"><div class="tiny mut">${L('Idea, diseño y desarrollo', 'Idea, disseny i desenvolupament')}</div><b style="font-family:var(--fh);font-weight:400;font-size:22px;color:var(--brass-hi)">Sergi</b><div class="small mut" style="margin-top:6px">${L('Mnemónica AMIT es un proyecto personal de Sergi, socio de AMIT. La idea, el diseño, el desarrollo, el código, los textos, los chistes y los ejercicios son obra suya.', 'Mnemònica AMIT és un projecte personal de Sergi, soci d\'AMIT. La idea, el disseny, el desenvolupament, el codi, els textos, els acudits i els exercicis són obra seva.')}</div><div class="small" style="margin-top:6px"><b>© 2026 Sergi.</b> ${L('Todos los derechos reservados.', 'Tots els drets reservats.')}</div></div>
     <div class="panel"><div class="tiny mut">Para uso y disfrute de los socios de</div><b style="font-family:var(--fh);font-weight:400;font-size:20px">AMIT</b><div class="small mut">Associació de Màgia i Il·lusionisme de Terrassa, creada en Terrassa en septiembre de 2020.</div></div>
     <div class="panel"><div class="tiny mut">Gracias por su esfuerzo</div><b style="font-family:var(--fh);font-weight:400;font-size:20px">Mag Ger y Pedro</b><div class="small mut">Maestros de la Mnemónica en AMIT. Gracias por el tiempo y el esfuerzo que dedican a enseñarla.</div></div>
     <div class="panel stitch"><div class="tiny mut">Tester oficial</div><b style="font-family:var(--fh);font-weight:400;font-size:20px">Sr. Piña 🍍</b><div class="small mut">Por sus comentarios y propuestas. Probó la app como se elige una piña: oliendo, apretando y dando golpecitos hasta encontrar el fallo. Tres ideas suyas ya están dentro: los tramos de 13, el muro sin números y el póker contra La Banca. Gracias por dejarla más dulce y menos picante; y que nunca le falte una corona, aunque sea de reyes. Y ya se sabe: sin piña no hay equipo.</div></div>
     <div class="panel"><div class="tiny mut">El orden</div><div class="small">Juan Tamariz, <i>La baraja mnemónica de Tamariz</i>, vol. I, cap. 2 (también publicada como <i>Mnemonica</i>, Hermetic Press, 2004). Ganchos, juegos y textos de esta app: creación propia.</div></div>
     <div class="panel"><div class="tiny mut">In memoriam</div><b style="font-family:var(--fh);font-weight:400;font-size:20px">Juan Tamariz</b><div class="small mut">Madrid, 1942 – Madrid, 18 de agosto de 2026. Maestro de generaciones; su Mnemónica es el motivo de esta app.</div><div class="row wrap mt"><button class="btn sm" data-a="violin">🎻 Violín imaginario</button><button class="btn sm" data-a="tachan">🎩 ¡Chan-ta-ta-chán!</button></div></div>
   </div>
-  <p class="small mut mt">Homenaje de estudio entre aficionados a la cartomagia. No está afiliado a Juan Tamariz ni a su editorial.</p>
+  <p class="small mut mt">${L('Homenaje de estudio entre aficionados a la cartomagia, desarrollado por Sergi. No está afiliado ni respaldado por Juan Tamariz, su familia ni su editorial, ni por las tiendas y webs que se enlazan.', 'Homenatge d\'estudi entre aficionats a la cartomàgia, desenvolupat per Sergi. No està afiliat ni avalat per Juan Tamariz, la seva família ni la seva editorial, ni per les botigues i webs que s\'enllacen.')}</p>
   <details class="legal mt"><summary>Aviso legal y privacidad</summary>
     <ul class="small">
-      <li>Proyecto privado y sin ánimo de lucro, hecho por aficionados para los socios de AMIT. No se cobra, no hay publicidad y no se vende nada.</li>
-      <li>No está afiliado ni respaldado por Juan Tamariz, su familia ni su editorial, ni por Conjuring Archive, Vanishing Inc. u otras marcas citadas. Los nombres y marcas son de sus titulares y se citan solo para identificar las obras.</li>
-      <li>Los textos de la app (ganchos, juegos, curiosidades y chistes) son de creación propia. Las obras ajenas se describen con palabras propias y, cuando hay una cita corta, se indica la fuente.</li>
-      <li>La app no reproduce los libros de Tamariz: solo usa el orden de las cartas y textos propios. Para estudiar a fondo, lo ideal es comprar la obra.</li>
-      <li>Los chistes con nombres de socios son de buen rollo. Si alguien prefiere no aparecer, se quita en cuanto lo diga. Además, cualquiera puede ocultarlos en Perfil → Ajustes.</li>
-      <li>Privacidad: tu progreso se guarda solo en este dispositivo. La app no incluye analítica ni publicidad y no carga fuentes ni scripts de terceros. Si te apuntas al ranking o a una sala en directo, tu nombre de mago, tu avatar y tu puntuación los ve quien tenga el enlace; puedes usar un apodo y salir cuando quieras.</li>
-      <li>Los enlaces externos (libros, tiendas, webs) los gestionan terceros con sus propias condiciones. Esta app no cobra comisión por ninguno.</li>
-      <li>Es información general y no asesoramiento jurídico. Si quieres que se corrija o se retire algo, díselo a Sergi.</li>
+      <li>${L('<b>Autoría y derechos.</b> «Mnemónica AMIT» (idea, diseño, desarrollo, código, textos, chistes y ejercicios) es obra de Sergi, que es su titular. © 2026 Sergi. Todos los derechos reservados.',
+        '<b>Autoria i drets.</b> «Mnemònica AMIT» (idea, disseny, desenvolupament, codi, textos, acudits i exercicis) és obra de Sergi, que n\'és el titular. © 2026 Sergi. Tots els drets reservats.')}</li>
+      <li>${L('<b>Uso.</b> La app es gratuita para uso personal y para los socios de AMIT. Sin permiso previo y por escrito de Sergi no se puede copiar, redistribuir, alojar en otro sitio, modificar, vender ni aprovechar con fines comerciales, ni la app ni partes de ella (código, textos, diseño). Compartir el enlace sí está permitido y se agradece.',
+        '<b>Ús.</b> L\'app és gratuïta per a ús personal i per als socis d\'AMIT. Sense permís previ i per escrit de Sergi no es pot copiar, redistribuir, allotjar en un altre lloc, modificar, vendre ni aprofitar amb finalitats comercials, ni l\'app ni parts d\'ella (codi, textos, disseny). Compartir l\'enllaç sí que està permès i s\'agraeix.')}</li>
+      <li>${L('<b>Proyecto personal.</b> Lo ha hecho Sergi, socio de AMIT, como regalo para sus compañeros. No es una publicación oficial de la asociación.',
+        '<b>Projecte personal.</b> L\'ha fet Sergi, soci d\'AMIT, com a regal per als seus companys. No és una publicació oficial de l\'associació.')}</li>
+      <li>${L('<b>Sin ánimo de lucro.</b> No se cobra, no hay publicidad y no se vende nada. Sergi no recibe dinero, comisión, descuento ni contraprestación de ninguna tienda, editorial o web enlazada.',
+        '<b>Sense afany de lucre.</b> No es cobra, no hi ha publicitat i no es ven res. Sergi no rep diners, comissió, descompte ni contraprestació de cap botiga, editorial o web enllaçada.')}</li>
+      <li>${L('<b>Sin afiliación.</b> No está afiliada, patrocinada ni respaldada por Juan Tamariz, su familia ni su editorial, ni por Conjuring Archive, Vanishing Inc. ni por ninguna otra tienda, editorial o marca citada. Los nombres y marcas son de sus titulares y se citan solo para identificar las obras.',
+        '<b>Sense afiliació.</b> No està afiliada, patrocinada ni avalada per Juan Tamariz, la seva família ni la seva editorial, ni per Conjuring Archive, Vanishing Inc. ni per cap altra botiga, editorial o marca citada. Els noms i les marques són dels seus titulars i es citen només per identificar les obres.')}</li>
+      <li>${L('<b>Obras ajenas.</b> Las obras de otros autores se describen con palabras propias y, cuando hay una cita corta, se indica la fuente. La app no reproduce los libros de Tamariz: solo usa el orden de las cartas de su Mnemónica y textos propios. Para estudiar a fondo, lo ideal es comprar la obra.',
+        '<b>Obres alienes.</b> Les obres d\'altres autors es descriuen amb paraules pròpies i, quan hi ha una cita curta, s\'indica la font. L\'app no reprodueix els llibres de Tamariz: només fa servir l\'ordre de les cartes de la seva Mnemònica i textos propis. Per estudiar a fons, el millor és comprar l\'obra.')}</li>
+      <li>${L('<b>Correcciones y retiradas.</b> Si eres titular de derechos, o aparece tu nombre y prefieres que se corrija o se retire algo, díselo a Sergi y se atenderá. Los chistes con nombres de socios son de buen rollo; cualquiera puede ocultarlos en Perfil → Ajustes.',
+        '<b>Correccions i retirades.</b> Si ets titular de drets, o hi apareix el teu nom i prefereixes que es corregeixi o es retiri alguna cosa, digue-ho a Sergi i s\'atendrà. Els acudits amb noms de socis són de bon rotllo; qualsevol pot amagar-los a Perfil → Ajustes.')}</li>
+      <li>${L('<b>Privacidad.</b> Tu progreso se guarda en este dispositivo. La app no incluye analítica, publicidad ni fuentes de terceros. Para el inicio de sesión, el ranking y las salas en directo se usan servicios de Google Firebase, y en la versión web sus scripts se cargan desde los servidores de Google. Si te apuntas al ranking o a una sala, tu nombre de mago, tu avatar y tu puntuación los ve quien tenga el enlace; puedes usar un apodo y salir cuando quieras. Las sugerencias se mandan por WhatsApp a quien tú elijas: la app no las guarda.',
+        '<b>Privadesa.</b> El teu progrés es desa en aquest dispositiu. L\'app no inclou analítica, publicitat ni fonts de tercers. Per a l\'inici de sessió, el rànquing i les sales en directe es fan servir serveis de Google Firebase, i a la versió web els seus scripts es carreguen des dels servidors de Google. Si t\'apuntes al rànquing o a una sala, el teu nom de mag, el teu avatar i la teva puntuació els veu qui tingui l\'enllaç; pots fer servir un renom i sortir quan vulguis. Els suggeriments s\'envien per WhatsApp a qui tu triïs: l\'app no els desa.')}</li>
+      <li>${L('<b>Enlaces externos.</b> Los enlaces a libros, tiendas y webs los gestionan terceros con sus propias condiciones. Esta app no cobra comisión por ninguno y no los recomienda sobre otros.',
+        '<b>Enllaços externs.</b> Els enllaços a llibres, botigues i webs els gestionen tercers amb les seves pròpies condicions. Aquesta app no cobra comissió per cap i no els recomana per sobre d\'altres.')}</li>
+      <li>${L('<b>Información general.</b> Esto es información general y no asesoramiento jurídico.',
+        '<b>Informació general.</b> Això és informació general i no assessorament jurídic.')}</li>
     </ul></details>
   <button class="btn brass block mt" data-a="close">Cerrar</button>`);
 function toast(msg, ms = 2200) {
@@ -1341,7 +1357,7 @@ ROUTES.home = () => {
   ${pathHTML()}
   ${fresh ? '' : howto}
   <button class="mode mt" data-a="credits"><span class="ic">🪄</span><span><b>${L('Créditos y dedicatoria', 'Crèdits i dedicatòria')}</b><span>${L('Para quién es esta app, de dónde sale el orden y a quién se da las gracias.', 'Per a qui és aquesta app, d\'on surt l\'ordre i a qui es donen les gràcies.')}</span></span></button>
-  <p class="credit">Basado en la Mnemónica Tamariz, de Juan Tamariz (<i>La baraja mnemónica de Tamariz</i>, vol. I y II). Esta aplicación es un homenaje de estudio y no está afiliada al autor.</p>`;
+  <p class="credit">${L('Basado en la Mnemónica Tamariz, de Juan Tamariz (<i>La baraja mnemónica de Tamariz</i>, vol. I y II). Esta aplicación es un homenaje de estudio y no está afiliada al autor. Idea, diseño y desarrollo: Sergi. © 2026 Sergi. Todos los derechos reservados.', 'Basat en la Mnemònica Tamariz, de Juan Tamariz (<i>La baraja mnemónica de Tamariz</i>, vol. I i II). Aquesta aplicació és un homenatge d\'estudi i no està afiliada a l\'autor. Idea, disseny i desenvolupament: Sergi. © 2026 Sergi. Tots els drets reservats.')}</p>`;
 };
 function recommended() {
   const seen = seenSet();
@@ -1462,7 +1478,7 @@ ROUTES.perfil = () => {
     <div class="langrow first"><span class="small mut" translate="no">Idioma · Llengua</span>${langPillsHTML()}</div>
     ${tg('sound', 'Sonido', 'Efectos, aplausos y tic-tac de la cuenta atrás. En el iPhone los calla el modo silencio.')}${tg('voice', 'Voz', 'Lectura en voz alta de estrofas y cartas.')}${tg('fourc', 'Baraja de cuatro colores', 'Tréboles verdes y rombos azules: se distinguen mejor a toda prisa.')}${tg('fast', 'Ritmo rápido', 'Activado: tras cada respuesta la pantalla pasa sola a los 2,5 segundos y el número se envía solo si es de dos cifras o del 6 al 9. Desactivado: confirmas con ✓ y pulsas «Siguiente».')}${tg('calm', 'Menos movimiento', 'Reduce animaciones y quita el confeti.')}${tg('names', 'Humor con nombres de socios', 'Los chistes mencionan con cariño a socios de AMIT. Desactívalo para ver solo chistes sin nombres.')}
   </div>
-  <div class="row wrap mt"><button class="btn sm" data-a="go-guia">📲 Cómo funciona</button><button class="btn sm" data-a="credits">🪄 Créditos</button><button class="btn sm" data-a="comodin">🃏 Comodín</button><button class="btn sm" data-a="buzon">📮 Buzón</button><button class="btn sm" data-a="export">Copiar mi progreso</button><button class="btn sm" data-a="import">Importar progreso</button></div>
+  <div class="row wrap mt"><button class="btn sm" data-a="go-guia">📲 Cómo funciona</button><button class="btn sm" data-a="credits">🪄 Créditos</button><button class="btn sm" data-a="comodin">🃏 Comodín</button><button class="btn sm" data-a="sugerir">💬 Sugerencias</button><button class="btn sm" data-a="export">Copiar mi progreso</button><button class="btn sm" data-a="import">Importar progreso</button></div>
   <div class="sec"><h3>Guardado</h3></div>
   ${psHTML()}
   <div class="sec"><h3>Empezar de cero</h3></div>
@@ -1665,7 +1681,7 @@ function submit(given, flag) {
   s.ans.push({ ok, ms, k: q.k, pos: q.pos, fp: q.fp, com, to, hint: s.hintUsed, q, pts });
   if (s.live && typeof liveProgress === 'function') liveProgress(s);
   if (s.meter !== undefined) s.meter = clamp(s.meter + (ok ? 8 + Math.min(s.streak, 5) : com ? -4 : -12), 0, 100);
-  if (ok) { SFX.ok(); if (s.streak > 0 && s.streak % 5 === 0) { SFX.combo(s.streak); streakFx(s.streak); } } else { SFX.ko(); vib(60); }
+  if (ok) { SFX.ok(); if (s.streak > 0 && (s.streak % 5 === 0 || s.streak === 13 || s.streak === 26 || s.streak === 52)) { SFX.combo(Math.min(s.streak, 20)); streakFx(s.streak); } } else { SFX.ko(); vib(60); }
   const st = $('#stage'); if (!st) return;
   const fb = document.createElement('div');
   fb.className = 'fb ' + (ok ? 'ok' : 'ko'); fb.id = 'fb';
@@ -2070,6 +2086,8 @@ function resultFx(res) {
 }
 // Racha dentro de una ronda: pequeñas explosiones cada cinco aciertos.
 function streakFx(n) {
+  // Hitos de la escalera de la app: 13 (un palo), 26 (media baraja) y 52 (la baraja entera).
+  if (n === 13 || n === 26 || n === 52) { spotlight(); try { SFX.sparkle(); setTimeout(() => SFX.tachan(), 260); } catch (e) { } confetti({ n: n === 52 ? 130 : 90, y: .4, pow: 11, dur: 2300 }); vibPat([30, 40, 30, 40, 90]); return; }
   if (n >= 5 && n % 5 === 0) { SFX.sparkle(); confetti({ n: Math.min(30 + n * 3, 70), y: .55, pow: 7, dur: 1500 }); vibPat([25, 30, 25]); }
 }
 
@@ -2708,9 +2726,10 @@ ROUTES['learn:rincon'] = () => `
   <div class="sec"><h3>Curiosidades</h3></div>
   <div class="fchips" role="group" aria-label="Filtro">${FCATS.map(([k, l]) => `<button class="fchip" data-a="rc-cat" data-c="${k}" aria-pressed="${RCS.cat === k}">${l}</button>`).join('')}</div>
   <div class="gap mt" id="rcFacts">${rcFactsHTML()}</div>
-  <button class="mode mt" data-a="go-cachondeo"><span class="ic">🍺</span><span><b>Sala del cachondeo</b><span>${L('Chistes de magos, de barra, del cuñado y de la peña, y excusas de mago.', 'Acudits de mags, de barra, del cunyat i de la penya, i excuses de mag.')}</span></span></button>
+  <button class="mode mt" data-a="go-present"><span class="ic">🎬</span><span><b>${L('Presentar con baraja ordenada', 'Presentar amb baralla ordenada')}</b><span>${L('Momentos wow y doce ideas de presentación sacadas de la bibliografía.', 'Moments wow i dotze idees de presentació extretes de la bibliografia.')}</span></span></button>
+  <button class="mode mt2" data-a="go-cachondeo"><span class="ic">🍺</span><span><b>Sala del cachondeo</b><span>${L('Chistes de magos, de barra, del cuñado y de la peña, y excusas de mago.', 'Acudits de mags, de barra, del cunyat i de la penya, i excuses de mag.')}</span></span></button>
   <button class="mode mt2" data-a="vf-start"><span class="ic">🎓</span><span><b>Verdadero o falso mágico</b><span>Diez afirmaciones sobre barajas, magos y la Mnemónica. ¿Cuántas te cuelan?</span></span></button>
-  <p class="credit">Datos con fuente: el libro de Tamariz (vol. I), Wikipedia, Britannica, Magicana, Conjuring Arts, Vanishing Inc., Gibecière y prensa de agosto de 2026.</p>`;
+  <p class="credit">${L('Datos con fuente: el libro de Tamariz (vol. I), Kuhn, Weber, Kaplan, El Taumaturgo, El Manuscrito (CIM, Málaga), Wikipedia, Britannica, Magicana, Conjuring Arts, Vanishing Inc., Gibecière y prensa de agosto de 2026.', 'Dades amb font: el llibre de Tamariz (vol. I), Kuhn, Weber, Kaplan, El Taumaturgo, El Manuscrito (CIM, Màlaga), Wikipedia, Britannica, Magicana, Conjuring Arts, Vanishing Inc., Gibecière i premsa d\'agost de 2026.')}</p>`;
 A['go-rincon'] = () => go('learn', 'rincon');
 A['rc-cat'] = el => { RCS.cat = el.dataset.c; $$('.fchip').forEach(b => b.setAttribute('aria-pressed', b === el ? 'true' : 'false')); const h = $('#rcFacts'); if (h) h.innerHTML = rcFactsHTML(); };
 A.quip = () => { const q = $('#quip'); if (q) q.textContent = pick(QUIPS); };
@@ -2815,7 +2834,7 @@ ROUTES['learn:cachondeo'] = () => `
   <div class="panel stitch"><p class="small mut">Para cuando falles delante de gente. Cada excusa lleva una carta al azar de la Mnemónica.</p>${excHTML()}<div class="row wrap mt"><button class="btn sm brass sp" data-a="exc">Otra excusa</button><button class="btn sm sp" data-a="exc-copy">Copiar</button></div></div>
   ${volPanelHTML()}
   ${namesOn() ? `<details class="basic mt2"><summary><span class="fi">🏛️</span><span>Quién es quién en AMIT (de broma)</span></summary><div class="bx"><div class="org">${ORG.map(([r, w]) => `<div class="orow"><span class="orole">${esc(r)}</span><b>${esc(w)}</b></div>`).join('')}</div><p class="tiny mut mt">Con todo el cariño del mundo para la peña de AMIT, los que están y los que vendrán.</p></div></details>` : ''}
-  <button class="mode mt2" data-a="buzon"><span class="ic">📮</span><span><b>${L('Buzón de sugerencias', 'Bústia de suggeriments')}</b><span>${L('Ideas, fallos, chistes que faltan y bromas que sobran. Se leen todas.', 'Idees, errors, acudits que falten i bromes que sobren. Es llegeixen totes.')}</span></span></button>
+  <button class="mode mt2" data-a="sugerir"><span class="ic">💬</span><span><b>${L('Sugerencias por WhatsApp', 'Suggeriments per WhatsApp')}</b><span>${L('Ideas, fallos, chistes que faltan y bromas que sobran. Se mandan por WhatsApp a quien tú elijas.', 'Idees, errors, acudits que falten i bromes que sobren. S\'envien per WhatsApp a qui tu triïs.')}</span></span></button>
   <button class="mode mt2" data-a="go-mia"><span class="ic">🃏</span><span><b>${L('Tu propia baraja', 'La teva pròpia baralla')}</b><span>${L('Carga tu orden de 52 cartas y practícalo aquí. Aparte de la Mnemónica, que sigue siendo lo principal.', 'Carrega el teu ordre de 52 cartes i practica\'l aquí. A part de la Mnemònica, que continua sent el principal.')}</span></span></button>
   <button class="mode mt2" data-a="go-rincon"><span class="ic">📜</span><span><b>Cultura mágica</b><span>Para cuando toque hablar en serio: historia de las barajas ordenadas y curiosidades con fuente.</span></span></button>
   <p class="credit">Humor original de la casa, escrito para los socios de AMIT. Cualquier parecido con un cuñado real es pura coincidencia estadística.</p>
@@ -3540,7 +3559,7 @@ HJ_CATS.push(['vol', '🙋', 'Voluntarios']);
 HX.ca['Voluntarios'] = 'Voluntaris';
 HX.ca['Manos arriba'] = 'Mans enlaire';
 HX.ca['Te apuntas de voluntario… en la app.'] = 'T\'apuntes de voluntari… a l\'app.';
-HX.ca['📮 Buzón'] = '📮 Bústia';
+HX.ca['💬 Sugerencias'] = '💬 Suggeriments';
 
 /* ---------- Rev 41: retoques del humor de la peña y del festival ---------- */
 { const T = (es, ca, ar) => { HX.ca[es] = ca; if (ar) HX.ar[es] = ar; };
@@ -3566,6 +3585,283 @@ HX.ca['📮 Buzón'] = '📮 Bústia';
   T("Ocho seguidas: ya puedes salir en el cartel.", "Vuit seguides: ja pots sortir al cartell.");
   T("Carlos, el canario", "En Carlos, el canari");
 }
+
+/* ===================== CULTURA MÁGICA 2 · PRESENTAR CON BARAJA ORDENADA =====================
+   Ampliación del Rincón: curiosidades con fuente, una guía de presentación («momentos wow» y doce ideas), más chistes de
+   camerino y mensajes de racha con intención pedagógica (13 · 26 · 52).
+   Todo el texto es de la app y está escrito con palabras propias. Las ideas de los libros se resumen y se atribuyen; no se
+   copian pasajes. Fuentes consultadas: G. Kuhn, «Experiencing the Impossible» (2019); K. Weber, «Maximum Entertainment 2.0»
+   (que cita a B. Cassidy y a D. Ortiz); G. G. Kaplan, «El arte de la magia» (ed. española, 1998); «El Taumaturgo» n.º 4 (2020);
+   Tamariz, vol. I; y los índices públicos de las tiendas y del Conjuring Archive. */
+
+/* ---------- Curiosidades nuevas (se suman a las del Rincón) ---------- */
+FACTS.push(
+  { c: 'magia', i: '🪢', t: H('La cuerda india nació de una noticia falsa', 'La corda índia va néixer d\'una notícia falsa'),
+    x: H('En 1890 un periódico de Chicago publicó el relato de un viajero que decía haber visto a un faquir lanzar una cuerda al aire, hacer subir a un niño y verlo desaparecer. Era un bulo. El diario se retractó, pero casi nadie se enteró, y aparecieron testigos por todas partes. En 1934 un comité del Magic Circle concluyó que el truco era un mito y ofreció un premio a quien lo hiciera en las condiciones originales. Sigue sin reclamarse.', 'El 1890 un diari de Chicago va publicar el relat d\'un viatger que deia haver vist un faquir llançar una corda a l\'aire, fer pujar un nen i veure\'l desaparèixer. Era un embull. El diari es va retractar, però gairebé ningú no se\'n va assabentar, i van aparèixer testimonis per tot arreu. El 1934 un comitè del Magic Circle va concloure que el truc era un mite i va oferir un premi a qui el fes en les condicions originals. Continua sense reclamar-se.'),
+    s: 'Kuhn, Experiencing the Impossible (2019)' },
+  { c: 'magia', i: '🚬', t: H('Tres de veinte vieron caer el cigarrillo', 'Tres de vint van veure caure la cigarreta'),
+    x: H('Gustav Kuhn y Ben Tatler hicieron un experimento sencillo: dejaban caer un cigarrillo a la vista de todos mientras un truco con un mechero llamaba la atención. Solo tres de los veinte participantes lo notaron; la mayoría pensó que se había ido por la manga. Cuando repitió exactamente lo mismo, casi todos lo vieron y no se lo creían. Moraleja: mirar no es ver, y la atención es el verdadero escenario.', 'Gustav Kuhn i Ben Tatler van fer un experiment senzill: deixaven caure una cigarreta a la vista de tothom mentre un truc amb un encenedor cridava l\'atenció. Només tres dels vint participants ho van notar; la majoria va pensar que se n\'havia anat per la màniga. Quan va repetir exactament el mateix, gairebé tots ho van veure i no s\'ho creien. Moralitat: mirar no és veure, i l\'atenció és l\'autèntic escenari.'),
+    s: 'Kuhn, Experiencing the Impossible (2019)' },
+  { c: 'magia', i: '🎭', t: H('Slydini, el rey de la misdirection', 'Slydini, el rei de la misdirection'),
+    x: H('Kuhn lo llama «el rey de la misdirection»: sus técnicas de manos eran elementales, pero coreografiaba cada movimiento para llevar la atención del público adonde quería. Es una buena noticia para quien aprende una baraja ordenada: lo difícil aquí está en la cabeza, y las manos pueden dedicarse a la presentación.', 'Kuhn el diu «el rei de la misdirection»: les seves tècniques de mans eren elementals, però coreografiava cada moviment per portar l\'atenció del públic on volia. És una bona notícia per a qui aprèn una baralla ordenada: el difícil aquí és al cap, i les mans es poden dedicar a la presentació.'),
+    s: 'Kuhn, Experiencing the Impossible (2019)' },
+  { c: 'magia', i: '📐', t: H('Ascanio puso por escrito la misdirection', 'Ascanio va posar per escrit la misdirection'),
+    x: H('La teoría de la misdirection tiene autores de primera: Ascanio, Bruno, Fitzkee, Leech, Randal, Sharpe y Tamariz, según Kuhn. El artículo de Arturo de Ascanio «Consideraciones sobre la misdirection» salió en 1964 en la revista «Misdirection». Los índices de «La magia de Ascanio» incluyen además textos sobre el timing y sobre la atmósfera mágica.', 'La teoria de la misdirection té autors de primera: Ascanio, Bruno, Fitzkee, Leech, Randal, Sharpe i Tamariz, segons Kuhn. L\'article d\'Arturo de Ascanio «Consideraciones sobre la misdirection» va sortir el 1964 a la revista «Misdirection». Els índexs de «La magia de Ascanio» inclouen també textos sobre el timing i sobre l\'atmosfera màgica.'),
+    s: 'Kuhn (nota 41) · Close-Up Magic Shop (índice de «La magia de Ascanio, vol. 1»)' },
+  { c: 'magia', i: '👶', t: H('Los bebés ya piden magia', 'Els nadons ja demanen màgia'),
+    x: H('Los bebés miran durante más tiempo los sucesos que contradicen lo que ya saben del mundo, y los investigadores usan esa reacción para estudiar cómo piensan. Kuhn defiende que el asombro de la magia es un motor de aprendizaje: lo imposible empuja a explorar. Por eso un buen juego deja ganas de preguntar, no solo de aplaudir.', 'Els nadons miren durant més temps els successos que contradiuen el que ja saben del món, i els investigadors fan servir aquesta reacció per estudiar com pensen. Kuhn defensa que l\'astorament de la màgia és un motor d\'aprenentatge: l\'impossible empeny a explorar. Per això un bon joc deixa ganes de preguntar, no només d\'aplaudir.'),
+    s: 'Kuhn, Experiencing the Impossible (2019)' },
+  { c: 'cartas', i: '🎲', t: H('Una elección libre… que no lo era tanto', 'Una elecció lliure… que no ho era tant'),
+    x: H('En la «elección del mago» la persona decide de verdad, pero quien presenta la elección la plantea de modo que siempre acabe en la misma carta. En un estudio presentado en 2017 con un vídeo de este recurso con cuatro cartas, solo el 12 % de los participantes dio con la solución; la mayoría sospechó de un cómplice o de manos hábiles. Cuanto más real parece la decisión, menos busca el público el método.', 'A l\'«elecció del mag» la persona decideix de debò, però qui presenta l\'elecció la planteja de manera que sempre acabi a la mateixa carta. En un estudi presentat el 2017 amb un vídeo d\'aquest recurs amb quatre cartes, només el 12 % dels participants va trobar la solució; la majoria va sospitar d\'un còmplice o de mans hàbils. Com més real sembla la decisió, menys busca el públic el mètode.'),
+    s: 'Kuhn, Experiencing the Impossible (2019) (cita a H. Ozono)' },
+  { c: 'stack', i: '🤖', t: H('Una baraja ordenada por algoritmo', 'Una baralla ordenada per algorisme'),
+    x: H('Un estudio sobre qué cartas prefiere la gente (la dama de corazones, por ejemplo) sirvió para crear una baraja ordenada con ayuda de un algoritmo: entre cuatro cartas seguidas solo hay una de las «favoritas». Si pides que piensen en la que más les gusta, la probabilidad de acertar es alta. Los autores, Williams y McOwan, aplican ese método computacional a otros juegos.', 'Un estudi sobre quines cartes prefereix la gent (la dama de cors, per exemple) va servir per crear una baralla ordenada amb l\'ajuda d\'un algorisme: entre quatre cartes seguides només n\'hi ha una de les «preferides». Si demanes que pensin en la que més els agrada, la probabilitat d\'encertar és alta. Els autors, Williams i McOwan, apliquen aquest mètode computacional a altres jocs.'),
+    s: 'Kuhn, Experiencing the Impossible (2019)' },
+  { c: 'stack', i: '🧮', t: H('Calcular o memorizar', 'Calcular o memoritzar'),
+    x: H('Bob Cassidy, citado por Ken Weber, lo resumía así: un cálculo fácil en frío se vuelve difícil cuando tienes que hacerlo mientras atiendes al público, y quien aprende a memorizar una baraja aprende, de paso, a memorizar casi cualquier cosa. Weber lo aplica a la vida del artista: el camino difícil suele ser el que separa del montón.', 'Bob Cassidy, citat per Ken Weber, ho resumia així: un càlcul fàcil en fred es torna difícil quan l\'has de fer mentre atens el públic, i qui aprèn a memoritzar una baralla aprèn, de passada, a memoritzar gairebé qualsevol cosa. Weber ho aplica a la vida de l\'artista: el camí difícil sol ser el que separa del munt.'),
+    s: 'Weber, Maximum Entertainment 2.0 (cita a B. Cassidy)' },
+  { c: 'magia', i: '🙃', t: H('El error que convence', 'L\'error que convenç'),
+    x: H('Darwin Ortiz, en «Strong Magic», describe un «convencedor accidental» en una prueba con libro de Tamariz: un fallo aparente al sumar las cifras de una página hace pensar al público que el mago podría haber llegado a cualquier otra palabra. Ken Weber lo discute desde el mentalismo: dice que equivocarse en una suma simple resta credibilidad. Dos maestros, dos opiniones, y una buena pregunta para tu propia presentación.', 'Darwin Ortiz, a «Strong Magic», descriu un «convencedor accidental» en una prova amb llibre de Tamariz: un error aparent en sumar les xifres d\'una pàgina fa pensar al públic que el mag podria haver arribat a qualsevol altra paraula. Ken Weber ho discuteix des del mentalisme: diu que equivocar-se en una suma simple resta credibilitat. Dos mestres, dues opinions i una bona pregunta per a la teva pròpia presentació.'),
+    s: 'Weber, Maximum Entertainment 2.0 (cita a D. Ortiz, Strong Magic)' },
+  { c: 'magia', i: '📖', t: H('Kaplan: poca técnica y mucha presentación', 'Kaplan: poca tècnica i molta presentació'),
+    x: H('«El arte de la magia», de George G. Kaplan, defiende los juegos mentales, con muy poca técnica y una presentación relajada, y dedica su último capítulo a la presentación. La edición española (Madrid, 1998), traducida por Rafael Benatar, lleva prólogo de Juan Tamariz, que cuenta cómo llegó el libro a sus manos hacia 1960 gracias a Juan Antón.', '«El arte de la magia», de George G. Kaplan, defensa els jocs mentals, amb molt poca tècnica i una presentació relaxada, i dedica l\'últim capítol a la presentació. L\'edició espanyola (Madrid, 1998), traduïda per Rafael Benatar, porta pròleg de Juan Tamariz, que explica com va arribar el llibre a les seves mans cap al 1960 gràcies a Juan Antón.'),
+    s: 'Kaplan, El arte de la magia (ed. española, 1998)' },
+  { c: 'magia', i: '🧠', t: H('Tamariz, mago y teórico a la vez', 'Tamariz, mag i teòric alhora'),
+    x: H('Kuhn pone a Tamariz y a Ricky Jay como ejemplos de grandes intérpretes que, además, entienden a fondo su arte y saben diseccionar un juego con detalle. «La vía mágica» (Frakson, 1988; en inglés, «The Magic Way») y «Magic in Mind» (Vanishing, 2012) aparecen entre las obras que cita.', 'Kuhn posa Tamariz i Ricky Jay com a exemples de grans intèrprets que, a més, entenen a fons el seu art i saben dissecar un joc amb detall. «La vía mágica» (Frakson, 1988; en anglès, «The Magic Way») i «Magic in Mind» (Vanishing, 2012) apareixen entre les obres que cita.'),
+    s: 'Kuhn, Experiencing the Impossible (2019), notas 6, 35 y 37' }
+);
+
+/* ---------- Verdadero o falso: nuevas afirmaciones ---------- */
+VF.push(
+  { s: H('El truco de la cuerda india se documentó por primera vez en un tratado de magia del siglo XVII.', 'El truc de la corda índia es va documentar per primera vegada en un tractat de màgia del segle XVII.'), v: false, w: H('Su difusión en Occidente viene de un relato de 1890 en un diario de Chicago que resultó ser un bulo.', 'La seva difusió a Occident ve d\'un relat de 1890 en un diari de Chicago que va resultar ser un embull.') },
+  { s: H('En un experimento de Kuhn y Tatler, solo tres de veinte personas vieron caer un cigarrillo delante de sus ojos.', 'En un experiment de Kuhn i Tatler, només tres de vint persones van veure caure una cigarreta davant dels seus ulls.'), v: true, w: H('La atención dirigida a otra cosa puede dejar invisible incluso lo que ocurre a plena vista.', 'L\'atenció dirigida a una altra cosa pot deixar invisible fins i tot el que passa a plena vista.') },
+  { s: H('Un corte completo de la baraja destruye el orden de una baraja ordenada.', 'Un tall complet de la baralla destrueix l\'ordre d\'una baralla ordenada.'), v: false, w: H('Solo cambia por dónde empieza: el orden es cíclico y las cartas siguen yendo cada una detrás de la misma.', 'Només canvia per on comença: l\'ordre és cíclic i les cartes continuen anant cadascuna darrere de la mateixa.') },
+  { s: H('Según Bob Cassidy, calcular la carta mientras hablas con el público es más fácil que memorizar la baraja.', 'Segons Bob Cassidy, calcular la carta mentre parles amb el públic és més fàcil que memoritzar la baralla.'), v: false, w: H('Defiende justo lo contrario: el cálculo se complica con el público delante, y memorizar enseña a memorizar cualquier otra cosa.', 'Defensa just el contrari: el càlcul es complica amb el públic al davant, i memoritzar ensenya a memoritzar qualsevol altra cosa.') },
+  { s: H('Tamariz escribió el prólogo de la edición española de «El arte de la magia», de Kaplan.', 'Tamariz va escriure el pròleg de l\'edició espanyola d\'«El arte de la magia», de Kaplan.'), v: true, w: H('Fue en la edición de Madrid de 1998, con traducción de Rafael Benatar.', 'Va ser a l\'edició de Madrid de 1998, amb traducció de Rafael Benatar.') }
+);
+
+/* ---------- Chistes de camerino nuevos ---------- */
+QUIPS.push(
+  H('Memorizar la baraja es como aprender un idioma: al principio dices «cuatro de tréboles» con acento, y un día ya piensas en 4♣.', 'Memoritzar la baralla és com aprendre un idioma: al principi dius «quatre de trèvols» amb accent, i un dia ja penses en 4♣.'),
+  H('Si calculas la carta en voz alta, el público piensa que eres matemático. Si te la sabes de memoria, que eres adivino. Elige disfraz.', 'Si calcules la carta en veu alta, el públic pensa que ets matemàtic. Si te la saps de memòria, que ets endevinaire. Tria disfressa.'),
+  H('La cuerda india nació de una noticia falsa y ha tenido más testigos que muchas bodas. Eso es tener buena prensa.', 'La corda índia va néixer d\'una notícia falsa i ha tingut més testimonis que moltes bodes. Això és tenir bona premsa.'),
+  H('Según un estudio, de veinte personas solo tres vieron caer el cigarrillo. Las otras diecisiete son el público ideal.', 'Segons un estudi, de vint persones només tres van veure caure la cigarreta. Les altres disset són el públic ideal.'),
+  H('Hay pausas dramáticas y pausas porque no te acuerdas. El público solo las distingue si tú las distingues.', 'Hi ha pauses dramàtiques i pauses perquè no te\'n recordes. El públic només les distingeix si tu les distingeixes.'),
+  H('La curva de atención perfecta: alta al empezar, llana en el medio y alta otra vez al final. La del cuñado: llana siempre, con bostezo.', 'La corba d\'atenció perfecta: alta al començar, plana al mig i alta una altra vegada al final. La del cunyat: plana sempre, amb badall.'),
+  H('Cuando un mago se equivoca con gracia, el público aplaude el error. Cuando se equivoca sin gracia, aplaude el cuñado.', 'Quan un mag s\'equivoca amb gràcia, el públic aplaudeix l\'error. Quan s\'equivoca sense gràcia, aplaudeix el cunyat.'),
+  H('Ensayar ante el espejo está bien. Ensayar ante un amigo que te dice la verdad, mejor. Ante tu suegra, el nivel final.', 'Assajar davant del mirall està bé. Assajar davant d\'un amic que et diu la veritat, millor. Davant de la sogra, el nivell final.'),
+  H('La carta 52 es el 9♦. Sabe lo que es llegar la última: todos se han ido y la baraja vuelve a empezar sin ti.', 'La carta 52 és el 9♦. Sap què és arribar l\'última: tothom se n\'ha anat i la baralla torna a començar sense tu.'),
+  H('Lo difícil de la Mnemónica no son 52 cartas, sino los diez segundos de silencio en los que todo el bar espera a que recuerdes la 38.', 'El difícil de la Mnemònica no són 52 cartes, sinó els deu segons de silenci en què tot el bar espera que recordis la 38.'),
+  H('El truco más difícil del mago: terminar a tiempo. El segundo, que no te pidan «el último, el último» seis veces.', 'El truc més difícil del mag: acabar a temps. El segon, que no et demanin «l\'últim, l\'últim» sis vegades.'),
+  H('Si te preguntan «¿cómo lo has hecho?», sonríe. Si te preguntan «¿qué estás haciendo?», cambia de presentación.', 'Si et pregunten «com ho has fet?», somriu. Si et pregunten «què estàs fent?», canvia de presentació.'),
+  H('Memorizar una baraja es lo más difícil de lo fácil y lo más fácil de lo difícil. Y el cuñado lo hace «en una tarde».', 'Memoritzar una baralla és el més difícil del fàcil i el més fàcil del difícil. I el cunyat ho fa «en una tarda».'),
+  H('Un buen final es como una buena carta: no se explica, se deja ahí y se espera el aplauso.', 'Un bon final és com una bona carta: no s\'explica, es deixa allà i s\'espera l\'aplaudiment.')
+);
+
+/* ---------- Mensajes de racha: los tres hitos de la escalera (13 · 26 · 52) ---------- */
+STREAK_MSGS[13] = H('Trece seguidas: un palo entero. La escalera de la app empieza justo aquí.', 'Tretze seguides: un coll sencer. L\'escala de l\'app comença just aquí.', 'Trece seguidas: un palo entero. La escalera de la app empieza justo acá.');
+STREAK_MSGS[26] = H('Veintiséis seguidas: media baraja en la cabeza. Falta la otra mitad, y es más de lo mismo.', 'Vint-i-sis seguides: mitja baralla al cap. Falta l\'altra meitat, i és més del mateix.', 'Veintiséis seguidas: media baraja en la cabeza. Falta la otra mitad, y es más de lo mismo.');
+STREAK_MSGS[52] = H('Cincuenta y dos seguidas: la baraja entera, sin un fallo. Ya puedes salir a escena (con permiso del cuñado).', 'Cinquanta-dues seguides: la baralla sencera, sense cap error. Ja pots sortir a escena (amb permís del cunyat).', 'Cincuenta y dos seguidas: la baraja entera, sin una falla. Ya podés salir a escena (con permiso del cuñado).');
+
+/* ---------- Guía: presentar con baraja ordenada ---------- */
+const MOMENTS = () => [
+  { ic: '🎯', t: L('La carta que dice el número', 'La carta que diu el número'),
+    ve: L('Alguien dice un número del 1 al 52. Tú nombras la carta que ocupa ese lugar y, al contar hasta él, está justo ahí.', 'Algú diu un número de l\'1 al 52. Tu anomenes la carta que ocupa aquest lloc i, en comptar fins a ell, és just allà.'),
+    sube: [L('Que el número lo elija quien quiera y lo apunte antes en un papel.', 'Que el número el triï qui vulgui i l\'apunti abans en un paper.'), L('Cuenta tú despacio, sobre la mesa, y deja la carta boca abajo hasta el final.', 'Compta tu a poc a poc, sobre la taula, i deixa la carta cap per avall fins al final.'), L('Que sea otra persona quien le dé la vuelta.', 'Que sigui una altra persona qui li giri.')],
+    g: L('«No te pido que me creas. Te pido un número.»', '«No et demano que em creguis. Et demano un número.»'),
+    e: L('Modo «Carta al número» (y Gala).', 'Mode «Carta al número» (i Gala).') },
+  { ic: '🔁', t: L('Tu carta, tu sitio', 'La teva carta, el teu lloc'),
+    ve: L('Dicen una carta cualquiera y tú anuncias en qué lugar de la baraja está. Se cuenta y coincide.', 'Diuen una carta qualsevol i tu anuncies en quin lloc de la baralla és. Es compta i coincideix.'),
+    sube: [L('Empieza con una carta «normal» y acaba con la más caprichosa que sepan pedir.', 'Comença amb una carta «normal» i acaba amb la més capriciosa que sàpiguen demanar.'), L('Anuncia el lugar antes de tocar la baraja.', 'Anuncia el lloc abans de tocar la baralla.'), L('Si fallas una, no te disculpes diez veces: usa una de las excusas de la Sala del cachondeo.', 'Si falles una, no et disculpis deu vegades: fes servir una de les excuses de la Sala del cachondeig.')],
+    g: L('«Dime una carta y te digo dónde vive.»', '«Digue\'m una carta i et dic on viu.»'),
+    e: L('Modo «Carta y número».', 'Mode «Carta y número».') },
+  { ic: '👀', t: L('Un corte limpio y un vistazo', 'Un tall net i una ullada'),
+    ve: L('Cortan y completan el corte como quieran, las veces que quieran. Tú nombras la carta por la que han cortado.', 'Tallen i completen el tall com vulguin, les vegades que vulguin. Tu anomenes la carta per la qual han tallat.'),
+    sube: [L('Que corte alguien de otra mesa: nadie sospecha de quien no te conoce.', 'Que talli algú d\'una altra taula: ningú no sospita de qui no et coneix.'), L('Haz el vistazo con calma: el mejor disimulo es no tener prisa.', 'Fes l\'ullada amb calma: el millor dissimulament és no tenir pressa.'), L('Nombra primero el palo y luego el valor, como quien duda.', 'Anomena primer el coll i després el valor, com qui dubta.')],
+    g: L('«Corta donde quieras. Es tu baraja… por un momento.»', '«Talla on vulguis. És la teva baralla… per un moment.»'),
+    e: L('Cortes reales y vistazo (Juegos → 13 cartas).', 'Talls reals i ullada (Jocs → 13 cartes).') },
+  { ic: '➡️', t: L('Las vecinas de tu carta', 'Les veïnes de la teva carta'),
+    ve: L('Eligen una carta y tú dices cuál va justo antes y cuál justo después en la baraja.', 'Trien una carta i tu dius quina va just abans i quina just després a la baralla.'),
+    sube: [L('Di primero la siguiente y luego la anterior: es lo contrario de lo que esperan.', 'Digues primer la següent i després l\'anterior: és el contrari del que esperen.'), L('Remata con la que va dos puestos más allá.', 'Remata amb la que va dos llocs més enllà.'), L('Recuerda que la baraja es cíclica: tras la 52 viene otra vez la 1.', 'Recorda que la baralla és cíclica: després de la 52 ve una altra vegada l\'1.')],
+    g: L('«Tu carta tiene vecinas. Yo conozco a las dos.»', '«La teva carta té veïnes. Jo conec les dues.»'),
+    e: L('Modo «El Vistazo» (la anterior y la siguiente).', 'Mode «El Vistazo» (l\'anterior i la següent).') },
+  { ic: '🔎', t: L('Faltan dos cartas', 'Falten dues cartes'),
+    ve: L('Le das la baraja, retiran una o dos cartas sin que las veas y tú las nombras a los pocos segundos.', 'Li dones la baralla, retiren una o dues cartes sense que les vegis i tu les anomenes als pocs segons.'),
+    sube: [L('Que las retiren de zonas distintas de la baraja.', 'Que les retirin de zones diferents de la baralla.'), L('Que sean ellos quienes escondan las cartas y quienes las enseñen.', 'Que siguin ells qui amaguin les cartes i qui les ensenyin.'), L('Empieza con una; la segunda es el bis.', 'Comença amb una; la segona és el bis.')],
+    g: L('«Quien tiene la baraja entera en la cabeza sabe qué le falta.»', '«Qui té la baralla sencera al cap sap què li falta.»'),
+    e: L('Modo «La carta que falta» y Juegos (de 13 a 52 cartas).', 'Mode «La carta que falta» i Jocs (de 13 a 52 cartes).') },
+  { ic: '🎤', t: L('Cinco preguntas, cero fallos', 'Cinc preguntes, zero errors'),
+    ve: L('Cinco personas hacen cinco preguntas cruzadas (de número a carta y de carta a número) y las respondes sin pausa y sin fallo.', 'Cinc persones fan cinc preguntes creuades (de número a carta i de carta a número) i les respons sense pausa i sense error.'),
+    sube: [L('Que cada pregunta la haga una persona distinta.', 'Que cada pregunta la faci una persona diferent.'), L('Alterna los sentidos y deja la más difícil para el final.', 'Alterna els sentits i deixa la més difícil per al final.'), L('Termina con un aplauso medido, no con una disculpa.', 'Acaba amb un aplaudiment mesurat, no amb una disculpa.')],
+    g: L('«Cinco preguntas. Cinco respuestas. Y ahora cierro el libro.»', '«Cinc preguntes. Cinc respostes. I ara tanco el llibre.»'),
+    e: L('Sesión mixta, Gala y Memoria total.', 'Sessió mixta, Gala i Memòria total.') }
+];
+const PRES = () => [
+  { ic: '🎬', t: L('Una frase que prometa', 'Una frase que prometi'), x: L('Antes de tocar la baraja, di en una sola frase qué va a pasar y por qué debería importarles. Si no cabe en una frase, el juego todavía no está claro. Weber lo resume pidiendo una trama directa, sin rodeos.', 'Abans de tocar la baralla, digues en una sola frase què passarà i per què els hauria d\'importar. Si no hi cap en una frase, el joc encara no és clar. Weber ho resumeix demanant una trama directa, sense voltes.') },
+  { ic: '✂️', t: L('Corte real, siempre', 'Tall real, sempre'), x: L('Un corte completo no estropea el orden cíclico: es tu mejor aliado. Deja que corten las veces que quieran y que se vea que lo hacen ellos.', 'Un tall complet no espatlla l\'ordre cíclic: és el teu millor aliat. Deixa que tallin les vegades que vulguin i que es vegi que ho fan ells.') },
+  { ic: '🎲', t: L('Pocas decisiones, claras', 'Poques decisions, clares'), x: L('Cuanto más real parece una decisión, menos busca el público el método (Kuhn, citando un estudio de 2017). Pide una sola elección cada vez y deja tiempo para tomarla.', 'Com més real sembla una decisió, menys busca el públic el mètode (Kuhn, citant un estudi del 2017). Demana una sola elecció cada vegada i deixa temps per prendre-la.') },
+  { ic: '🧮', t: L('Que no se note la cuenta', 'Que no es noti el compte'), x: L('Calcular delante del público es lo más difícil, advierte Cassidy en el texto que cita Weber. Practica hasta que la respuesta salga sin pensar: poner cara de no saber qué hacer no cuenta como pausa dramática.', 'Calcular davant del públic és el més difícil, adverteix Cassidy en el text que cita Weber. Practica fins que la resposta surti sense pensar: posar cara de no saber què fer no compta com a pausa dramàtica.') },
+  { ic: '🤫', t: L('Llena el silencio', 'Omple el silenci'), x: L('Mientras recuerdas una carta, dales algo útil que hacer: que cuenten, corten, escriban o miren la cara de su vecino. Donde va la atención, va la mirada (Kuhn).', 'Mentre recordes una carta, dona\'ls alguna cosa útil per fer: que comptin, tallin, escriguin o mirin la cara del veí. On va l\'atenció, va la mirada (Kuhn).') },
+  { ic: '📈', t: L('Cuida la curva de atención', 'Cuida la corba d\'atenció'), x: L('Empieza con fuerza, pasa a un tramo llano y cierra con lo más grande: es el consejo para espectáculos de «El Taumaturgo» n.º 4. En una mesa, ordena tus juegos igual: el más claro primero y el más imposible el último.', 'Comença amb força, passa a un tram pla i tanca amb el més gran: és el consell per a espectacles d\'«El Taumaturgo» n.º 4. En una taula, ordena els teus jocs igual: el més clar primer i el més impossible l\'últim.') },
+  { ic: '🕰️', t: L('Menos, y saboreado', 'Menys, i assaborit'), x: L('Tres juegos bien hechos valen más que siete a toda prisa. Deja que el público saboree el final, disfruta del aplauso y no corras al siguiente.', 'Tres jocs ben fets valen més que set a tota pressa. Deixa que el públic assaboreixi el final, gaudeix de l\'aplaudiment i no correguis al següent.') },
+  { ic: '🙋', t: L('Voluntarios con cortesía', 'Voluntaris amb cortesia'), x: L('Si alguien duda, no insistas más de tres veces; acompaña a quien se levanta y no le pongas en evidencia jamás. Una buena experiencia para el voluntario es la mejor publicidad del juego.', 'Si algú dubta, no insisteixis més de tres vegades; acompanya qui s\'aixeca i no el posis mai en evidència. Una bona experiència per al voluntari és la millor publicitat del joc.') },
+  { ic: '🙃', t: L('Ten guion para el fallo', 'Tingues guió per al fallo'), x: L('Un público que te aprecia perdona incluso los tropiezos grandes (Weber habla de ese plus de buena voluntad). Prepara una salida con humor para cuando se escape una carta; en la Sala del cachondeo tienes excusas de sobra.', 'Un públic que t\'aprecia perdona fins i tot els ensopegades grans (Weber parla d\'aquest plus de bona voluntat). Prepara una sortida amb humor per quan se t\'escapi una carta; a la Sala del cachondeig tens excuses de sobra.') },
+  { ic: '🎥', t: L('Mírate como te ven', 'Mira\'t com et veuen'), x: L('Weber insiste en grabarte, buscar un mentor o un amigo de confianza y ensayar ante personas reales. El espejo te dice cómo crees que te ven; el vídeo, cómo te ven.', 'Weber insisteix a gravar-te, buscar un mentor o un amic de confiança i assajar davant de persones reals. El mirall et diu com creus que et veuen; el vídeo, com et veuen.') },
+  { ic: '🧠', t: L('Poca técnica, mucha presentación', 'Poca tècnica, molta presentació'), x: L('Kaplan, en «El arte de la magia», prefería juegos mentales con muy poca técnica y una presentación relajada. Una baraja ordenada te da justo eso: la dificultad está en el estudio, no en las manos.', 'Kaplan, a «El arte de la magia», preferia jocs mentals amb molt poca tècnica i una presentació relaxada. Una baralla ordenada et dóna just això: la dificultat és a l\'estudi, no a les mans.') },
+  { ic: '🌌', t: L('Cuida el ambiente', 'Cuida l\'ambient'), x: L('Ascanio escribió sobre la atmósfera mágica (así figura en el índice de «La magia de Ascanio», vol. 1). Baja el ruido, mira a los ojos y habla despacio: un juego sencillo en el sitio adecuado gana mucho.', 'Ascanio va escriure sobre l\'atmosfera màgica (així figura a l\'índex de «La magia de Ascanio», vol. 1). Baixa el soroll, mira als ulls i parla a poc a poc: un joc senzill al lloc adequat guanya molt.') }
+];
+ROUTES['learn:present'] = () => {
+  const mo = MOMENTS(), pr = PRES();
+  return `
+  <div class="row mt"><button class="ibtn" data-a="back" data-tab="home" aria-label="${L('Volver', 'Tornar')}">‹</button><h2 style="margin:0">${L('Presentar con baraja ordenada', 'Presentar amb baralla ordenada')}</h2></div>
+  <p class="mut">${L('Saberte las cartas es la mitad del trabajo; la otra mitad es que el público lo viva. Aquí tienes <b>momentos wow</b> para provocar el asombro con lo que ya practicas en la app, y <b>ideas de presentación</b> sacadas de la bibliografía.', 'Saber-te les cartes és la meitat de la feina; l\'altra meitat és que el públic ho visqui. Aquí tens <b>moments wow</b> per provocar l\'astorament amb el que ja practiques a l\'app, i <b>idees de presentació</b> extretes de la bibliografia.')}</p>
+  <div class="sec"><h3>🎬 ${L('Momentos wow', 'Moments wow')}</h3><span class="mut small">${mo.length}</span></div>
+  <div class="gap">${mo.map((m, i) => `<details class="basic"${i === 0 ? ' open' : ''}><summary><span class="fi">${m.ic}</span><span>${esc(m.t)}</span></summary><div class="bx">
+    <p><b>${L('Lo que ve el público', 'El que veu el públic')}.</b> ${esc(m.ve)}</p>
+    <p class="small"><b>${L('Para subir el wow', 'Per pujar el wow')}</b></p><ul class="small">${m.sube.map(x => `<li>${esc(x)}</li>`).join('')}</ul>
+    <p class="small"><b>${L('Frase de apertura', 'Frase d\'obertura')}:</b> <i>${esc(m.g)}</i></p>
+    <p class="tiny mut">${L('Lo que entrenas', 'El que entrenes')}: ${esc(m.e)}</p></div></details>`).join('')}</div>
+  <div class="sec"><h3>🧭 ${L(`${pr.length} ideas de presentación`, `${pr.length} idees de presentació`)}</h3></div>
+  <div class="gap">${pr.map(p => `<details class="basic"><summary><span class="fi">${p.ic}</span><span>${esc(p.t)}</span></summary><div class="bx"><p>${esc(p.x)}</p></div></details>`).join('')}</div>
+  <div class="row wrap mt"><button class="btn sm brass" data-a="go-juegos">${L('🃏 Juegos con la Mnemónica', '🃏 Jocs amb la Mnemònica')}</button><button class="btn sm" data-a="go-sim">${L('🎬 Simulador', '🎬 Simulador')}</button><button class="btn sm" data-a="go-cachondeo">${L('🍺 Excusas de mago', '🍺 Excuses de mag')}</button></div>
+  <p class="credit">${L('Ideas resumidas con palabras propias a partir de Ken Weber (<i>Maximum Entertainment 2.0</i>), Gustav Kuhn (<i>Experiencing the Impossible</i>, 2019), George G. Kaplan (<i>El arte de la magia</i>), <i>El Taumaturgo</i> n.º 4 (2020) y la bibliografía de Tamariz y Ascanio. No reproducen los textos originales: para el detalle, hay que ir a los libros.', 'Idees resumides amb paraules pròpies a partir de Ken Weber (<i>Maximum Entertainment 2.0</i>), Gustav Kuhn (<i>Experiencing the Impossible</i>, 2019), George G. Kaplan (<i>El arte de la magia</i>), <i>El Taumaturgo</i> n.º 4 (2020) i la bibliografia de Tamariz i Ascanio. No reprodueixen els textos originals: per al detall, cal anar als llibres.')}</p>`;
+};
+A['go-present'] = () => go('learn', 'present');
+
+/* ===================== CULTURA MÁGICA 3 · «EL MANUSCRITO» (CIM, MÁLAGA) =====================
+   Curiosidades, verdadero/falso, chistes y consejos tomados de nueve números de la revista «El Manuscrito», editada por el
+   Círculo de Ilusionistas Malagueños y dirigida por Dani DaOrtiz (n.º 1, 2, 3, 4, 5, 6, 8, 9 y 10).
+   Todo el texto es de la app y está escrito con palabras propias. Cada dato se resume y se atribuye al número y al autor
+   del artículo; no se copian pasajes ni se explican métodos. Donde las fuentes discrepan (por ejemplo, la fecha del episodio
+   Vernon–Houdini) se dice expresamente. Se carga después de lore2.js y antes de i18n_humor2.js (usa H). */
+
+/* ---------- Curiosidades de «El Manuscrito» ---------- */
+FACTS.push(
+  /* ---- Fred Kaps ---- */
+  { c: 'magia', i: '🎩', t: H(`Mystica ganó en Barcelona y luego se llamó Fred Kaps`, `Mystica va guanyar a Barcelona i després es va dir Fred Kaps`),
+    x: H(`En el congreso de la FISM de Barcelona (1950), un joven holandés que actuaba como Mystica se llevó el primer premio con un número lleno de bastones que aparecían y desaparecían. Su representante, Henk Vermeyden, le propuso cambiar de nombre: según la revista, el 1 de diciembre de 1950 dejó de ser Mystica y pasó a llamarse Fred Kaps.`, `Al congrés de la FISM de Barcelona (1950), un jove holandès que actuava com a Mystica es va endur el primer premi amb un número ple de bastons que apareixien i desapareixien. El seu representant, Henk Vermeyden, li va proposar canviar de nom: segons la revista, l'1 de desembre de 1950 va deixar de ser Mystica i es va dir Fred Kaps.`),
+    s: 'El Manuscrito n.º 4 (CIM)' },
+  { c: 'magia', i: '🏆', t: H(`Tres Grandes Premios de la FISM`, `Tres Grans Premis de la FISM`),
+    x: H(`Kaps ganó el Gran Premio de la FISM en 1950, en 1955 y en 1961, y la revista lo presenta como el primero en conseguirlo tres veces. En 1955 estrenó un número nuevo: sacrificó la producción continua de bastones, que le había dado fama, y apostó por otras rutinas. Cambiar lo que ya funciona también es parte del oficio.`, `Kaps va guanyar el Gran Premi de la FISM el 1950, el 1955 i el 1961, i la revista el presenta com el primer a aconseguir-ho tres vegades. El 1955 va estrenar un número nou: va sacrificar la producció contínua de bastons, que li havia donat fama, i va apostar per altres rutines. Canviar el que ja funciona també és part de l'ofici.`),
+    s: 'El Manuscrito n.º 4 (CIM)' },
+  { c: 'magia', i: '🧂', t: H(`El truco ajeno que Kaps convirtió en suyo`, `El truc aliè que Kaps va fer seu`),
+    x: H(`La rutina del salero no era suya, y él lo reconocía abiertamente. Con una mejora pequeñísima, la revista cuenta que se volvió un milagro en sus manos. Lección de oficio: la originalidad suele estar en el detalle, no en inventarlo todo desde cero.`, `La rutina del saler no era seva, i ell ho reconeixia obertament. Amb una millora petitíssima, la revista explica que va esdevenir un miracle a les seves mans. Lliçó d'ofici: l'originalitat sol estar en el detall, no en inventar-ho tot de zero.`),
+    s: 'El Manuscrito n.º 4 (CIM)' },
+  { c: 'magia', i: '💈', t: H(`El peluquero de Utrecht y el trato de la semana`, `El perruquer d'Utrecht i el tracte de la setmana`),
+    x: H(`Fred Kaps (A. P. A. Bongers, nacido en Róterdam en 1926) empezó a los nueve años con un peluquero aficionado a la magia. El trato era sencillo: si la semana siguiente dominaba el juego, aprendía otro; si no, otra vez sería. Kaps pedía ir a cortarse el pelo con una insistencia sospechosa. Es, de hecho, un método de estudio estupendo.`, `Fred Kaps (A. P. A. Bongers, nascut a Rotterdam el 1926) va començar als nou anys amb un perruquer aficionat a la màgia. El tracte era senzill: si la setmana següent dominava el joc, n'aprenia un altre; si no, una altra vegada. Kaps demanava anar a tallar-se els cabells amb una insistència sospitosa. És, de fet, un mètode d'estudi estupend.`),
+    s: 'El Manuscrito n.º 4 · entrevista de Ascanio a Kaps' },
+  { c: 'magia', i: '🎱', t: H(`Entrenar con bolas más grandes que las de escena`, `Entrenar amb boles més grans que les d'escena`),
+    x: H(`Kaps no era un genio sin esfuerzo: practicaba sin parar y se lo ponía difícil a propósito. Para ensayar usaba bolas de billar bastante más grandes que las de su actuación, de modo que el día de la verdad todo le resultara más fácil. En un bar de Utrecht se cuenta, además, que solo bebía zumo de fruta para no perder agilidad en los dedos.`, `Kaps no era un geni sense esforç: practicava sense parar i se la posava difícil a propòsit. Per assajar feia servir boles de billar força més grans que les de la seva actuació, de manera que el dia de la veritat tot li resultés més fàcil. En un bar d'Utrecht s'explica, a més, que només bevia suc de fruita per no perdre agilitat als dits.`),
+    s: 'El Manuscrito n.º 4 (CIM)' },
+  { c: 'magia', i: '🧢', t: H(`Kaps, «caps» y las gorras de las portadas`, `Kaps, «caps» i les gorres de les portades`),
+    x: H(`Paul Wilson contó una pequeña broma escondida: en las portadas de los apuntes «Kaps on Coins» y «Kaps on Kards», las monedas y las cartas dibujadas llevan gorra. En inglés, «Kaps» y «caps» (gorras) suenan igual. Un guiño que casi nadie había notado.`, `Paul Wilson va explicar una petita broma amagada: a les portades dels apunts «Kaps on Coins» i «Kaps on Kards», les monedes i les cartes dibuixades porten gorra. En anglès, «Kaps» i «caps» (gorres) sonen igual. Una picada d'ullet que gairebé ningú no havia notat.`),
+    s: 'El Manuscrito n.º 4 · Camilo Vázquez' },
+  { c: 'magia', i: '🥤', t: H(`Las monedas de Kaps eran posavasos`, `Les monedes de Kaps eren posaglops`),
+    x: H(`Según Camilo Vázquez, las piezas que Kaps usaba en su número de monedas no eran monedas reales, sino posavasos que encontró en un restaurante y vio con la medida adecuada. Un mago mira un objeto cotidiano y se pregunta en qué otra cosa puede convertirse. Esa es la mitad de la creatividad mágica.`, `Segons Camilo Vázquez, les peces que Kaps feia servir al seu número de monedes no eren monedes reals, sinó posaglops que va trobar en un restaurant i va veure amb la mida adequada. Un mag mira un objecte quotidià i es pregunta en què més es pot convertir. Aquesta és la meitat de la creativitat màgica.`),
+    s: 'El Manuscrito n.º 4 · Camilo Vázquez' },
+  { c: 'magia', i: '🔗', t: H(`«Claro, Houdini era escapista»`, `«Clar, Houdini era escapista»`),
+    x: H(`En una reunión de magos en París, Kaps enseñó una moneda de plata con la cara de Houdini. Pasó de mano en mano como una curiosidad cualquiera. Cuando volvió a él, la cara había desaparecido, dejando un hueco con unas esposas diminutas colgando. Kaps comentó, sin inmutarse, que Houdini era escapista. Camilo Vázquez destaca la naturalidad: el objeto entró en juego sin que nadie sospechara el truco.`, `En una reunió de mags a París, Kaps va ensenyar una moneda de plata amb la cara de Houdini. Va passar de mà en mà com una curiositat qualsevol. Quan li va tornar, la cara havia desaparegut, deixant un forat amb unes manilles minúscules penjant. Kaps va comentar, sense immutar-se, que Houdini era escapista. Camilo Vázquez destaca la naturalitat: l'objecte va entrar en joc sense que ningú sospités el truc.`),
+    s: 'El Manuscrito n.º 4 · Camilo Vázquez' },
+  { c: 'magia', i: '📺', t: H(`El mago que salió justo después de los Beatles`, `El mag que va sortir just després dels Beatles`),
+    x: H(`El 9 de febrero de 1964, Fred Kaps compartió el programa de Ed Sullivan con el debut de los Beatles en Estados Unidos (unos 73 millones de espectadores, según las estimaciones habituales). Salió en cuanto terminó su primer bloque, y su número era una grabación previa. Sullivan lo había visto actuar en Europa y, en otra de sus visitas, le pidió el efecto de los pompones chinos: a Kaps le parecía demasiado modesto.`, `El 9 de febrer de 1964, Fred Kaps va compartir el programa d'Ed Sullivan amb el debut dels Beatles als Estats Units (uns 73 milions d'espectadors, segons les estimacions habituals). Va sortir just en acabar el seu primer bloc, i el seu número era un enregistrament previ. Sullivan l'havia vist actuar a Europa i, en una altra de les seves visites, li va demanar l'efecte dels pompons xinesos: a Kaps li semblava massa modest.`),
+    s: 'El Manuscrito n.º 8 · John Fisher (trad. A. Iturra) · History.com' },
+  { c: 'magia', i: '🎶', t: H(`Quince minutos con la música equivocada`, `Quinze minuts amb la música equivocada`),
+    x: H(`Camilo Vázquez puso una grabación de la que se cree que fue la última actuación de Kaps en escena (Japón, 1980). El técnico de sonido puso la música equivocada en todos sus números. Kaps salió del paso con tanta maestría que quien no conociera el acto no habría notado nada. Solo tú conoces el plan: el público no sabe lo que debería haber sonado.`, `Camilo Vázquez va posar un enregistrament del qual es creu que va ser l'última actuació de Kaps a l'escenari (Japó, 1980). El tècnic de so va posar la música equivocada a tots els seus números. Kaps se'n va sortir amb tanta mestria que qui no conegués l'acte no hauria notat res. Només tu coneixes el pla: el públic no sap què hauria d'haver sonat.`),
+    s: 'El Manuscrito n.º 4 · Camilo Vázquez' },
+  { c: 'magia', i: '📚', t: H(`La biblioteca de Kaps: notas a lápiz y ningún libro infantil`, `La biblioteca de Kaps: notes a llapis i cap llibre infantil`),
+    x: H(`Kaps tenía una biblioteca mágica enorme y muchos de sus volúmenes llevan pasajes subrayados y notas a lápiz de su mano. Lo curioso es lo que faltaba: ningún libro de magia para niños. Solo una vez le pidieron un espectáculo infantil, con motivo de la visita del presidente Sukarno de Indonesia.`, `Kaps tenia una biblioteca màgica enorme i molts dels seus volums porten passatges subratllats i notes a llapis de la seva mà. El curiós és el que hi faltava: cap llibre de màgia per a nens. Només una vegada li van demanar un espectacle infantil, amb motiu de la visita del president Sukarno d'Indonèsia.`),
+    s: 'El Manuscrito n.º 4 (CIM)' },
+  { c: 'cartas', i: '📦', t: H(`La carta firmada y la cajita: un clásico con autor casi olvidado`, `La carta signada i la capseta: un clàssic amb autor gairebé oblidat`),
+    x: H(`Roberto Giobbi cuenta que el efecto de la carta firmada que acaba doblada dentro de una cajita nació de un aficionado alemán, Bruno Henning, «Jaro». En 1958 se lo mostró a Kalanag y a Kaps, y Kaps lo acabó haciendo suyo. Giobbi lo cita como ejemplo de simplificación magistral: claro, directo y presentable en casi cualquier situación.`, `Roberto Giobbi explica que l'efecte de la carta signada que acaba plegada dins d'una capseta va néixer d'un aficionat alemany, Bruno Henning, «Jaro». El 1958 li va ensenyar a Kalanag i a Kaps, i Kaps va acabar fent-lo seu. Giobbi el cita com a exemple de simplificació magistral: clar, directe i presentable en gairebé qualsevol situació.`),
+    s: 'El Manuscrito n.º 6 · Roberto Giobbi' },
+
+  /* ---- Hofzinser, naipes y anécdotas del siglo XIX ---- */
+  { c: 'cartas', i: '🪵', t: H(`Las cartas de Hofzinser se imprimían con tacos de madera`, `Les cartes de Hofzinser s'imprimien amb tacs de fusta`),
+    x: H(`Eugene Gloye recuerda que Hofzinser (1806–1875) usaba naipes impresos con bloques de madera y coloreados a mano, con rasgos que no tienen las barajas actuales. Pocas han sobrevivido, en parte por su naturaleza efímera, y los coleccionistas las aprecian mucho. Su tesis: para entender el arte de Hofzinser con las cartas, hay que conocer cómo eran de verdad.`, `Eugene Gloye recorda que Hofzinser (1806–1875) feia servir naips impresos amb blocs de fusta i acolorits a mà, amb trets que no tenen les baralles actuals. Poques han sobreviscut, en part per la seva naturalesa efímera, i els col·leccionistes les aprecien molt. La seva tesi: per entendre l'art de Hofzinser amb les cartes cal saber com eren de veritat.`),
+    s: 'El Manuscrito n.º 6 · E. Gloye (trad. R. Rioboó)' },
+  { c: 'cartas', i: '3️⃣', t: H(`La baraja de 32 cartas de Hofzinser`, `La baralla de 32 cartes de Hofzinser`),
+    x: H(`Hofzinser usaba normalmente un mazo de solo 32 cartas, sin los números del 2 al 6. En los países germánicos se conoce como baraja de Skat, y es idéntica a la de Piquet francesa que empleaba Robert-Houdin. Con ese mazo, la mnemónica cabría en ocho estrofas de cuatro cartas en vez de trece: veinte cartas menos que memorizar.`, `Hofzinser feia servir normalment una baralla de només 32 cartes, sense els números del 2 al 6. Als països germànics es coneix com a baralla de Skat, i és idèntica a la de Piquet francesa que emprava Robert-Houdin. Amb aquesta baralla, la mnemònica cabria en vuit estrofes de quatre cartes en comptes de tretze: vint cartes menys per memoritzar.`),
+    s: 'El Manuscrito n.º 6 · E. Gloye (trad. R. Rioboó)' },
+  { c: 'magia', i: '🦷', t: H(`Hofzinser devolvió la dentadura… a su propia mujer`, `Hofzinser va tornar la dentadura… a la seva pròpia dona`),
+    x: H(`Una anécdota recogida por Alexander Patuzzi en un libro de 1857 sobre el diario de Hofzinser: en una reunión, una dama se quitó la dentadura postiza y la dejó en un vaso. Un caballero ofreció devolvérsela con un pase de manos, ella aceptó y los dientes volvieron a su boca. La dama era, por casualidad, Wilhelmine Hofzinser: su esposa.`, `Una anècdota recollida per Alexander Patuzzi en un llibre del 1857 sobre el diari de Hofzinser: en una reunió, una dama es va treure la dentadura postissa i la va deixar en un got. Un cavaller va oferir tornar-li-la amb un passi de mans, ella va acceptar i les dents van tornar a la seva boca. La dama era, per casualitat, Wilhelmine Hofzinser: la seva esposa.`),
+    s: 'El Manuscrito n.º 9 · Patuzzi (Viena, 1857)' },
+  { c: 'magia', i: '🐤', t: H(`El anillo, el canario, el loro y el perro de Terranova`, `L'anell, el canari, el lloro i el gos de Terranova`),
+    x: H(`Otra historia atribuida a Hofzinser: tras colgar un anillo prestado del pico de un canario y dejarlo salir por la ventana, el espectador exigía su joya. El mago envió un loro tras el canario, un perro tras el loro y un ayudante tras todos. Al final entró el canario con el loro en la boca, el loro con el perro y el ayudante con el anillo. La revista sospecha que es una burla de un efecto famoso de la época.`, `Una altra història atribuïda a Hofzinser: després de penjar un anell prestat del bec d'un canari i deixar-lo sortir per la finestra, l'espectador exigia la seva joia. El mag va enviar un lloro darrere del canari, un gos darrere del lloro i un ajudant darrere de tots. Al final va entrar el canari amb el lloro a la boca, el lloro amb el gos i l'ajudant amb l'anell. La revista sospita que és una burla d'un efecte famós de l'època.`),
+    s: 'El Manuscrito n.º 9 · Patuzzi (Viena, 1857)' },
+
+  /* ---- Robert-Houdin y el árbol que florece ---- */
+  { c: 'magia', i: '🍊', t: H(`El naranjo que florece tiene más de mil años de historia`, `El taronger que floreix té més de mil anys d'història`),
+    x: H(`Gema Navarro traza la genealogía del «Naranjo Fantástico» de Robert-Houdin: una leyenda del siglo IX sobre Luis el Piadoso, un manzano que florecía y daba fruto en un minuto en la Bartholomew Fair londinense (1731), el repertorio de Pinetti en París (1783–1786) y «El jardín encantado» de Cornillot (1822). Robert-Houdin recogió todo eso y lo perfeccionó: en su versión, el árbol aparecía junto al anillo prestado que volvía a aparecer.`, `Gema Navarro traça la genealogia del «Taronger Fantàstic» de Robert-Houdin: una llegenda del segle IX sobre Lluís el Pietós, un pomer que floria i donava fruit en un minut a la Bartholomew Fair londinenca (1731), el repertori de Pinetti a París (1783–1786) i «El jardí encantat» de Cornillot (1822). Robert-Houdin ho va recollir tot i ho va perfeccionar: en la seva versió, l'arbre apareixia al costat de l'anell prestat que tornava a aparèixer.`),
+    s: 'El Manuscrito n.º 5 · Gema Navarro' },
+  { c: 'magia', i: '🌳', t: H(`Un árbol con los colores de los naipes`, `Un arbre amb els colors dels naips`),
+    x: H(`Gema Navarro recuerda que el árbol simboliza la unión del cielo con la tierra en muchas culturas. Añade una coincidencia curiosa: las correspondencias de color de la alquimia asignan el negro a las raíces, el blanco al tronco y el rojo a la copa, los mismos colores de los naipes. Es una lectura suya, pero explica por qué un naranjo funciona tan bien como imagen mágica.`, `Gema Navarro recorda que l'arbre simbolitza la unió del cel amb la terra en moltes cultures. Hi afegeix una coincidència curiosa: les correspondències de color de l'alquímia assignen el negre a les arrels, el blanc al tronc i el vermell a la copa, els mateixos colors dels naips. És una lectura seva, però explica per què un taronger funciona tan bé com a imatge màgica.`),
+    s: 'El Manuscrito n.º 5 · Gema Navarro' },
+  { c: 'magia', i: '⌚', t: H(`Relojes mágicos y un autómata que acabó en manos de Barnum`, `Rellotges màgics i un autòmat que va acabar a les mans de Barnum`),
+    x: H(`Antes de abrir su teatro, Robert-Houdin se especializó en «relojes mágicos», que daban la hora sin que se viera ningún mecanismo. También fabricó un autómata escribiente que ganó una medalla de plata en la Exposición de París de 1844 y terminó en manos de Barnum. Un conde que tenía uno de esos relojes quedó fascinado con su magia y le animó a montar su propio teatro en el Palais Royal.`, `Abans d'obrir el seu teatre, Robert-Houdin es va especialitzar en «rellotges màgics», que donaven l'hora sense que es veiés cap mecanisme. També va fabricar un autòmat escrivent que va guanyar una medalla de plata a l'Exposició de París de 1844 i va acabar a les mans de Barnum. Un comte que tenia un d'aquests rellotges va quedar fascinat amb la seva màgia i el va animar a muntar el seu propi teatre al Palais Royal.`),
+    s: 'El Manuscrito n.º 3 (CIM)' },
+
+  /* ---- Vernon, Houdini y Zarrow ---- */
+  { c: 'magia', i: '✉️', t: H(`La carta de Bess y la noche en vela de Houdini`, `La carta de Bess i la nit en blanc de Houdini`),
+    x: H(`Según el propio Vernon, Houdini aseguraba que nadie lo engañaría si veía un efecto tres veces seguidas, y ponía condiciones imposibles: mezclar él primero, repartir en su mano, luego en una silla. Vernon sostiene que le hizo la Carta Ambiciosa ocho veces y que conservaba una carta de Bess, la esposa de Houdini, contando que Harry pasó la noche dándole vueltas al efecto. Las fuentes discrepan: Vernon habla de 1919 y otras sitúan el episodio en 1922.`, `Segons el mateix Vernon, Houdini assegurava que ningú l'enganyaria si veia un efecte tres vegades seguides, i posava condicions impossibles: barrejar ell primer, repartir a la seva mà, després en una cadira. Vernon sosté que li va fer la Carta Ambiciosa vuit vegades i que conservava una carta de Bess, l'esposa de Houdini, explicant que Harry va passar la nit donant voltes a l'efecte. Les fonts discrepen: Vernon parla del 1919 i unes altres situen l'episodi el 1922.`),
+    s: 'El Manuscrito n.º 8 · D. DaOrtiz y H. Hamburg' },
+  { c: 'magia', i: '🏠', t: H(`La casa de Zarrow: cincuenta años de puertas abiertas`, `La casa de Zarrow: cinquanta anys de portes obertes`),
+    x: H(`Herb Zarrow (Paterson, Nueva Jersey, 1925) recibió en su casa a magos de todo el mundo durante unos cincuenta años. Por ella pasaron Dai Vernon, Slydini, Ricky Jay, Alex Elmsley, Juan Tamariz y Arturo de Ascanio, entre otros. Según Meir Yedid, casi no pasaba un mes sin reunión mágica allí. Zarrow decía que Vernon le cambió la manera de ver la magia en dos conferencias de 1946–47.`, `Herb Zarrow (Paterson, Nova Jersey, 1925) va rebre a casa seva mags de tot el món durant uns cinquanta anys. Hi van passar Dai Vernon, Slydini, Ricky Jay, Alex Elmsley, Juan Tamariz i Arturo de Ascanio, entre d'altres. Segons Meir Yedid, gairebé no passava un mes sense reunió màgica allà. Zarrow deia que Vernon li va canviar la manera de veure la màgia en dues conferències del 1946–47.`),
+    s: 'El Manuscrito n.º 5 · Meir Yedid (trad. A. Iturra)' },
+  { c: 'stack', i: '🔀', t: H(`Una mezcla que es sustantivo, adjetivo y verbo`, `Una barreja que és substantiu, adjectiu i verb`),
+    x: H(`La mezcla falsa de Zarrow, una de las herramientas clásicas para mezclar sin romper el orden, tuvo tanto éxito que su nombre se usa como sustantivo («haz una Zarrow»), adjetivo («mezcla Zarrow») y hasta verbo. Meir Yedid avisa de que, en sus demostraciones, lo que había que vigilar era el calentamiento: se excusaba por la artritis y los dedos hinchados, y luego la hacía perfecta.`, `La barreja falsa de Zarrow, una de les eines clàssiques per barrejar sense trencar l'ordre, va tenir tant d'èxit que el seu nom s'usa com a substantiu («fes una Zarrow»), adjectiu («barreja Zarrow») i fins i tot verb. Meir Yedid avisa que, en les seves demostracions, el que calia vigilar era l'escalfament: s'excusava per l'artritis i els dits inflats, i després la feia perfecta.`),
+    s: 'El Manuscrito n.º 5 · Meir Yedid (trad. A. Iturra)' },
+
+  /* ---- Estructura, práctica y pedagogía ---- */
+  { c: 'stack', i: '🧩', t: H(`Con una baraja ordenada, el orden es un recurso que se gasta o se guarda`, `Amb una baralla ordenada, l'ordre és un recurs que es gasta o es guarda`),
+    x: H(`Manuel Montes, en sus apuntes para una charla del CIM, defiende «trabajar para el futuro»: aprovechar los juegos intermedios para dejar la baraja lista y, a poder ser, elegir juegos que no alteren el orden. Si el público ve mezclar y usar la baraja durante toda la sesión, el efecto final con ordenación golpea más fuerte. Al planificar una sesión, pregúntate no solo qué juego haces, sino en qué estado deja la baraja.`, `Manuel Montes, en els seus apunts per a una xerrada del CIM, defensa «treballar per al futur»: aprofitar els jocs intermedis per deixar la baralla a punt i, si pot ser, triar jocs que no alterin l'ordre. Si el públic veu barrejar i fer servir la baralla durant tota la sessió, l'efecte final amb ordenació colpeix més fort. En planificar una sessió, pregunta't no només quin joc fas, sinó en quin estat deixa la baralla.`),
+    s: 'El Manuscrito n.º 3 · Manuel Montes' },
+  { c: 'magia', i: '🥱', t: H(`Las tres reglas de oro del mago (según Billy Wilder)`, `Les tres regles d'or del mag (segons Billy Wilder)`),
+    x: H(`Antonio del Pozo recoge una norma que atribuye al cineasta Billy Wilder: no aburrir, no aburrir y no aburrir. Y añade otra idea útil: saber la teoría de un juego no es saber hacerlo. El cerebro debe memorizar el tacto, el sonido y el ritmo, y eso solo llega con la práctica repetida. Por eso conviene repasar en voz alta y no solo en la cabeza.`, `Antonio del Pozo recull una norma que atribueix al cineasta Billy Wilder: no avorrir, no avorrir i no avorrir. I hi afegeix una altra idea útil: saber la teoria d'un joc no és saber-lo fer. El cervell ha de memoritzar el tacte, el so i el ritme, i això només arriba amb la pràctica repetida. Per això convé repassar en veu alta i no només al cap.`),
+    s: 'El Manuscrito n.º 1 · Antonio del Pozo' }
+);
+
+/* ---------- Verdadero o falso ---------- */
+VF.push(
+  { s: H(`Fred Kaps empezó en la magia con un peluquero aficionado de Utrecht.`, `Fred Kaps va començar en la màgia amb un perruquer aficionat d'Utrecht.`), v: true,
+    w: H(`Su primer maestro fue un peluquero que solo le enseñaba un juego nuevo cuando dominaba el anterior.`, `El seu primer mestre va ser un perruquer que només li ensenyava un joc nou quan dominava l'anterior.`) },
+  { s: H(`Kaps ganó su primer premio de la FISM en 1950, en Barcelona, bajo el nombre de Mystica.`, `Kaps va guanyar el seu primer premi de la FISM el 1950, a Barcelona, amb el nom de Mystica.`), v: true,
+    w: H(`Ese mismo año, según la revista, adoptó el nombre artístico de Fred Kaps.`, `Aquell mateix any, segons la revista, va adoptar el nom artístic de Fred Kaps.`) },
+  { s: H(`Kaps entrenaba con bolas de billar más pequeñas que las de su actuación.`, `Kaps entrenava amb boles de billar més petites que les de la seva actuació.`), v: false,
+    w: H(`Eran bastante más grandes: se lo ponía difícil en el ensayo para que en escena todo fuera más fácil.`, `Eren força més grans: se la posava difícil a l'assaig perquè a l'escenari tot fos més fàcil.`) },
+  { s: H(`En la biblioteca de Kaps había varios libros de magia para niños.`, `A la biblioteca de Kaps hi havia diversos llibres de màgia per a nens.`), v: false,
+    w: H(`No había ninguno, y solo una vez actuó para niños: con motivo de la visita del presidente Sukarno.`, `No n'hi havia cap, i només una vegada va actuar per a nens: amb motiu de la visita del president Sukarno.`) },
+  { s: H(`Kaps actuó en el programa de Ed Sullivan el mismo día que los Beatles debutaron en Estados Unidos.`, `Kaps va actuar al programa d'Ed Sullivan el mateix dia que els Beatles van debutar als Estats Units.`), v: true,
+    w: H(`Fue el 9 de febrero de 1964, justo después del primer bloque de los Beatles, y su número era una grabación previa.`, `Va ser el 9 de febrer de 1964, just després del primer bloc dels Beatles, i el seu número era un enregistrament previ.`) },
+  { s: H(`Hofzinser trabajaba normalmente con una baraja de 32 cartas.`, `Hofzinser treballava normalment amb una baralla de 32 cartes.`), v: true,
+    w: H(`Sin los números del 2 al 6: es el mazo de Skat, idéntico al de Piquet francés que usaba Robert-Houdin.`, `Sense els números del 2 al 6: és la baralla de Skat, idèntica a la de Piquet francès que feia servir Robert-Houdin.`) },
+  { s: H(`Los naipes de Hofzinser se imprimían con tacos de madera y se coloreaban a mano.`, `Els naips de Hofzinser s'imprimien amb tacs de fusta i s'acolorien a mà.`), v: true,
+    w: H(`Esa fabricación artesanal les daba rasgos que no tienen las barajas actuales, y quedan muy pocos.`, `Aquesta fabricació artesanal els donava trets que no tenen les baralles actuals, i en queden molt pocs.`) },
+  { s: H(`El «Naranjo Fantástico» de Robert-Houdin fue el primer árbol mágico de la historia.`, `El «Taronger Fantàstic» de Robert-Houdin va ser el primer arbre màgic de la història.`), v: false,
+    w: H(`Tenía antecedentes: un manzano en una feria londinense (1731), el repertorio de Pinetti en París y «El jardín encantado» de Cornillot (1822).`, `Tenia antecedents: un pomer en una fira londinenca (1731), el repertori de Pinetti a París i «El jardí encantat» de Cornillot (1822).`) },
+  { s: H(`Houdini admitió en público que Vernon lo había engañado.`, `Houdini va admetre en públic que Vernon l'havia enganyat.`), v: false,
+    w: H(`Según Vernon, Harry nunca lo admitía; sí conservaba una carta de Bess contando que pasó la noche dándole vueltas.`, `Segons Vernon, Harry mai ho admetia; sí que conservava una carta de Bess explicant que va passar la nit donant-hi voltes.`) },
+  { s: H(`En una sesión con baraja ordenada, lo ideal es que los juegos intermedios alteren el orden todo lo posible.`, `En una sessió amb baralla ordenada, l'ideal és que els jocs intermedis alterin l'ordre tant com sigui possible.`), v: false,
+    w: H(`Montes propone justo lo contrario: juegos que respeten el orden y lo dejen listo para el efecto final.`, `Montes proposa just el contrari: jocs que respectin l'ordre i el deixin a punt per a l'efecte final.`) }
+);
+
+/* ---------- Chistes de camerino ---------- */
+QUIPS.push(
+  H(`Kaps entrenaba con bolas más grandes que las de escena. Tú puedes entrenar con la baraja entera y actuar con cuatro cartas: la presión baja sola.`, `Kaps entrenava amb boles més grans que les d'escena. Tu pots entrenar amb la baralla sencera i actuar amb quatre cartes: la pressió baixa sola.`),
+  H(`Hofzinser le devolvió la dentadura a su mujer delante de todos. Y aún hay quien dice que la magia no mejora la convivencia.`, `Hofzinser va tornar la dentadura a la seva dona davant de tothom. I encara hi ha qui diu que la màgia no millora la convivència.`),
+  H(`Houdini quería mezclar primero, repartir en su mano y luego en la silla. Tu cuñado es su heredero espiritual.`, `Houdini volia barrejar primer, repartir a la seva mà i després a la cadira. El teu cunyat és el seu hereu espiritual.`),
+  H(`Quince minutos con la música equivocada y el público sin enterarse: eso no es un fallo, es un número nuevo.`, `Quinze minuts amb la música equivocada i el públic sense assabentar-se: això no és un error, és un número nou.`),
+  H(`Hofzinser trabajaba con 32 cartas: veinte menos que tú. Y no se le conoce ninguna queja.`, `Hofzinser treballava amb 32 cartes: vint menys que tu. I no se li coneix cap queixa.`),
+  H(`El Naranjo Fantástico florecía en un minuto. La mnemónica tarda algo más, pero da fruta todo el año.`, `El Taronger Fantàstic floria en un minut. La mnemònica triga una mica més, però dona fruita tot l'any.`),
+  H(`Zarrow se excusaba antes de cada mezcla: artritis, dedos hinchados, poca práctica. Y luego salía perfecta. Ese calentamiento es el que no hay que creerse.`, `Zarrow s'excusava abans de cada barreja: artritis, dits inflats, poca pràctica. I després sortia perfecta. Aquest escalfament és el que no cal creure's.`),
+  H(`Su maestro, un peluquero, enseñaba un juego nuevo cada semana si el anterior estaba aprendido. La mnemónica funciona igual, pero sin corte de pelo obligatorio.`, `El seu mestre, un perruquer, ensenyava un joc nou cada setmana si l'anterior estava après. La mnemònica funciona igual, però sense tall de cabells obligatori.`)
+);
+
+/* ---------- Consejos de estudio (de la práctica de Kaps y de los apuntes del CIM) ---------- */
+TIPS.push(
+  H(`Entrena en condiciones más duras que las de escena: Kaps usaba bolas de billar más grandes que las de su actuación. Aquí, responde más deprisa de lo que necesitarás en directo.`, `Entrena en condicions més dures que les d'escena: Kaps feia servir boles de billar més grans que les de la seva actuació. Aquí, respon més de pressa del que necessitaràs en directe.`),
+  H(`Saber la teoría no es saber hacerlo: el cuerpo memoriza el tacto y el ritmo. Repite en voz alta, no solo en la cabeza.`, `Saber la teoria no és saber-ho fer: el cos memoritza el tacte i el ritme. Repeteix en veu alta, no només al cap.`),
+  H(`Un juego nuevo solo cuando el anterior ya sale: era el trato del peluquero de Kaps. Aplícalo a tus estrofas.`, `Un joc nou només quan l'anterior ja surt: era el tracte del perruquer de Kaps. Aplica-ho a les teves estrofes.`)
+);
 
 /* ===================== LA ESCALERA 13 → 26 → 52 · CÓMO PRACTICAR · FUENTES · CÓMO FUNCIONA ===================== */
 // Los métodos se describen con palabras propias a partir de los volúmenes I y II de Tamariz. Las posiciones, las fórmulas
@@ -3884,6 +4180,7 @@ ROUTES['learn:juegos'] = () => {
   <blockquote class="warn mt">${L('Los escalones de 13 y 26 cartas son un apoyo de la app para aprender por partes. Los juegos de Tamariz, salvo <b>El reloj</b>, se hacen con la baraja entera: ahí es donde se usan en público.', 'Els escalons de 13 i 26 cartes són un suport de l\'app per aprendre per parts. Els jocs de Tamariz, tret d\'<b>El rellotge</b>, es fan amb la baralla sencera: aquí és on s\'usen en públic.')}</blockquote>
   <button class="mode mt" data-a="go-top"><span class="ic">🏆</span><span><b>${L('Ranking de juegos con baraja ordenada', 'Rànquing de jocs amb baralla ordenada')}</b><span>${L('Los favoritos con la Mnemónica y con otras barajas, con la evidencia a la vista.', 'Els favorits amb la Mnemònica i amb altres baralles, amb l\'evidència a la vista.')}</span></span></button>
   <button class="mode mt" data-a="go-otras"><span class="ic">🗺️</span><span><b>${L('Otras barajas ordenadas', 'Altres baralles ordenades')}</b><span>${L('Anexo para curiosos: Si Stebbins, Ocho Reyes, Nikola, Aronson… y un juego de cada una.', 'Annex per a curiosos: Si Stebbins, Vuit Reis, Nikola, Aronson… i un joc de cadascuna.')}</span></span></button>
+  <button class="mode mt" data-a="go-present"><span class="ic">🎬</span><span><b>${L('Presentar con baraja ordenada', 'Presentar amb baralla ordenada')}</b><span>${L('Cómo provocar el wow con lo que practicas: seis momentos y doce ideas.', 'Com provocar el wow amb el que practiques: sis moments i dotze idees.')}</span></span></button>
   <button class="mode mt" data-a="go-fuentes"><span class="ic">📚</span><span><b>${L('Fuentes y bibliografía', 'Fonts i bibliografia')}</b><span>${L('Cada libro, con su ficha en el Conjuring Archive.', 'Cada llibre, amb la seva fitxa al Conjuring Archive.')}</span></span></button>
   <p class="credit">${L('Descripciones redactadas por la app a partir de <i>La baraja mnemónica de Tamariz</i>, vol. I y II, y de las fichas del Conjuring Archive. Para el detalle técnico completo (manejos, presentaciones y variantes) hay que acudir al libro.', 'Descripcions redactades per l\'app a partir de <i>La baralla mnemònica de Tamariz</i>, vol. I i II, i de les fitxes del Conjuring Archive. Per al detall tècnic complet (maneigs, presentacions i variants) cal anar al llibre.')}</p>`;
 };
@@ -3983,21 +4280,21 @@ A['go-practica'] = () => go('learn', 'practica');
 const FUENTES = [
   {
     g: 'Para empezar', i: '🎬', items: [
-      { t: 'Sinfonía en Mnemónica Mayor (2 vols.)', a: 'Juan Tamariz', m: 'Editorial Frakson, 2000 · español', n: 'La obra original: «La baraja mnemónica de Tamariz». Es el libro del que sale todo lo que ves en esta app. La ficha de la edición inglesa menciona esta edición española.', ls: [{ u: CA + 'book/2498', l: 'Ficha en Conjuring Archive', ca: 1 }, { u: 'https://www.mpmagic.co.uk/library/content/T-00025.html', l: 'Ficha de tienda' }] },
-      { t: 'Mnemonica', a: 'Juan Tamariz (trad. Rafael Benatar)', m: 'Hermetic Press, 2004 · inglés', n: 'La edición en inglés, en un solo volumen. Según el archivo, tiene unas 200 entradas: la estructura de la baraja, cómo llegar al orden con y sin faros, métodos de memorización y los juegos.', ls: [{ u: CA + 'book/2498', l: 'Ficha en Conjuring Archive', ca: 1 }, { u: 'https://www.martinsmagic.com/allmagic?p=7917', l: 'Índice de tienda' }] },
+      { t: 'Sinfonía en Mnemónica Mayor (2 vols.)', a: 'Juan Tamariz', m: 'Editorial Frakson, 2000 · español', n: 'La obra original: «La baraja mnemónica de Tamariz». Es el libro del que sale todo lo que ves en esta app. La ficha de la edición inglesa menciona esta edición española.', ls: [{ u: CA + 'book/2498', l: 'Ficha en Conjuring Archive', ca: 1 }] },
+      { t: 'Mnemonica', a: 'Juan Tamariz (trad. Rafael Benatar)', m: 'Hermetic Press, 2004 · inglés', n: 'La edición en inglés, en un solo volumen. Según el archivo, tiene unas 200 entradas: la estructura de la baraja, cómo llegar al orden con y sin faros, métodos de memorización y los juegos.', ls: [{ u: CA + 'book/2498', l: 'Ficha en Conjuring Archive', ca: 1 }] },
       { t: 'La Mnemónica Tamariz', a: 'Woody Aragón', m: 'El Manuscrito, vol. 3 n.º 11, 2010, p. 302 · español', n: 'Un artículo sobre la baraja: el génesis, el libro y el porqué de Tamariz. La ficha lo lista entre las unas noventa entradas de la categoría «Mnemonica (Tamariz)».', ls: [{ u: CA + 'category/1576', l: 'Categoría en Conjuring Archive', ca: 1 }] },
       { t: 'Artículo «¿Qué es la Mnemónica?»', a: 'mnemonica.app', m: 'web · español', n: 'Explicación breve y gratuita, con el orden de la baraja. Es la referencia con la que se contrastó el orden de esta app.', ls: [{ u: 'https://mnemonica.app/es/blog/que-es-mnemonica', l: 'Abrir artículo' }] }
     ]
   },
   {
     g: 'Otras barajas ordenadas', i: '🃏', items: [
-      { t: 'A Stack to Remember', a: 'Simon Aronson', m: '1979 · inglés', n: 'Presenta la baraja de Aronson. Termina con una bibliografía selecta sobre baraja memorizada: un buen punto de partida para seguir leyendo. Está recogido, junto con otros tres libros, en «Bound to Please» (1994).', ls: [{ u: CA + 'medium/1634', l: 'Ficha en Conjuring Archive', ca: 1 }, { u: CA + 'book/2826', l: '«Bound to Please»', ca: 1 }, { u: 'https://www.martinsmagic.com/allmagic?p=5135', l: 'Índice de tienda' }] },
-      { t: 'The Six-Hour Memorized Deck', a: 'Martin Joyal', m: 'Hermetic Press, 1997 (edición electrónica de 2011) · inglés', n: 'Un método para memorizar una baraja en pocas horas y un repaso de las barajas ordenadas conocidas hasta entonces (Nikola, Ireland, McCaffrey, Marlo, Aronson, Rix y otras). Propone cuatro pasos de unos noventa minutos, con los palos en el orden CHaSeD o en el SHoCkeD, y un repaso de cuatro minutos al día. Distingue entre stack, sistema y baraja memorizada.', ls: [{ u: CA + 'book/2518', l: 'Ficha en Conjuring Archive', ca: 1 }, { u: 'https://www.martinsmagic.com/allmagic/books/six-hour-memorized-deck-by-martin-joyal', l: 'Índice de tienda' }] },
+      { t: 'A Stack to Remember', a: 'Simon Aronson', m: '1979 · inglés', n: 'Presenta la baraja de Aronson. Termina con una bibliografía selecta sobre baraja memorizada: un buen punto de partida para seguir leyendo. Está recogido, junto con otros tres libros, en «Bound to Please» (1994).', ls: [{ u: CA + 'medium/1634', l: 'Ficha en Conjuring Archive', ca: 1 }, { u: CA + 'book/2826', l: '«Bound to Please»', ca: 1 }] },
+      { t: 'The Six-Hour Memorized Deck', a: 'Martin Joyal', m: 'Hermetic Press, 1997 (edición electrónica de 2011) · inglés', n: 'Un método para memorizar una baraja en pocas horas y un repaso de las barajas ordenadas conocidas hasta entonces (Nikola, Ireland, McCaffrey, Marlo, Aronson, Rix y otras). Propone cuatro pasos de unos noventa minutos, con los palos en el orden CHaSeD o en el SHoCkeD, y un repaso de cuatro minutos al día. Distingue entre stack, sistema y baraja memorizada.', ls: [{ u: CA + 'book/2518', l: 'Ficha en Conjuring Archive', ca: 1 }] },
       { t: 'Memorandum', a: 'Woody Aragón', m: 'libro · inglés', n: 'Su propia baraja, con las propiedades de la Mnemónica y de la de Aronson, y unos cincuenta efectos. La reseña de Magicana destaca su trabajo con media baraja. El archivo lista las reseñas de la revista Genii (2017 y 2018) en la ficha del autor.', ls: [{ u: CA + 'person/1945', l: 'Ficha del autor en Conjuring Archive', ca: 1 }, { u: 'https://magicana.com/node/2668', l: 'Reseña de Magicana' }] },
       { t: 'A Book in English', a: 'Woody Aragón', m: '2011 · inglés', n: 'Subtitulado «The Spanish Card Magic of Woody Aragon». Incluye, según la ficha, un texto sobre el principio de la baraja permanente (que conserva el orden tras los faros) y una baraja ESP memorizada.', ls: [{ u: CA + 'book/1071', l: 'Ficha en Conjuring Archive', ca: 1 }] },
-      { t: 'Mi baraja personal', a: 'Dani DaOrtiz', m: '1.ª ed. 2000 · 2.ª ed. 2006, Kaps-Store · español', n: 'El libro original de su orden. La segunda edición, de 2006 y limitada, está reescrita y es más corta: dos maneras de llegar al orden (con un anti-faro o con faros desde baraja nueva) y ejercicios con las propiedades internas del orden, como hallar la carta central o localizar cartas.', ls: [{ u: 'https://store.conjuringarts.org/product/mi-baraja-personal-by-dani-daortiz-pdf/', l: 'Ficha de tienda (versión en español)' }] },
-      { t: 'My Personal Stack', a: 'Dani DaOrtiz', m: 'Conjuring Arts, PDF de 134 páginas · inglés', n: 'La baraja personal de DaOrtiz: cómo entrar en ella desde baraja nueva y sus propiedades (adivinaciones, coincidencias, exhibiciones de juego).', ls: [{ u: CA + 'person/1942', l: 'Ficha del autor en Conjuring Archive', ca: 1 }, { u: 'https://store.conjuringarts.org/product/my-personal-stack-by-dani-daortiz-pdf/', l: 'Ficha de tienda' }] },
-      { t: 'The Aronson Stack for Everybody', a: 'Geoff Williams', m: '2014, 1.ª ed. · 71 páginas · inglés', n: 'Manuscrito ilustrado para aprender la baraja de Aronson con palabras-percha y escenas: según el autor, 34 imágenes bastan para las 52 cartas. No enseña juegos, solo memorización. Dice que su método sirve para cualquier baraja memorizada, también la de Tamariz.', ls: [{ u: 'http://geoffwilliamsmagic.com', l: 'Web del autor (la que figura en el libro)' }] },
+      { t: 'Mi baraja personal', a: 'Dani DaOrtiz', m: '1.ª ed. 2000 · 2.ª ed. 2006, Kaps-Store · español', n: 'El libro original de su orden. La segunda edición, de 2006 y limitada, está reescrita y es más corta: dos maneras de llegar al orden (con un anti-faro o con faros desde baraja nueva) y ejercicios con las propiedades internas del orden, como hallar la carta central o localizar cartas.', ls: [{ u: CA + 'person/1942', l: 'Ficha del autor en Conjuring Archive', ca: 1 }] },
+      { t: 'My Personal Stack', a: 'Dani DaOrtiz', m: 'Conjuring Arts, PDF de 134 páginas · inglés', n: 'La baraja personal de DaOrtiz: cómo entrar en ella desde baraja nueva y sus propiedades (adivinaciones, coincidencias, exhibiciones de juego).', ls: [{ u: CA + 'person/1942', l: 'Ficha del autor en Conjuring Archive', ca: 1 }] },
+      { t: 'The Aronson Stack for Everybody', a: 'Geoff Williams', m: '2014, 1.ª ed. · 71 páginas · inglés', n: 'Manuscrito ilustrado para aprender la baraja de Aronson con palabras-percha y escenas: según el autor, 34 imágenes bastan para las 52 cartas. No enseña juegos, solo memorización. Dice que su método sirve para cualquier baraja memorizada, también la de Tamariz.', ls: [] },
       { t: 'The Particle System', a: 'Joshua Jay', m: '2024 · inglés', n: 'Un sistema completo de baraja memorizada que, según su ficha de tienda, es más fácil de memorizar y de preparar desde baraja nueva que la mayoría. Una muestra anterior (2022) incluye un texto sobre cómo elegir una baraja memorizada.', ls: [{ u: CA + 'book/3487', l: 'Ficha en Conjuring Archive', ca: 1 }, { u: CA + 'book/3121', l: 'Muestra de 2022', ca: 1 }, { u: 'https://vanishingincmagic.com/magic-books/particle-system', l: 'Ficha de tienda' }] },
       { t: 'A Stack to Forget', a: 'Harapan Ong', m: '2019 · inglés', n: 'Su baraja, con efectos propios y un capítulo final de lecturas recomendadas sobre baraja memorizada. Incluye «Prediction à la Kruskal», inspirada en A. J. Arenillas, y su primer consejo es aprender con una baraja en la mano.', ls: [{ u: CA + 'book/1784', l: 'Ficha en Conjuring Archive', ca: 1 }] },
       { t: 'In Order to Amaze', a: 'Pit Hartling', m: '2016 · inglés', n: 'Una colección de magia con baraja memorizada: 252 páginas, tapa dura y edición del autor, con reseñas en Genii y MAGIC en 2016.', ls: [{ u: CA + 'book/814', l: 'Ficha en Conjuring Archive', ca: 1 }] }
@@ -4012,7 +4309,7 @@ const FUENTES = [
   },
   {
     g: 'Para aprender y practicar', i: '🧩', items: [
-      { t: 'Amnesia', a: 'Vincent Hedan', m: 'libro · inglés', n: 'Según su ficha de tienda, explora la Mnemónica de Tamariz sin tener que memorizarla del todo.', ls: [{ u: 'https://alakazam.co.uk/es/products/amnesia-by-vincent-hedan-book', l: 'Ficha de tienda' }] },
+      { t: 'Amnesia', a: 'Vincent Hedan', m: 'libro · inglés', n: 'Según su ficha de tienda, explora la Mnemónica de Tamariz sin tener que memorizarla del todo.', ls: [] },
       { t: 'The Memory Arts', a: 'David y Sarah Trustman', m: 'ebook · inglés', n: 'Técnica de memoria para aprenderse una baraja ordenada. Hay una edición adaptada a la baraja Memorandum.', ls: [{ u: 'https://vanishingincmagic.com/card-magic-downloads/the-memory-arts-memorandum-edition', l: 'Ficha de tienda' }] },
       { t: 'Fully Booked | Mnemonica', a: 'Harapan Ong', m: 'blog · inglés', n: 'Guía de lectura de la obra de Tamariz sobre baraja memorizada, escrita por un usuario veterano.', ls: [{ u: 'https://www.vanishingincmagic.com/blog/fully-booked-mnemonica/', l: 'Leer en el blog' }] },
       { t: 'The Easy Way To Learn Mnemonica', a: 'One Ahead', m: 'blog · inglés', n: 'Un plan de aprendizaje de una semana: una imagen por carta y lotes de diez al día.', ls: [{ u: 'https://www.oneahead.com/p/the-easy-way-to-learn-mnemonica', l: 'Leer en el blog' }] }
@@ -4035,13 +4332,28 @@ const FUENTES = [
     ]
   }
 ];
-const srcHTML = it => `<div class="panel src"><b>${esc(it.t)}</b><div class="small mut">${esc(it.a)} · ${esc(it.m)}</div><p class="small">${esc(it.n)}</p><div class="row wrap">${it.ls.map(l => `<a class="btn sm" href="${esc(l.u)}" target="_blank" rel="noopener noreferrer">${l.ca ? '🗂️ ' : ''}${esc(l.l)}</a>`).join('')}<button class="btn sm ghost" data-a="copy-url" data-u="${esc(it.ls[0].u)}">Copiar enlace</button></div></div>`;
+const srcHTML = it => `<div class="panel src"><b>${esc(it.t)}</b><div class="small mut">${esc(it.a)} · ${esc(it.m)}</div><p class="small">${esc(it.n)}</p><div class="row wrap">${it.ls.map(l => `<a class="btn sm" href="${esc(l.u)}" target="_blank" rel="noopener noreferrer">${l.ca ? '🗂️ ' : ''}${esc(l.l)}</a>`).join('')}${it.ls.length ? `<button class="btn sm ghost" data-a="copy-url" data-u="${esc(it.ls[0].u)}">Copiar enlace</button>` : ''}</div></div>`;
+// Tiendas donde buscar los libros (orden alfabético, sin preferencia). La app no cobra nada de ellas: sin afiliación ni comisión.
+const STORES = [
+  ['Close-Up Magic Shop', 'https://www.closeupmagicshop.com/', 'España · libros en castellano y en inglés', 'Espanya · llibres en castellà i en anglès'],
+  ['Magia Estudio', 'https://magiaestudio.com/', 'Madrid · tienda y editorial (Mystica)', 'Madrid · botiga i editorial (Mystica)'],
+  ['MagosArtesanos', 'https://www.magosartesanos.com/', 'España · biblioteca mágica en castellano', 'Espanya · biblioteca màgica en castellà'],
+  ['Mano de Mago', 'https://manodemago.com/', 'España · libros de magia con cartas y de todos los niveles', 'Espanya · llibres de màgia amb cartes i de tots els nivells'],
+  ['Penguin Magic', 'https://www.penguinmagic.com/', 'EE. UU. · tienda online internacional', 'EUA · botiga en línia internacional'],
+  ['Tannen\'s', 'https://www.tannens.com/', 'Nueva York · abierta desde 1925', 'Nova York · oberta des de 1925'],
+  ['Tienda Magia', 'https://tiendamagia.com/', 'España · libros en español y en inglés, con envío internacional', 'Espanya · llibres en espanyol i en anglès, amb enviament internacional'],
+  ['Vanishing Inc.', 'https://www.vanishingincmagic.com/', 'Tienda online internacional · en inglés', 'Botiga en línia internacional · en anglès']
+];
+const storesHTML = () => `<div class="sec"><h3>🛒 ${L('Dónde buscar los libros', 'On buscar els llibres')}</h3></div>
+  <div class="panel stitch"><p class="small" style="margin:0 0 8px"><b>${L('Esta app no cobra nada de estas tiendas.', 'Aquesta app no cobra res d\'aquestes botigues.')}</b> ${L('No hay afiliación, comisión, descuento ni acuerdo de ningún tipo, y los enlaces no llevan códigos de seguimiento. Están por orden alfabético, no son una recomendación y es posible que no tengan todos los títulos.', 'No hi ha afiliació, comissió, descompte ni cap mena d\'acord, i els enllaços no porten codis de seguiment. Estan per ordre alfabètic, no són una recomanació i és possible que no tinguin tots els títols.')}</p>
+  <div class="gap">${STORES.map(([n, u, es, ca]) => `<div class="row" style="align-items:center;gap:10px"><a class="btn sm" href="${esc(u)}" target="_blank" rel="noopener noreferrer" style="min-width:150px;text-align:center">${esc(n)}</a><span class="small mut">${L(es, ca)}</span></div>`).join('')}</div></div>`;
 ROUTES['learn:fuentes'] = () => `
   <div class="row mt"><button class="ibtn" data-a="back" data-tab="home" aria-label="Volver">‹</button><h2 style="margin:0">Fuentes y bibliografía</h2></div>
   <p class="mut">Por si quieres seguir tirando del hilo: libros, descargas y webs sobre la Mnemónica y otras barajas ordenadas, en español y en inglés. Cada título enlaza, siempre que existe, con su <b>ficha en el Conjuring Archive</b> (🗂️).</p>
   <button class="mode" data-a="go-otras"><span class="ic">🗺️</span><span><b>${L('Otras barajas ordenadas', 'Altres baralles ordenades')}</b><span>${L('Anexo: cómo están ordenadas y un juego de cada una.', 'Annex: com estan ordenades i un joc de cadascuna.')}</span></span></button>
   <button class="mode" data-a="go-comparar"><span class="ic">⚖️</span><span><b>Barajas ordenadas: pros y contras</b><span>Si Stebbins, Aronson, Memorandum, Particle y más, frente a la Mnemónica de Tamariz.</span></span></button>
   <div class="panel stitch"><b style="font-family:var(--fh);font-weight:400;font-size:18px">🗂️ Qué es el Conjuring Archive</b><p class="small" style="margin:6px 0 8px">Una base de datos de bibliografía de magia creada por el mago alemán <b>Denis Behr</b>, con Lorenz Schär como principal colaborador. Cataloga efectos de libros, revistas y vídeos, con su página, de modo que es la manera más rápida de saber en qué obra está cada idea. No reproduce los métodos: para eso hay que ir al libro.</p><div class="row wrap"><a class="btn sm" href="https://www.conjuringarchive.com" target="_blank" rel="noopener noreferrer">Abrir el archivo</a><a class="btn sm" href="${CA}category/1576" target="_blank" rel="noopener noreferrer">Categoría «Mnemonica (Tamariz)»</a><a class="btn sm" href="${CA}person/273" target="_blank" rel="noopener noreferrer">Juan Tamariz</a></div></div>
+  ${storesHTML()}
   ${FUENTES.map(g => `<div class="sec"><h3>${g.i} ${esc(g.g)}</h3></div><div class="gap">${g.items.map(srcHTML).join('')}</div>`).join('')}
   <div class="sec"><h3>🇪🇸 La escuela española</h3></div>
   <div class="panel stitch"><p class="small" style="margin:0">Tres de los autores de esta lista (Tamariz, Aragón y DaOrtiz) pertenecen a la cartomagia española. Una reseña de 2017 de Magicana lo resumió así: <i>«it's the Spaniards' world, and we just live in it»</i>. En el índice del vol. I de Tamariz aparecen, entre otros, Arenillas, Antón López, Camilo Vázquez, Ramblar, García Soutullo y Riobóo (con Aronson, en «Las tres horas»).</p></div>
@@ -5986,7 +6298,7 @@ function pathHTML() {
     { ic: '🎴', t: L('Haz magia con ella', 'Fes màgia amb ella'), d: L('Juegos de 13, 26 y 52 cartas con efecto, guion, pasos y salidas si falla. Marca los que hagas con una persona.', 'Jocs de 13, 26 i 52 cartes amb efecte, guió, passos i sortides si falla. Marca els que facis amb una persona.'), p: st.done / st.gs, x: L(`${st.done} de ${st.gs} probados con personas`, `${st.done} de ${st.gs} provats amb persones`), go: 'go-juegos', ex: '', done: st.s3, cta: L('Ver los juegos', 'Veure els jocs'), links: '' },
     { ic: '🧭', t: L('Aprende a memorizar', 'Aprèn a memoritzar'), d: L('Los métodos de Tamariz y otros (historias, palacio de la memoria, sistema mayor) y cuál elegir.', 'Els mètodes de Tamariz i d\'altres (històries, palau de la memòria, sistema major) i quin triar.'), p: null, x: '', go: 'go-practica', ex: '', done: false, cta: L('Elegir método', 'Triar mètode'), links: '' },
     { ic: '🎩', t: L('Cultura mágica', 'Cultura màgica'), d: L('Quién ordenó qué y cuándo, barajas ordenadas comparadas, libros y fuentes.', 'Qui va ordenar què i quan, baralles ordenades comparades, llibres i fonts.'), p: null, x: '', go: 'go-rincon', ex: '', done: false, cta: L('Entrar al camerino', 'Entrar al camerino'),
-      links: `<div class="stg-l">${lk('⚖️', L('Barajas comparadas', 'Baralles comparades'), 'go-comparar')}${lk('📚', L('Fuentes', 'Fonts'), 'go-fuentes')}${lk('🍺', L('Sala del cachondeo', 'Sala del cachondeig'), 'go-cachondeo')}${lk('📮', L('Buzón de sugerencias', 'Bústia de suggeriments'), 'buzon')}${lk('🃏', L('Tu propia baraja', 'La teva pròpia baralla'), 'go-mia')}</div>` }
+      links: `<div class="stg-l">${lk('⚖️', L('Barajas comparadas', 'Baralles comparades'), 'go-comparar')}${lk('📚', L('Fuentes', 'Fonts'), 'go-fuentes')}${lk('🍺', L('Sala del cachondeo', 'Sala del cachondeig'), 'go-cachondeo')}${lk('💬', L('Sugerencias por WhatsApp', 'Suggeriments per WhatsApp'), 'sugerir')}${lk('🃏', L('Tu propia baraja', 'La teva pròpia baralla'), 'go-mia')}</div>` }
   ];
   return `<div class="sec"><h3>${L('Tu camino', 'El teu camí')}</h3><span class="mut small">${L('5 etapas', '5 etapes')}</span></div>
   <div class="path">${stages.map((s, i) => `<div class="stage${st.now === i ? ' now' : ''}${s.done ? ' ok' : ''}">
@@ -6349,7 +6661,6 @@ const TOP_SRC = [
   ['Magicana: reseña de «Memorandum» (Jamy Ian Swiss)', 'https://magicana.com/node/2668', 'Magicana: ressenya de «Memorandum» (Jamy Ian Swiss)'],
   ['Vanishing Inc.: reseña de «Mnemonica» (archivo de reseñas de Jamy Ian Swiss, autor en Genii de 1994 a 2013)', 'https://www.vanishingincmagic.co.uk/blog/mnemonica/', 'Vanishing Inc.: ressenya de «Mnemonica» (arxiu de ressenyes de Jamy Ian Swiss, autor a Genii de 1994 a 2013)'],
   ['Vanishing Inc.: «Fully Booked: Mnemonica» (crítica)', 'https://www.vanishingincmagic.com/blog/fully-booked-mnemonica/', 'Vanishing Inc.: «Fully Booked: Mnemonica» (crítica)'],
-  ['Martin\'s Magic: reseña de «Mnemonica»', 'https://www.martinsmagic.com/?p=49396', 'Martin\'s Magic: ressenya de «Mnemonica»'],
   ['Penguin Magic: reseñas de «Mnemonica»', 'https://penguinmagic.com/p/913', 'Penguin Magic: ressenyes de «Mnemonica»'],
   ['TalkMagic: «Which Memorized Stack»', 'https://www.talkmagic.co.uk/sutra193279.php'],
   ['TalkMagic: «What is the best stacked deck to memorize»', 'https://www.talkmagic.co.uk/sutra337055.php'],
@@ -6357,7 +6668,6 @@ const TOP_SRC = [
   ['theory11: «The Benefits of knowing the Mnemonica stack?»', 'https://www.theory11.com/forums/goto/post?id=369809'],
   ['Conjuror Community: comparativa de órdenes', 'https://conjuror.community/?p=14119', 'Conjuror Community: comparativa d\'ordres'],
   ['Vanishing Inc.: «More Memory Man» (reseñas)', 'https://www.vanishingincmagic.com/card-magic-downloads/more-memory-man/', 'Vanishing Inc.: «More Memory Man» (ressenyes)'],
-  ['Martin\'s Magic: índice de «Mnemonica»', 'https://www.martinsmagic.com/allmagic?p=7917', 'Martin\'s Magic: índex de «Mnemonica»'],
   ['Tannen\'s: obra de Simon Aronson', 'https://www.tannens.com/products/53444'],
   ['Magnetic Memory Method: la baraja Mnemonica', 'https://www.magneticmemorymethod.com/mnemonica-stack/', 'Magnetic Memory Method: la baralla Mnemonica'],
   ['Wikipedia: Simon Aronson', 'https://en.wikipedia.org/wiki/Simon_Aronson'],
@@ -7187,66 +7497,41 @@ if (FB.web) {
   window.addEventListener('pagehide', () => { if (S && S.set && S.set.rank && RK.db) rankPush(); });
 }
 
-/* ===================== BUZÓN DE SUGERENCIAS =====================
-   En la web propia (con sesión) la sugerencia se guarda en «suggestions/<id aleatorio>» de Firestore: las reglas solo dejan
-   CREAR (no leer ni editar), así que solo la ve quien administra, desde la consola de Firebase. No se guarda la cuenta ni el
-   correo: es anónima salvo que la persona firme con su nombre de mago. Sin sesión (o dentro de Claude) quedan dos salidas
-   que no necesitan servidor: enviarla por WhatsApp o copiarla. */
-const BZ = { k: 'idea', t: 0, n: 0 };
-const BZ_K = [['idea', '💡', 'Idea', 'Idea'], ['fallo', '🐞', 'Algo falla', 'Alguna cosa falla'], ['chiste', '🤭', 'Chiste o pulla', 'Acudit o pulla'], ['otro', '📮', 'Otra cosa', 'Una altra cosa']];
-const bzCan = () => !!(FB.web && FB.user && FB.F && FB.fs && typeof fbDbObj !== 'undefined');
-const bzKindLabel = k => { const x = BZ_K.find(q => q[0] === k) || BZ_K[3]; return L(x[2], x[3]); };
-function bzId() {
-  try { return Array.from(crypto.getRandomValues(new Uint8Array(10)), b => b.toString(36).padStart(2, '0')).join(''); }
-  catch (e) { return Date.now().toString(36) + Math.random().toString(36).slice(2, 12); }
+/* ===================== SUGERENCIAS POR WHATSAPP =====================
+   Sin servidor: la sugerencia se redacta aquí y se manda con WhatsApp (wa.me sin destinatario) a quien elija la persona:
+   el grupo de la peña o directamente a Sergi. La app no guarda ni envía nada por su cuenta, no pide sesión y no incluye
+   ningún número de teléfono. Si WhatsApp no se abre, el texto se copia al portapapeles. */
+const SG = { k: 'idea' };
+const SG_K = [['idea', '💡', 'Idea', 'Idea'], ['fallo', '🐞', 'Algo falla', 'Alguna cosa falla'], ['chiste', '🤭', 'Chiste o pulla', 'Acudit o pulla'], ['otro', '📮', 'Otra cosa', 'Una altra cosa']];
+const sgKindLabel = k => { const x = SG_K.find(q => q[0] === k) || SG_K[3]; return L(x[2], x[3]); };
+function sgMsg(t) { const m = $('#sgm'); if (!m) return; m.textContent = t || ''; m.hidden = !t; if (t && m.scrollIntoView) m.scrollIntoView({ block: 'nearest' }); }
+const sgText = () => (($('#sgx') && $('#sgx').value) || '').trim();
+const sgSigned = () => { const c = $('#sgs'); return !!(c && c.checked && (S.name || '').trim()); };
+function sgShare() {
+  const x = sgText(), n = sgSigned() ? '\n— ' + S.name.trim().slice(0, 18) : '';
+  return `📮 ${L('Sugerencia para Mnemónica AMIT', 'Suggeriment per a Mnemònica AMIT')} (${sgKindLabel(SG.k)})\n\n${x}${n}`;
 }
-function bzMsg(t) { const m = $('#bzm'); if (!m) return; m.textContent = t || ''; m.hidden = !t; if (t && m.scrollIntoView) m.scrollIntoView({ block: 'nearest' }); }
-const bzText = () => (($('#bzx') && $('#bzx').value) || '').trim();
-const bzSigned = () => { const c = $('#bzs'); return !!(c && c.checked && (S.name || '').trim()); };
-function bzShare() {
-  const x = bzText(), n = bzSigned() ? '\n— ' + S.name.trim().slice(0, 18) : '';
-  return `📮 ${L('Sugerencia para Mnemónica AMIT', 'Suggeriment per a Mnemònica AMIT')} (${bzKindLabel(BZ.k)})\n\n${x}${n}`;
-}
-A.buzon = () => {
-  const can = bzCan(), nm = (S.name || '').trim();
-  openSheet(`<h3>📮 ${L('Buzón de sugerencias', 'Bústia de suggeriments')}</h3>
-  <p class="small mut" style="margin:0">${L('Ideas, fallos, chistes que faltan y bromas que sobran. Se leen todas. Y si tienes un chiste de la peña que no ofenda a nadie, mejor todavía.', 'Idees, errors, acudits que falten i bromes que sobren. Es llegeixen totes. I si tens un acudit de la penya que no ofengui ningú, encara millor.')}</p>
-  <div class="fchips mt" id="bzk" role="group" aria-label="${L('Tipo', 'Tipus')}">${BZ_K.map(([k, ic, es, ca]) => `<button class="fchip" data-a="bz-kind" data-k="${k}" aria-pressed="${BZ.k === k}">${ic} ${L(es, ca)}</button>`).join('')}</div>
-  <div class="field"><label for="bzx">${L('Tu mensaje', 'El teu missatge')}</label><textarea id="bzx" rows="5" maxlength="500" placeholder="${esc(L('Escribe aquí…', 'Escriu aquí…'))}"></textarea><div class="tiny mut" id="bzc" style="text-align:right">0/500</div></div>
-  ${nm ? `<label class="small" style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="bzs"> ${L('Firmar con mi nombre de mago', 'Signar amb el meu nom de mag')} («${esc(nm)}»)</label>` : ''}
-  <blockquote class="warn" id="bzm" role="alert" hidden></blockquote>
-  <div class="gap mt">
-    ${can ? `<button class="btn brass block" data-a="bz-send">${L('Enviar al buzón', 'Enviar a la bústia')}</button>` : `<p class="small mut" style="margin:0">${FB.web ? L('Para dejarla en el buzón, entra antes con tu cuenta (Perfil → «Entrar para guardar en la nube»). Mientras tanto puedes mandarla por WhatsApp.', 'Per deixar-la a la bústia, entra abans amb el teu compte (Perfil → «Entrar per desar al núvol»). Mentrestant la pots enviar per WhatsApp.') : L('Aquí no hay buzón en línea: puedes mandarla por WhatsApp o copiarla y pegarla donde quieras.', 'Aquí no hi ha bústia en línia: la pots enviar per WhatsApp o copiar-la i enganxar-la on vulguis.')}</p>`}
-    <div class="row wrap"><button class="btn sm sp" data-a="bz-wa">💬 ${L('Enviar por WhatsApp', 'Enviar per WhatsApp')}</button><button class="btn sm sp" data-a="bz-copy">${L('Copiar', 'Copiar')}</button></div>
-  </div>
-  <p class="tiny mut" style="margin:10px 0 0">${can ? L('El buzón es anónimo salvo que firmes: no se guarda tu cuenta ni tu correo. Lo lee quien administra la app.', 'La bústia és anònima tret que signis: no es desa el teu compte ni el teu correu. La llegeix qui administra l\'app.') : L('Por WhatsApp elegirás tú a quién va.', 'Per WhatsApp triaràs tu a qui va.')}</p>`);
-  const x = $('#bzx'); if (x) x.addEventListener('input', () => { const c = $('#bzc'); if (c) c.textContent = x.value.length + '/500'; });
+const sgShort = () => L('Escribe algo más: mínimo cinco letras.', 'Escriu una mica més: mínim cinc lletres.');
+A.sugerir = () => {
+  const nm = (S.name || '').trim();
+  openSheet(`<h3>💬 ${L('Sugerencias por WhatsApp', 'Suggeriments per WhatsApp')}</h3>
+  <p class="small mut" style="margin:0">${L('Ideas, fallos, chistes que faltan y bromas que sobran. Escribe aquí tu mensaje y se abre WhatsApp para que lo mandes a quien quieras: al grupo de la peña o directamente a Sergi.', 'Idees, errors, acudits que falten i bromes que sobren. Escriu aquí el teu missatge i s\'obre WhatsApp perquè l\'enviïs a qui vulguis: al grup de la penya o directament a Sergi.')}</p>
+  <div class="fchips mt" id="sgk" role="group" aria-label="${L('Tipo', 'Tipus')}">${SG_K.map(([k, ic, es, ca]) => `<button class="fchip" data-a="sg-kind" data-k="${k}" aria-pressed="${SG.k === k}">${ic} ${L(es, ca)}</button>`).join('')}</div>
+  <div class="field"><label for="sgx">${L('Tu mensaje', 'El teu missatge')}</label><textarea id="sgx" rows="5" maxlength="500" placeholder="${esc(L('Escribe aquí…', 'Escriu aquí…'))}"></textarea><div class="tiny mut" id="sgc" style="text-align:right">0/500</div></div>
+  ${nm ? `<label class="small" style="display:flex;gap:8px;align-items:center"><input type="checkbox" id="sgs"> ${L('Firmar con mi nombre de mago', 'Signar amb el meu nom de mag')} («${esc(nm)}»)</label>` : ''}
+  <blockquote class="warn" id="sgm" role="alert" hidden></blockquote>
+  <div class="row wrap mt"><button class="btn brass sp" data-a="sg-wa">💬 ${L('Enviar por WhatsApp', 'Enviar per WhatsApp')}</button><button class="btn sm sp" data-a="sg-copy">${L('Copiar', 'Copiar')}</button></div>
+  <p class="tiny mut" style="margin:10px 0 0">${L('Tú eliges el destinatario en WhatsApp. La app no guarda ni envía nada por su cuenta.', 'Tu tries el destinatari a WhatsApp. L\'app no desa ni envia res per compte seu.')}</p>`);
+  const x = $('#sgx'); if (x) x.addEventListener('input', () => { const c = $('#sgc'); if (c) c.textContent = x.value.length + '/500'; });
 };
-A['bz-kind'] = el => { BZ.k = el.dataset.k; $$('#bzk .fchip').forEach(b => b.setAttribute('aria-pressed', b === el ? 'true' : 'false')); };
-A['bz-send'] = async () => {
-  const x = bzText();
-  if (x.length < 5) return bzMsg(L('Escribe algo más: mínimo cinco letras.', 'Escriu una mica més: mínim cinc lletres.'));
-  if (!bzCan()) return bzMsg(L('Ahora mismo no hay conexión con el buzón. Usa WhatsApp o copia el texto.', 'Ara mateix no hi ha connexió amb la bústia. Fes servir WhatsApp o copia el text.'));
-  if (Date.now() - BZ.t < 45000) return bzMsg(L('Acabas de enviar una. Espera un momentito antes de mandar otra.', 'Acabes d\'enviar-ne una. Espera un momentet abans d\'enviar-ne una altra.'));
-  if (BZ.n >= 5) return bzMsg(L('Ya van cinco en esta sesión: el buzón necesita un respiro. Vuelve más tarde.', 'Ja en van cinc en aquesta sessió: la bústia necessita respirar. Torna més tard.'));
-  const doc = { k: BZ.k, x: x.slice(0, 500), n: bzSigned() ? S.name.trim().slice(0, 18) : '', t: Date.now(), v: 1 };
-  const b = $('[data-a=bz-send]'); if (b) b.disabled = true;
-  try {
-    await fbDbObj.doc('suggestions/' + bzId()).set(doc);
-    BZ.t = Date.now(); BZ.n++; S.stats.bz = (S.stats.bz | 0) + 1; save();
-    closeSheet(); toast(L('¡Gracias! Tu sugerencia ya está en el buzón.', 'Gràcies! El teu suggeriment ja és a la bústia.'), 3200);
-  } catch (e) {
-    if (b) b.disabled = false;
-    bzMsg(L('No se ha podido enviar (' + ((e && e.code) || 'error') + '). Prueba más tarde o mándala por WhatsApp.', 'No s\'ha pogut enviar (' + ((e && e.code) || 'error') + '). Prova-ho més tard o envia-la per WhatsApp.'));
-  }
-};
-A['bz-wa'] = () => {
-  if (bzText().length < 5) return bzMsg(L('Escribe algo más: mínimo cinco letras.', 'Escriu una mica més: mínim cinc lletres.'));
-  const u = 'https://wa.me/?text=' + encodeURIComponent(bzShare());
+A['sg-kind'] = el => { SG.k = el.dataset.k; $$('#sgk .fchip').forEach(b => b.setAttribute('aria-pressed', b === el ? 'true' : 'false')); };
+A['sg-wa'] = () => {
+  if (sgText().length < 5) return sgMsg(sgShort());
+  const u = 'https://wa.me/?text=' + encodeURIComponent(sgShare());
   let w = null; try { w = window.open(u, '_blank', 'noopener'); } catch (e) { }
-  if (!w) { copyText(bzShare()); bzMsg(L('No he podido abrir WhatsApp desde aquí; he copiado el mensaje: pégalo en el grupo.', 'No he pogut obrir WhatsApp des d\'aquí; he copiat el missatge: enganxa\'l al grup.')); }
+  if (!w) { copyText(sgShare()); sgMsg(L('No he podido abrir WhatsApp desde aquí; he copiado el mensaje: pégalo donde quieras.', 'No he pogut obrir WhatsApp des d\'aquí; he copiat el missatge: enganxa\'l on vulguis.')); }
 };
-A['bz-copy'] = () => { if (bzText().length < 5) return bzMsg(L('Escribe algo más: mínimo cinco letras.', 'Escriu una mica més: mínim cinc lletres.')); copyText(bzShare()); };
+A['sg-copy'] = () => { if (sgText().length < 5) return sgMsg(sgShort()); copyText(sgShare()); };
 
 /* ===================== TU PROPIA BARAJA (práctica aparte) =====================
    La Mnemónica Tamariz sigue siendo lo principal. Esto es una zona aparte para quien ya tiene (o está montando) su propio
