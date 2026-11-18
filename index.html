@@ -7,6 +7,7 @@
 <meta name="theme-color" content="#0b3a37">
 <meta name="application-name" content="Mnemónica AMIT">
 <meta name="author" content="Sergi">
+<meta name="app-rev" content="45">
 <meta name="copyright" content="© 2026 Sergi. Todos los derechos reservados.">
 <meta name="apple-mobile-web-app-title" content="Mnemónica">
 <title>Mnemónica AMIT · Entrena el orden de Tamariz</title>
@@ -726,6 +727,86 @@ b.rd{color:#ff948b}
 @media (prefers-reduced-motion:reduce){.fx-pop,.sal-jump .arrow,.tray .pc.sal-good{animation:none}}
 
 
+/* Fase 1: «Hoy toca» y dificultad de los juegos */
+.today-h{display:flex;justify-content:space-between;align-items:baseline;gap:4px 12px;flex-wrap:wrap;margin:14px 0 8px}
+.today-t{margin:0;font:400 24px/1.1 var(--fh);color:var(--brass-hi)}
+.today-t .tm{font:600 14px var(--fb,inherit);color:var(--mut);margin-left:6px;white-space:nowrap}
+.today-st{font-size:14px;color:var(--mut);line-height:1.25}
+.today-n{margin-top:10px}
+.mode>span:nth-child(2){flex:1;min-width:0}
+.mode .mside{display:flex;flex-direction:column;align-items:flex-end;justify-content:center;gap:7px;flex:none;margin-left:auto}
+.mode .diff,.diffkey .diff{display:inline-flex;gap:3px;align-items:center;vertical-align:middle}
+.diff i{display:inline-block;width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.18)}
+.diff i.on{background:var(--brass-hi)}
+.mode .rec-b{font:400 12px/1 var(--fh);color:#2a1c05;background:linear-gradient(180deg,var(--brass-hi),var(--brass));padding:4px 9px;border-radius:999px;white-space:nowrap}
+.mode.rec{border-color:rgba(232,195,110,.55)}
+.diffkey{margin:6px 0 0}
+/* Pantallas muy estrechas (≤360 px): la cabecera cabe sin pisar el nombre */
+@media (max-width:360px){
+  .top{gap:6px;padding-inline:12px}
+  .logo span{font-size:19px}
+  .top .chip{padding:4px 8px;font-size:14px;gap:4px}
+  .top .ibtn{margin-left:2px}
+}
+
+/* Fase 2: Perfil en la cabecera y barra lateral en tablet y ordenador */
+.chip.avc{padding:3px 8px;font-size:19px;line-height:1.2;cursor:pointer;color:inherit;font-family:inherit}
+.chip.avc[aria-current="page"]{border-color:var(--brass-hi);box-shadow:0 0 0 2px rgba(243,214,143,.25)}
+@media (max-width:360px){.logo span{display:none}}
+@media (min-width:768px){
+  #app:not(.immersive){padding-left:104px}
+  #app:not(.immersive) .tabs{left:0;right:auto;top:0;bottom:0;transform:none;width:104px;max-width:none;display:flex;flex-direction:column;justify-content:flex-start;align-items:stretch;gap:6px;
+    padding:22px 8px 16px;border-top:0;border-right:1.5px dashed rgba(216,169,78,.45);background:linear-gradient(90deg,rgba(4,26,25,.97),rgba(3,18,17,.92))}
+  #app:not(.immersive) .tab{padding:12px 4px;font-size:13px}
+  #app:not(.immersive) main#view{padding-bottom:48px}
+  .modes{grid-template-columns:repeat(auto-fill,minmax(min(100%,290px),1fr))}
+}
+@media (min-width:1100px){
+  #app:not(.immersive){padding-left:232px}
+  #app:not(.immersive) .tabs{width:232px;padding:26px 14px}
+  #app:not(.immersive) .tab{flex-direction:row;justify-content:flex-start;gap:14px;padding:13px 16px;font-size:16px}
+  #app:not(.immersive) .tab[aria-current="page"]{background:rgba(216,169,78,.12)}
+  .modes{grid-template-columns:repeat(auto-fill,minmax(min(100%,340px),1fr))}
+}
+/* Cabecera compacta en móviles (≤430 px): nombre, XP, racha, avatar y ayuda caben sin apretarse */
+@media (max-width:430px){
+  .top{gap:6px}
+  .logo{gap:7px}.logo span{font-size:19px}
+  .top .chip{padding:4px 8px;font-size:14px;gap:4px}
+  .top .chip.avc{font-size:18px;padding:3px 7px}
+  .top .ibtn{flex:none;margin-left:2px}
+}
+/* Fase 4: «Última vez» y «Repetir» */
+.modew{display:flex;gap:8px;align-items:stretch}
+.modew .mode{flex:1;min-width:0}
+.mode .last{display:block;margin-top:3px;font-size:12.5px;color:var(--brass-hi)}
+.mode-rep{flex:none;width:68px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border-radius:14px;border:1.5px solid rgba(232,195,110,.45);background:linear-gradient(180deg,var(--brass-hi),var(--brass));color:#2a1c05;cursor:pointer;font-weight:800}
+.mode-rep span{font-size:20px;line-height:1}.mode-rep small{font-size:12px;font-weight:700}
+/* Fase 3: Fuentes plegables, buscador y filtro */
+.src-bar{display:flex;flex-direction:column;gap:10px;margin:14px 0 4px}
+.src-q{width:100%;padding:11px 14px;border-radius:12px;border:1.5px solid var(--line);background:rgba(0,0,0,.28);color:var(--ink,inherit);font:inherit;font-size:16px}
+.src-q:focus-visible{outline:2px solid var(--brass-hi);outline-offset:2px}
+details.src-d{padding:0}
+details.src-d[hidden],.src-g[hidden]{display:none}
+details.src-d>summary{list-style:none;cursor:pointer;padding:12px 40px 12px 14px;position:relative;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:2px 10px;align-items:baseline}
+details.src-d>summary::-webkit-details-marker{display:none}
+details.src-d>summary::after{content:"›";position:absolute;right:14px;top:50%;transform:translateY(-50%) rotate(90deg);font-size:22px;color:var(--brass-hi);transition:transform .15s}
+details.src-d[open]>summary::after{transform:translateY(-50%) rotate(-90deg)}
+details.src-d>summary:focus-visible{outline:2px solid var(--brass-hi);outline-offset:-2px;border-radius:14px}
+.sum-t{font-weight:800;color:var(--brass-hi);grid-column:1}
+.sum-s{font-size:14px;color:var(--mut);grid-column:1}
+.sum-b{grid-column:2;grid-row:1/3;align-self:center;display:flex;gap:8px;font-size:13px;color:var(--mut);white-space:nowrap}
+details.src-d>:not(summary){margin-left:14px;margin-right:14px}
+details.src-d>:last-child{margin-bottom:14px}
+details.src-d>p{margin-top:0}
+/* Fase 3: versión visible y aviso de versión nueva */
+.ver{text-align:center;margin:14px 0 0}
+.linkb{background:none;border:0;padding:0;color:var(--brass-hi);text-decoration:underline;font:inherit;cursor:pointer}
+.verbar{position:fixed;left:50%;transform:translateX(-50%);top:max(10px,env(safe-area-inset-top));z-index:60;width:min(calc(100% - 20px),560px);display:flex;gap:10px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding:10px 12px;border-radius:16px;
+  background:linear-gradient(180deg,rgba(6,40,38,.98),rgba(4,28,26,.98));border:1.5px solid var(--brass-hi);box-shadow:0 10px 30px rgba(0,0,0,.5);font-size:15px}
+@media (min-width:768px){.verbar{left:calc(50% + 52px)}}
+@media (min-width:1100px){.verbar{left:calc(50% + 116px)}}
+
 </style>
 </head>
 <body>
@@ -966,7 +1047,7 @@ const DEF = () => ({
   stats: { ans: 0, ok: 0, ses: 0, perfect: 0, bestStreak: 0, fast: 0, tourn: 0, wrongRun: 0, galaClean: 0, totalBest: null, totalRuns: 0 },
   hitos: {},
   set: { sound: true, voice: true, fourc: false, calm: false, rank: false, rankOut: false, fbAsked: false, names: true, fast: false },
-  gr: -1, conf: {}, exp: {},
+  gr: -1, conf: {}, exp: {}, sm: {},
   poker: { bank: 500, hands: 0, won: 0, lost: 0, push: 0, peak: 500, clean: 0, bestClean: 0, rebuys: 0, fines: 0, dbl: 0, dblWin: 0, best: -1, bigWin: 0, daily: '', tbl: 0 },
 });
 let S = null, memOnly = false, lastSig = '';
@@ -1191,6 +1272,7 @@ function stopAllTimers() { timers.forEach(id => { clearInterval(id); clearTimeou
 function go(tab, sub = null, arg = null) {
   stopAllTimers(); closeSheet(); if (typeof fxClear === 'function') fxClear();
   if (typeof liveAway === 'function') liveAway(tab);
+  if (typeof navRemember === 'function') navRemember(tab, sub);
   Object.assign(NAV, { tab, sub, arg, immersive: false, after: null });
   render(); window.scrollTo(0, 0);
 }
@@ -1202,11 +1284,13 @@ function render() {
   $('#chips').innerHTML = chipsHTML();
   $('#view').innerHTML = html;
   $('#view').dataset.v = key;
-  $$('.tab').forEach(t => t.setAttribute('aria-current', t.dataset.tab === NAV.tab ? 'page' : 'false'));
+  const cur = typeof tabOf === 'function' ? tabOf() : NAV.tab;
+  $$('.tab').forEach(t => t.setAttribute('aria-current', t.dataset.tab === cur ? 'page' : 'false'));
   const f = NAV.after; NAV.after = null; if (f) f();
+  if (typeof verPaint === 'function') verPaint();
 }
 function chipsHTML() {
-  return `<span class="chip" title="Family points">⭐ <b>${S.xp}</b></span><span class="chip" title="Racha diaria">🔥 <b>${S.streak.n}</b></span>`;
+  return `<span class="chip" title="Family points">⭐ <b>${S.xp}</b></span><span class="chip" title="Racha diaria">🔥 <b>${S.streak.n}</b></span><button class="chip avc" data-a="tab" data-tab="perfil" aria-label="Perfil y ajustes" title="Perfil" aria-current="${NAV.tab === 'perfil' ? 'page' : 'false'}">${esc(S.avatar || '🎩')}</button>`;
 }
 function gradeOf(xp) {
   let i = 0; for (let k = 0; k < GRADES.length; k++) if (xp >= GRADES[k][0]) i = k;
@@ -1224,8 +1308,8 @@ const logoSVG = '<svg viewBox="0 0 32 32" aria-hidden="true"><rect x="5" y="5" w
 function shellInit() {
   $('#app').innerHTML = `<header class="top"><button class="logo" data-a="tab" data-tab="home" aria-label="Inicio">${logoSVG}<span>Mnemónica</span></button><span class="sp"></span><div class="row" id="chips"></div><button class="ibtn" data-a="help" aria-label="Ayuda: cómo funciona esta pantalla" title="Ayuda">?</button></header>
   <main id="view"></main>
-  <nav class="tabs" aria-label="Secciones">${[['home', 'Inicio'], ['learn', 'Aprender'], ['play', 'Jugar'], ['retos', 'Retos'], ['perfil', 'Perfil']].map(([k, l]) =>
-    `<button class="tab" data-a="tab" data-tab="${k}"><svg viewBox="0 0 24 24" aria-hidden="true">${ICONS[k === 'learn' ? 'learn' : k]}</svg><span>${l}</span></button>`).join('')}</nav>`;
+  <nav class="tabs" aria-label="Secciones">${NAV_TABS.map(([k, l, ic]) =>
+    `<button class="tab" data-a="tab" data-tab="${k}"><svg viewBox="0 0 24 24" aria-hidden="true">${ICONS[ic]}</svg><span>${l}</span></button>`).join('')}</nav>`;
 }
 A.tab = el => go(el.dataset.tab);
 A.back = el => go(el.dataset.tab || 'home', el.dataset.sub || null, el.dataset.arg !== undefined && el.dataset.arg !== '' ? +el.dataset.arg : null);
@@ -1359,8 +1443,9 @@ ROUTES.home = () => {
   <button class="plaque" data-a="credits" aria-label="Dedicatoria y créditos"><span class="pl-ic">🪄</span><span><span class="pl-a">Para uso y disfrute de los socios de <b>AMIT</b></span><span class="pl-b">Associació de Màgia i Il·lusionisme de Terrassa</span></span></button>
   ${jueves()}
   ${psWarn()}
-  ${fresh ? '<p class="start-tag">👇 Empieza aquí</p>' : ''}
+  ${fresh ? '<p class="start-tag">👇 Empieza aquí</p>' : todayHeadHTML(rec)}
   <button class="cta" data-a="${rec.a}" data-act="${rec.arg ?? ''}"><span class="num">${rec.n}</span><span><span class="t">${esc(rec.t)}</span><br><span class="s">${esc(rec.s)}</span></span></button>
+  ${fresh ? '' : todayNextHTML(rec)}
   ${fresh ? howto : ''}
   </div><div class="hcr">
   <section class="hero sm" aria-label="Estado de tu baraja">${ringSVG(animate)}
@@ -1380,6 +1465,7 @@ ROUTES.home = () => {
   ${pathHTML()}
   ${fresh ? '' : howto}
   <button class="mode mt" data-a="credits"><span class="ic">🪄</span><span><b>${L('Créditos y dedicatoria', 'Crèdits i dedicatòria')}</b><span>${L('Para quién es esta app, de dónde sale el orden y a quién se da las gracias.', 'Per a qui és aquesta app, d\'on surt l\'ordre i a qui es donen les gràcies.')}</span></span></button>
+  ${verLine()}
   <p class="credit">${L('Basado en la Mnemónica Tamariz, de Juan Tamariz (<i>La baraja mnemónica de Tamariz</i>, vol. I y II). Esta aplicación es un homenaje de estudio y no está afiliada al autor. Idea, diseño y desarrollo: Sergi. © 2026 Sergi. Todos los derechos reservados.', 'Basat en la Mnemònica Tamariz, de Juan Tamariz (<i>La baraja mnemónica de Tamariz</i>, vol. I i II). Aquesta aplicació és un homenatge d\'estudi i no està afiliada a l\'autor. Idea, disseny i desenvolupament: Sergi. © 2026 Sergi. Tots els drets reservats.')}</p>`;
 };
 function recommended() {
@@ -1405,6 +1491,7 @@ ROUTES.learn = () => {
   <p class="mut">Trece actos de cuatro cartas. Cada acto se aprende por varias vías a la vez; la prueba final te da estrellas.</p>
   ${helpBtn()}
   <button class="mode mt" data-a="go-rincon"><span class="ic">🎩</span><span><b>Antes de empezar: ¿qué es una baraja ordenada?</b><span>Tres cartas de explicación, la historia de los órdenes y curiosidades con fuente en Cultura mágica.</span></span></button>
+  <button class="mode mt" data-a="go-practica"><span class="ic">🧭</span><span><b>${L('Cómo practicar', 'Com practicar')}</b><span>${L('Por trozos, en los dos sentidos y pronto en un juego fácil: los cinco métodos y un plan de siete días.', 'Per trossos, en els dos sentits i aviat en un joc fàcil: els cinc mètodes i un pla de set dies.')}</span></span></button>
   <div class="panel stitch acts mt">${ACTS.map((a, i) => `<button class="act" data-a="open-act" data-act="${i}"><span class="num m${i % MK_CNT} n">${i * 4 + 1}-${i * 4 + 4}</span>
     <span style="flex:1;min-width:0"><span class="tt">${esc(a.t)}</span><br><span class="ss">${esc(a.s)}</span><div class="mbar"><i style="width:${Math.round(actMastery(i) * 100)}%"></i></div></span>
     <span class="st">${starsHTML(S.learn.stars[i] || 0)}<br>${S.learn.known[i] ? 'conocido' : i === cur ? '<b style="color:var(--brass-hi)">siguiente</b>' : ''}</span></button>`).join('')}</div>
@@ -1507,6 +1594,7 @@ ROUTES.perfil = () => {
   <div class="sec"><h3>Empezar de cero</h3></div>
   <div class="panel stitch"><p class="small mut" style="margin:0 0 8px">¿Quieres volver a aprender la baraja desde el principio? Elige hasta dónde borrar. Tu nombre y tus ajustes se conservan en el primer caso.</p><div class="gap"><button class="btn block" data-a="reset-learn">🔄 Borrar solo lo aprendido</button><button class="btn red block" data-a="reset">🗑️ Borrar todo</button></div></div>
   </div></div>
+  ${verLine()}
   <p class="credit">${WL('Mnemónica AMIT · Tu progreso se guarda en este dispositivo y, con sesión de Claude, en tu cuenta.', 'Mnemónica AMIT · El teu progrés es desa en aquest dispositiu i, amb sessió de Claude, al teu compte.', 'Mnemónica AMIT · Tu progreso se guarda en este dispositivo y, si entras con tu cuenta, en la nube.', 'Mnemónica AMIT · El teu progrés es desa en aquest dispositiu i, si entres amb el teu compte, al núvol.')}</p>`;
 };
 function tg(k, t, d) { return `<div class="toggle"><div><b>${t}</b><div class="small mut">${d}</div></div><button class="sw" role="switch" aria-checked="${!!S.set[k]}" aria-label="${t}" data-a="tg" data-k="${k}"></button></div>`; }
@@ -1778,8 +1866,14 @@ const MODES = {
   poker: { ic: '♠️', t: 'Póker mnemónico', d: 'Tú contra La Banca: tus cartas llegan como números.', why: 'Para saber qué mano tienes tienes que traducir cada número a su carta, y fallar cuesta fichas. Recordar bajo presión con algo en juego es lo que fija la baraja.' },
   gala: { ic: '🎭', t: 'Gala', d: 'Actúa ante público, con nervios y comodines.', why: 'Presión de escena: tu memoria con nervios y público, que es donde se nota de verdad.' },
 };
-const modeBtn = k => `<button class="mode" data-a="setup" data-m="${k}"><span class="ic">${MODES[k].ic}</span><span><b>${MODES[k].t}</b><span>${MODES[k].d}</span></span></button>`;
+const modeBtn = (k, o = {}) => {
+  const c = S.sm && S.sm[k], sum = c ? smSummary(k, c) : '';
+  const btn = `<button class="mode${o.tag ? ' rec' : ''}" data-a="setup" data-m="${k}"><span class="ic">${MODES[k].ic}</span><span><b>${MODES[k].t}</b><span>${o.d || MODES[k].d}</span>${sum ? `<span class="last">${L('Última vez', 'Última vegada')}: ${sum}</span>` : ''}</span><span class="mside">${o.tag ? `<span class="rec-b">${o.tag}</span>` : ''}${diffDots(MODE_DIFF[k] || 2)}</span></button>`;
+  return sum ? `<div class="modew">${btn}<button class="mode-rep" data-a="mode-repeat" data-m="${k}" aria-label="${L('Repetir como la última vez', 'Repetir com l\'última vegada')}: ${esc(sum.replace(/<[^>]+>/g, ''))}"><span aria-hidden="true">▶</span><small>${L('Repetir', 'Repetir')}</small></button></div>` : btn;
+};
 ROUTES.play = () => `<h2 class="mt">Jugar</h2><p class="mut">Los juegos siguen la lógica de cómo se aprende: primero la pareja, luego los vecinos y, al final, la fluidez. Cada juego te cuenta por qué ayuda.</p>${helpBtn()}
+  <div class="sec"><h3>${L('Empieza aquí', 'Comença aquí')}</h3></div><div class="modes">${(g => modeBtn(g.k, { tag: L('Te toca', 'Et toca'), d: g.why }))(recGame())}</div>
+  <p class="tiny mut diffkey">${diffDots(1)} ${L('fácil', 'fàcil')} · ${diffDots(2)} ${L('media', 'mitjana')} · ${diffDots(3)} ${L('difícil', 'difícil')}</p>
   <div class="sec"><h3>1 · La pareja: número ↔ carta</h3></div><div class="modes">${['p2c', 'c2p'].map(modeBtn).join('')}</div>
   <div class="sec"><h3>2 · La secuencia: los vecinos</h3></div><div class="modes">${['vistazo', 'gap', 'salto', 'order'].map(modeBtn).join('')}</div>
   <div class="sec"><h3>3 · Fluidez y escena</h3></div><div class="modes">${['mix', 'total', 'gala'].map(modeBtn).join('')}</div>
@@ -1853,7 +1947,7 @@ function setupHTML() {
   }
   return `<div class="row"><span style="font-size:30px">${M.ic}</span><h3 style="flex:1">${M.t}</h3></div><p class="mut small">${M.d}</p><p class="small why"><b>Por qué ayuda:</b> ${esc(M.why)}</p>${m === 'gala' || m === 'poker' ? '' : `<p class="tiny mut">${L('¿Primera vez? Deja todo como está y pulsa «Empezar». Alcance = qué cartas entran. Ritmo = cuánto tiempo tienes por pregunta («Relajado» es sin reloj).', 'Primera vegada? Deixa-ho tot com està i prem «Començar». Abast = quines cartes entren. Ritme = quant temps tens per pregunta («Relaxat» és sense rellotge).')}</p>`}${body}<button class="btn brass big block mt" data-a="setup-go">Empezar</button>`;
 }
-A.setup = el => { SETUP.mode = el.dataset.m; openSheet(setupHTML()); };
+A.setup = el => { SETUP.mode = el.dataset.m; smApply(SETUP.mode); openSheet(setupHTML()); };
 // Atajo de la escalera 13 → 26 → 52: abre el ajuste con alcance y tramo ya elegidos.
 A['ladder-go'] = el => {
   const d = el.dataset; SETUP.mode = d.m; SETUP.strict = false; SETUP.act = 0;
@@ -1867,7 +1961,7 @@ A.su = el => {
   SETUP[k] = v; repaintSetup();
 };
 document.addEventListener('change', e => { const t = e.target; if (t && t.id === 'su-act') SETUP.act = +t.value; });
-A['setup-go'] = () => { closeSheet(); const m = SETUP.mode; if (m === 'total') startTotal(); else if (m === 'order') startOrder(); else if (m === 'salto') startSalto(); else if (m === 'gala') startGala(); else if (m === 'poker') startPoker(); else startMode(m); };
+A['setup-go'] = () => { closeSheet(); startFromSetup(); };
 function startMode(m) {
   const M = MODES[m], scope = resolveScope(SETUP.scope, SETUP.act), cfgN = SETUP.n, sec = SETUP.sec;
   const again = () => startMode(m);
@@ -2465,13 +2559,14 @@ ROUTES.retos = () => {
   const top = (t, asc, n = 5) => S.hall.filter(h => h.t === t).sort((a, b) => asc ? a.v - b.v : b.v - a.v).slice(0, n);
   const list = (arr, icon) => arr.length ? `<div class="hall">${arr.map((h, i) => `<div class="r"><span class="p">${i + 1}</span><div style="flex:1;min-width:0"><b>${esc(h.name)}</b><div class="small mut">${esc(h.txt)} · ${fmtDate(h.d)}</div></div><span>${icon}</span></div>`).join('')}</div>` : '<p class="small mut">Aún no hay marcas. Las tuyas aparecerán aquí.</p>';
   const dailies = Object.entries(S.daily).map(([key, v]) => ({ key, ...v })).sort((a, b) => b.score - a.score || a.ms - b.ms).slice(0, 5);
-  return `<h2 class="mt">Retos</h2><p class="mut">Compite con tu peña: las mismas preguntas para todos y un resultado que se copia y se pega en el grupo.</p>${helpBtn()}
+  return `<h2 class="mt">Peña y retos</h2><p class="mut">Compite con tu peña: las mismas preguntas para todos y un resultado que se copia y se pega en el grupo.</p>${helpBtn()}
   <div class="modes mt">
     <button class="mode" data-a="daily"><span class="ic">📅</span><span><b>Reto del día${d ? ' · resuelto' : ''}</b><span>${d ? `Hoy: ${d.score}/${d.total}. Toca para ver y compartir.` : 'Diez preguntas, el mismo reto para todo el mundo.'}</span></span></button>
     <button class="mode" data-a="live-menu"><span class="ic">⚡</span><span><b>Sala en directo · hasta 15</b><span>${L('Toda la peña a la vez, cada uno en su móvil: puesto en tiempo real, podio, premios y reacciones. Necesita conexión.', 'Tota la penya alhora, cadascú al seu mòbil: lloc en temps real, podi, premis i reaccions. Necessita connexió.')}</span></span></button>
     <button class="mode" data-a="duel-menu"><span class="ic">⚔️</span><span><b>Duelo con código</b><span>Sin coincidir en el tiempo: mismo código, mismas preguntas, resultados copiados.</span></span></button>
     <button class="mode" data-a="pena-menu"><span class="ic">👥</span><span><b>Clasificación de la peña</b><span>Pega los resultados del grupo de WhatsApp y la app los ordena con podio y premios.</span></span></button>
     <button class="mode" data-a="trn-setup"><span class="ic">🏆</span><span><b>Torneo en grupo</b><span>De 2 a 8 magos pasándose el móvil. Con podio y premios.</span></span></button>
+    <button class="mode" data-a="go-cachondeo"><span class="ic">🍺</span><span><b>${L('Sala del cachondeo', 'Sala del cachondeig')}</b><span>${L('Chistes de la casa, el duelo con el cuñado y excusas del mago.', 'Acudits de la casa, el duel amb el cunyat i excuses del mag.')}</span></span></button>
   </div>
   <div class="sec"><h3>🏆 Ranking de AMIT</h3><span class="mut small">en línea</span></div>
   ${rankHTML()}
@@ -3937,6 +4032,219 @@ A['fx-demo'] = el => {
   try { SFX.sparkle(); } catch (e) { } confetti({ n: 70, y: .5, pow: 9, pack: k }); wowPop(d[0], L(d[1], d[2])); vibPat([25, 30, 25]);
 };
 
+/* ===================== FASE 1 · «HOY TOCA» Y DIFICULTAD DE LOS JUEGOS =====================
+   Todo se DEDUCE del progreso que ya existe (repaso espaciado, racha, actos vistos): no se guarda nada nuevo,
+   así que ningún guardado antiguo se ve afectado. Lo usan el inicio (tarjeta «Hoy toca») y la pantalla Jugar («Empieza aquí»). */
+
+// Dificultad de cada juego: 1 fácil · 2 media · 3 difícil (puntos en el botón).
+const MODE_DIFF = { p2c: 1, c2p: 1, vistazo: 2, gap: 2, liar: 2, salto: 2, mix: 2, order: 3, total: 3, gala: 3, poker: 3 };
+const diffLabel = d => d === 1 ? L('Fácil', 'Fàcil') : d === 2 ? L('Media', 'Mitjana') : L('Difícil', 'Difícil');
+const diffDots = d => `<span class="diff" role="img" aria-label="${L('Dificultad', 'Dificultat')}: ${diffLabel(d)}">${[1, 2, 3].map(i => `<i class="${i <= d ? 'on' : ''}"></i>`).join('')}</span>`;
+
+// Acierto en una dirección (número→carta o carta→número) sobre las cartas ya vistas; null si hay pocos datos.
+function dirRatio(f, seen) {
+  let ok = 0, ko = 0;
+  for (const p of seen) { const it = srsItem(f, p); ok += it.ok; ko += it.ko; }
+  return ok + ko >= 8 ? ok / (ok + ko) : null;
+}
+// Juego recomendado ahora mismo: sigue la escalera del aprendizaje (pareja → vecinos → secuencia → fluidez → escena).
+function recGame() {
+  const seen = [...seenSet()], m = ALL_POS.filter(mastered).length;
+  const a = dirRatio('p2c', seen), b = dirRatio('c2p', seen);
+  if (m < 36 && a !== null && b !== null && b < a - .15) return { k: 'c2p', why: L('Se te da peor ir de la carta al número: trabájalo.', 'Se\'t dona pitjor anar de la carta al número: treballa-ho.') };
+  if (m < 36 && a !== null && b !== null && a < b - .15) return { k: 'p2c', why: L('Se te da peor ir del número a la carta: trabájalo.', 'Se\'t dona pitjor anar del número a la carta: treballa-ho.') };
+  if (seen.length < 4 || m < 6) return { k: 'p2c', why: L('Primero la pareja: el número te da la carta.', 'Primer la parella: el número et dóna la carta.') };
+  if (m < 20) return { k: 'vistazo', why: L('Ya tienes la pareja: ahora los vecinos.', 'Ja tens la parella: ara els veïns.') };
+  if (m < 36) return { k: 'salto', why: L('Ya enlazas vecinos: aprende a moverte por la secuencia.', 'Ja enllaces veïns: aprèn a moure\'t per la seqüència.') };
+  if (m < 52) return { k: 'total', why: L('Estás cerca: recita las 52 contra el reloj.', 'Ets a prop: recita les 52 contra el rellotge.') };
+  return { k: 'gala', why: L('Todo dominado: pon a prueba los nervios ante público.', 'Tot dominat: posa a prova els nervis davant del públic.') };
+}
+
+// Cabecera de la tarjeta «Hoy toca»: título, tiempo estimado y estado de la racha (solo lectura).
+function todayHeadHTML(rec) {
+  const k = dayKey(), y = new Date(); y.setDate(y.getDate() - 1);
+  const st = S.streak, kept = st.last === k, alive = kept || st.last === dayKey(y);
+  let streak;
+  if (alive && st.n > 0) streak = kept
+    ? L(`🔥 Racha de ${st.n} ${plural(st.n, 'día', 'días')}: hoy ya cuenta`, `🔥 Ratxa de ${st.n} ${plural(st.n, 'dia', 'dies')}: avui ja compta`)
+    : L(`🔥 Racha de ${st.n} ${plural(st.n, 'día', 'días')}: juega hoy para mantenerla`, `🔥 Ratxa de ${st.n} ${plural(st.n, 'dia', 'dies')}: juga avui per mantenir-la`);
+  else streak = L('Hoy puedes empezar una racha nueva', 'Avui pots començar una ratxa nova');
+  const mins = rec.a === 'train' ? Math.max(1, Math.round(Math.min(+rec.n || 0, 12) * 10 / 60)) : 0;
+  return `<div class="today-h"><h2 class="today-t">${L('Hoy toca', 'Avui toca')}${mins ? ` <span class="tm">≈ ${mins} min</span>` : ''}</h2><span class="today-st">${streak}</span></div>`;
+}
+// Siguiente paso tras la acción principal: un juego acorde con tu nivel (solo si la acción principal es estudiar).
+function todayNextHTML(rec) {
+  if (rec.a !== 'train' && rec.a !== 'open-act') return '';
+  const g = recGame();
+  return `<div class="today-n">${modeBtn(g.k, { tag: L('Después', 'Després'), d: g.why })}</div>`;
+}
+
+/* ===================== FASE 4 · AJUSTES RECORDADOS POR MODO =====================
+   Al empezar un juego desde el ajuste se guarda cómo lo dejaste (alcance, número de preguntas, ritmo…) en S.sm[modo]
+   (campo nuevo y aditivo: un guardado antiguo sin él sigue funcionando). La próxima vez, el ajuste se abre ya con esas
+   elecciones y el juego muestra «Repetir», que arranca de un toque con lo mismo. Lo guardado se valida siempre al leerlo. */
+const SM_KEYS = ['scope', 'n', 'sec', 'act', 'size', 'strict', 'part', 'venue', 'sjump', 'ptbl'];
+const SM_OK = { scope: ['seen', 'all', 'act', 'range', 'rebel'], n: [10, 20, 30], sec: [0, 10, 5], size: [4, 8, 13], part: ['all', 'range'], sjump: ['a', 'c', 'e'] };
+function smClean(c) {
+  const o = {}; if (!c || typeof c !== 'object') return o;
+  for (const k in SM_OK) if (SM_OK[k].includes(c[k])) o[k] = c[k];
+  if (Number.isInteger(c.act) && c.act >= 0 && c.act < ACTS.length) o.act = c.act;
+  if (typeof c.strict === 'boolean') o.strict = c.strict;
+  if (Number.isInteger(c.venue) && c.venue >= 0 && c.venue < VENUES.length) o.venue = c.venue;
+  if (Number.isInteger(c.ptbl) && c.ptbl >= 0 && c.ptbl < PK_TABLES.length && pkUnlocked(c.ptbl)) o.ptbl = c.ptbl;
+  if (c.rg && typeof c.rg === 'object') for (const k of ['scope', 'part']) { const r = c.rg[k]; if (Array.isArray(r) && r.length === 2 && r.every(Number.isInteger)) { o.rg = o.rg || {}; o.rg[k] = [r[0], r[1]]; } }
+  return o;
+}
+function smSave(m) {
+  const c = {};
+  for (const k of SM_KEYS) if (SETUP[k] !== undefined) c[k] = SETUP[k];
+  c.rg = { scope: (SETUP.rg.scope || [1, 13]).slice(0, 2), part: (SETUP.rg.part || [27, 39]).slice(0, 2) };
+  if (!S.sm || typeof S.sm !== 'object') S.sm = {};
+  if (JSON.stringify(S.sm[m]) === JSON.stringify(c)) return;
+  S.sm[m] = c; save();
+}
+function smApply(m) {
+  const c = smClean(S.sm && S.sm[m]); if (!Object.keys(c).length) return false;
+  const { rg, ...rest } = c; Object.assign(SETUP, rest);
+  if (rg) for (const k in rg) SETUP.rg[k] = rg[k];
+  return true;
+}
+// Resumen en una línea de lo recordado: «Las 52 · 10 preguntas · relajado».
+function smSummary(m, raw) {
+  const c = smClean(raw); if (!Object.keys(c).length) return '';
+  const tram = k => c.rg && c.rg[k] ? L(`Tramo ${c.rg[k][0]}–${c.rg[k][1]}`, `Tram ${c.rg[k][0]}–${c.rg[k][1]}`) : L('Un tramo', 'Un tram');
+  const sc = ({ seen: L('Lo visto', 'El vist'), all: L('Las 52', 'Les 52'), act: L(`Acto ${(c.act || 0) + 1}`, `Acte ${(c.act || 0) + 1}`), rebel: L('Rebeldes', 'Rebels'), range: tram('scope') })[c.scope || 'seen'];
+  if (m === 'total') return `${c.part === 'range' ? tram('part') : L('Las 52', 'Les 52')} · ${c.strict ? L('Estricto', 'Estricte') : L('Normal', 'Normal')}`;
+  if (m === 'order') return `${sc} · ${L(`${c.size || 8} cartas`, `${c.size || 8} cartes`)}`;
+  if (m === 'salto') return `${sc} · ${({ a: L('De 1 en 1', 'D\'1 en 1'), c: L('Hasta 3', 'Fins a 3'), e: L('Hasta 5', 'Fins a 5') })[c.sjump || 'c']}`;
+  if (m === 'poker') return `${sc} · ${pkTName(PK_TABLES[c.ptbl || 0])}`;
+  if (m === 'gala') return esc(VENUES[c.venue || 0].n);
+  const rt = c.sec === 10 ? '10 s' : c.sec === 5 ? '5 s' : L('relajado', 'relaxat');
+  return `${sc} · ${L(`${c.n || 10} preguntas`, `${c.n || 10} preguntes`)} · ${rt}`;
+}
+function startFromSetup() {
+  const m = SETUP.mode; smSave(m);
+  if (m === 'total') startTotal(); else if (m === 'order') startOrder(); else if (m === 'salto') startSalto(); else if (m === 'gala') startGala(); else if (m === 'poker') startPoker(); else startMode(m);
+}
+A['mode-repeat'] = el => { const m = el.dataset.m; SETUP.mode = m; if (!smApply(m)) return A.setup(el); startFromSetup(); };
+
+/* ===================== FASE 2 · NAVEGACIÓN: Inicio · Aprender · Jugar · Biblioteca · Peña (+ Perfil en la cabecera) =====================
+   No se mueve ninguna ruta ni se cambia ningún dato guardado: las pantallas siguen siendo las mismas (go('learn','fuentes'), go('retos')…).
+   Lo que cambia es el agrupamiento visible: qué pestaña se ilumina en cada pantalla, el nuevo hub «Biblioteca», el nombre «Peña» para
+   lo que antes era «Retos» y el botón «atrás», que ahora vuelve a la pantalla desde la que llegaste. */
+
+H('Biblioteca', 'Biblioteca', 'Biblioteca');
+H('Peña', 'Penya', 'Peña');
+H('Peña y retos', 'Penya i reptes', 'Peña y retos');
+
+// Pestañas de la barra (clave de ruta, etiqueta, icono). «Peña» sigue usando la ruta 'retos'.
+const NAV_TABS = [['home', 'Inicio', 'home'], ['learn', 'Aprender', 'learn'], ['play', 'Jugar', 'play'], ['biblio', 'Biblioteca', 'biblio'], ['retos', 'Peña', 'retos']];
+ICONS.biblio = '<path d="M4 4.500h4v15H4z"/><path d="M10 4.500h4v15h-4z"/><path d="M15.700 6.200l3.800-1 3 14.300-3.800 1z" transform="translate(-1.500 0)"/>';
+
+// Pantallas de «learn:*» que pertenecen a otra pestaña (la ruta no cambia; solo cuál se ilumina).
+const LIB_SUBS = new Set(['rincon', 'vf', 'present', 'otras', 'comparar', 'fuentes', 'guia', 'top', 'juegos', 'sim']);
+const PENA_SUBS = new Set(['cachondeo']);
+function tabOf() {
+  if (NAV.tab === 'learn') return LIB_SUBS.has(NAV.sub) ? 'biblio' : PENA_SUBS.has(NAV.sub) ? 'retos' : 'learn';
+  if (NAV.tab === 'trn') return 'retos';
+  return NAV.tab;
+}
+
+// «Atrás» inteligente: una pila corta de las pantallas estables por las que pasas (no partidas a medias). «Atrás» vuelve a la anterior;
+// al tocar una pestaña de la barra, la pila empieza de nuevo. Sin pila, «atrás» hace lo de siempre (ir al inicio).
+const NAV_BACK_TABS = new Set(['home', 'learn', 'play', 'biblio', 'retos', 'perfil']);
+const NAV_BACK_SUBS = new Set([null, 'rincon', 'present', 'otras', 'comparar', 'fuentes', 'guia', 'top', 'juegos', 'practica', 'cachondeo', 'mia']);
+NAV.stack = [];
+let navBacking = false;
+const navStable = (tab, sub) => NAV_BACK_TABS.has(tab) && NAV_BACK_SUBS.has(sub || null);
+function navRemember(tab, sub) {
+  if (navBacking || NAV.immersive || !navStable(NAV.tab, NAV.sub)) return;
+  if (NAV.tab === tab && (NAV.sub || null) === (sub || null)) return;
+  NAV.stack.push({ tab: NAV.tab, sub: NAV.sub || null, arg: NAV.arg });
+  if (NAV.stack.length > 8) NAV.stack.shift();
+}
+const navBackTarget = () => NAV.stack.length ? NAV.stack[NAV.stack.length - 1] : null;
+const _backOrig = A.back;
+A.back = el => {
+  const toHome = (el.dataset.tab || 'home') === 'home' && !el.dataset.sub;
+  if (toHome && NAV.stack.length) { const p = NAV.stack.pop(); navBacking = true; try { go(p.tab, p.sub, p.arg); } finally { navBacking = false; } return; }
+  return _backOrig(el);
+};
+A.tab = el => { NAV.stack = []; navBacking = true; try { go(el.dataset.tab); } finally { navBacking = false; } };
+
+// Biblioteca: el hub de todo lo que rodea al orden (cultura, magia, fuentes, ayuda).
+const libBtn = (a, ic, t, d) => `<button class="mode" data-a="${a}"><span class="ic">${ic}</span><span><b>${t}</b><span>${d}</span></span></button>`;
+ROUTES.biblio = () => `<h2 class="mt">${L('Biblioteca', 'Biblioteca')}</h2>
+  <p class="mut">${L('Todo lo que rodea al orden: cultura, magia que hacer con una baraja ordenada, fuentes y ayuda. Para entrenar, ve a Aprender o Jugar.', 'Tot el que envolta l\'ordre: cultura, màgia per fer amb una baralla ordenada, fonts i ajuda. Per entrenar, ves a Aprendre o Jugar.')}</p>${helpBtn()}
+  <div class="sec"><h3>${L('Cultura y orígenes', 'Cultura i orígens')}</h3></div>
+  <div class="modes">
+    ${libBtn('go-rincon', '🎩', L('Cultura mágica', 'Cultura màgica'), L('Qué es una baraja ordenada, quién ordenó qué y cuándo, con curiosidades y fuente.', 'Què és una baralla ordenada, qui va ordenar què i quan, amb curiositats i font.'))}
+    ${libBtn('go-comparar', '⚖️', L('Barajas comparadas', 'Baralles comparades'), L('Si Stebbins, Mnemónica, Aronson, Memorandum, Particle System y Dani DaOrtiz: ventajas y pegas.', 'Si Stebbins, Mnemònica, Aronson, Memorandum, Particle System i Dani DaOrtiz: avantatges i pegues.'))}
+    ${libBtn('go-otras', '🗺️', L('Otras barajas ordenadas', 'Altres baralles ordenades'), L('Anexo: cómo están ordenadas y un juego de cada una.', 'Annex: com estan ordenades i un joc de cadascuna.'))}
+  </div>
+  <div class="sec"><h3>${L('Magia con baraja ordenada', 'Màgia amb baralla ordenada')}</h3></div>
+  <div class="modes">
+    ${libBtn('go-juegos', '🃏', L('Juegos con la Mnemónica', 'Jocs amb la Mnemònica'), L('La escalera: juegos con 13, 26 y 52 cartas, con efecto, guion y pasos.', 'L\'escala: jocs amb 13, 26 i 52 cartes, amb efecte, guió i passos.'))}
+    ${libBtn('go-top', '🏆', L('Ranking de juegos', 'Rànquing de jocs'), L('Lista orientativa de los favoritos, con la evidencia a la vista.', 'Llista orientativa dels favorits, amb l\'evidència a la vista.'))}
+    ${libBtn('go-present', '🎬', L('Presentar con baraja ordenada', 'Presentar amb baralla ordenada'), L('Momentos wow y ideas de presentación.', 'Moments wow i idees de presentació.'))}
+    ${libBtn('go-sim', '🎭', L('Simulador de Mnemonicosis', 'Simulador de Mnemonicosi'), L('Vista del espectador y del mago, paso a paso.', 'Vista de l\'espectador i del mag, pas a pas.'))}
+  </div>
+  <div class="sec"><h3>${L('Bibliografía', 'Bibliografia')}</h3></div>
+  <div class="modes">
+    ${libBtn('go-fuentes', '📚', L('Fuentes y bibliografía', 'Fonts i bibliografia'), L('Libros, descargas y webs, con su ficha y dónde conseguirlos.', 'Llibres, descàrregues i webs, amb la seva fitxa i on aconseguir-los.'))}
+  </div>
+  <div class="sec"><h3>${L('Ayuda y créditos', 'Ajuda i crèdits')}</h3></div>
+  <div class="modes">
+    ${libBtn('go-guia', '📲', L('Cómo funciona', 'Com funciona'), L('La app por dentro, instalarla en el móvil y la copia de seguridad.', 'L\'app per dins, instal·lar-la al mòbil i la còpia de seguretat.'))}
+    ${libBtn('credits', '🪄', L('Créditos y dedicatoria', 'Crèdits i dedicatòria'), L('Para quién es esta app y a quién se da las gracias.', 'Per a qui és aquesta app i a qui es donen les gràcies.'))}
+    ${libBtn('sugerir', '💬', L('Sugerencias por WhatsApp', 'Suggeriments per WhatsApp'), L('Dime qué te falta o qué sobra.', 'Digues què et falta o què sobra.'))}
+  </div>`;
+
+/* ===================== FASE 3 · VERSIÓN VISIBLE Y AVISO DE VERSIÓN NUEVA =====================
+   La versión («Rev N») la pone build.py. En la web, al abrir la app y al volver a ella desde segundo plano (lo típico
+   del iPad, que guarda la página vieja en caché), se pide la página otra vez saltándose la caché y se mira su <meta app-rev>.
+   Si es mayor, sale un aviso con «Actualizar». Actualizar guarda el progreso y recarga con una dirección nueva, que
+   obliga al navegador a bajar el archivo actual. No se toca nada del progreso guardado. */
+const APP_REV = Number('45') || 0;
+const VER = { latest: 0, at: 0, dismissed: 0, show: false, busy: false };
+// Solo en la web propia (FB.web: dirección http/https fuera de Claude). La copia suelta o dentro de Claude no se actualiza sola.
+const verWeb = () => typeof fetch === 'function' && !!FB.web;
+async function verCheck(force) {
+  if (!verWeb() || VER.busy) return null;
+  if (!force && Date.now() - VER.at < 60e3) return VER.latest;
+  VER.busy = true; VER.at = Date.now();
+  try {
+    const r = await fetch(location.pathname + '?rv=' + Date.now(), { cache: 'no-store' });
+    if (!r.ok) return null;
+    const m = (await r.text()).match(/<meta name="app-rev" content="(\d+)"/);
+    VER.latest = m ? +m[1] : 0;
+    if (VER.latest > APP_REV && VER.latest !== VER.dismissed) { VER.show = true; verPaint(); }
+    return VER.latest;
+  } catch (e) { return null; } finally { VER.busy = false; }
+}
+// El aviso no interrumpe una partida: si estás jugando, espera a que salgas de ella.
+function verPaint() {
+  const old = $('#verbar');
+  if (!VER.show || NAV.immersive) { if (old) old.remove(); return; }
+  if (old) return;
+  const b = document.createElement('div'); b.id = 'verbar'; b.className = 'verbar'; b.setAttribute('role', 'status');
+  b.innerHTML = `<span>✨ <b>${L('Hay una versión nueva', 'Hi ha una versió nova')}</b> (Rev ${VER.latest})</span><span class="row"><button class="btn sm brass" data-a="ver-go">${L('Actualizar', 'Actualitzar')}</button><button class="btn sm ghost" data-a="ver-later">${L('Luego', 'Després')}</button></span>`;
+  document.body.appendChild(b);
+}
+A['ver-go'] = () => { try { saveNow(); } catch (e) { } location.replace(location.pathname + '?rv=' + VER.latest + location.hash); };
+A['ver-later'] = () => { VER.dismissed = VER.latest; VER.show = false; verPaint(); };
+A['ver-check'] = async () => {
+  if (!verWeb()) return toast(L('Esta copia no se actualiza sola: cuando haya una nueva, sustituye el archivo.', 'Aquesta còpia no s\'actualitza sola: quan n\'hi hagi una de nova, substitueix l\'arxiu.'), 3600);
+  VER.dismissed = 0; const n = await verCheck(true);
+  if (n === null) return toast(L('No he podido comprobarlo ahora. ¿Hay conexión?', 'No he pogut comprovar-ho ara. Hi ha connexió?'), 3200);
+  if (n > APP_REV) return;
+  toast(L(`Ya tienes la última versión (Rev ${APP_REV}).`, `Ja tens l\'última versió (Rev ${APP_REV}).`), 2800);
+};
+const verLine = () => `<p class="tiny mut ver">${L('Versión', 'Versió')} Rev ${APP_REV} · <button class="linkb" data-a="ver-check">${L('Buscar actualizaciones', 'Cercar actualitzacions')}</button></p>`;
+// Se programa tras cargar todo el script (FB se define más adelante en el mismo archivo).
+setTimeout(() => { if (verWeb()) setTimeout(() => verCheck(), 4000); }, 0);
+document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') verCheck(); });
+
 /* ===================== LA ESCALERA 13 → 26 → 52 · CÓMO PRACTICAR · FUENTES · CÓMO FUNCIONA ===================== */
 // Los métodos se describen con palabras propias a partir de los volúmenes I y II de Tamariz. Las posiciones, las fórmulas
 // y los ejemplos se calculan con STACK, así que no pueden quedar desactualizados. Las versiones de 13 y 26 cartas
@@ -4470,7 +4778,33 @@ const STK = {
   ]
 };
 FUENTES.forEach(g => g.items.forEach(it => { if (STK[it.t] !== undefined) it.st = STK[it.t]; }));
-const srcHTML = it => `<div class="panel src"><b>${esc(it.t)}</b><div class="small mut">${esc(it.a)} · ${esc(it.m)}</div><p class="small">${esc(it.n)}</p><div class="row wrap">${it.ls.map(l => `<a class="btn sm" href="${esc(l.u)}" target="_blank" rel="noopener noreferrer">${l.ca ? '🗂️ ' : ''}${esc(l.l)}</a>`).join('')}${it.ls.length ? `<button class="btn sm ghost" data-a="copy-url" data-u="${esc(it.ls[0].u)}">Copiar enlace</button>` : ''}</div>${stHTML(it)}</div>`;
+const srcLang = it => /inglés/i.test(it.m) ? 'en' : /español/i.test(it.m) ? 'es' : 'x';
+const srcNorm = x => String(x).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+const srcHTML = it => `<details class="panel src src-d" data-lang="${srcLang(it)}" data-q="${esc(srcNorm([it.t, it.a, it.m, it.n].join(' ')))}"><summary><span class="sum-t">${esc(it.t)}</span><span class="sum-s">${esc(it.a)} · ${esc(it.m)}</span>${(it.ls.some(l => l.ca) || (it.st && it.st.length)) ? `<span class="sum-b">${it.ls.some(l => l.ca) ? '<span title="Conjuring Archive">🗂️</span>' : ''}${it.st && it.st.length ? `<span title="${L('Dónde conseguirlo', 'On aconseguir-lo')}">🛒 ${it.st.length}</span>` : ''}</span>` : ''}</summary><p class="small">${esc(it.n)}</p><div class="row wrap">${it.ls.map(l => `<a class="btn sm" href="${esc(l.u)}" target="_blank" rel="noopener noreferrer">${l.ca ? '🗂️ ' : ''}${esc(l.l)}</a>`).join('')}${it.ls.length ? `<button class="btn sm ghost" data-a="copy-url" data-u="${esc(it.ls[0].u)}">Copiar enlace</button>` : ''}</div>${stHTML(it)}</details>`;
+// Buscador y filtro por idioma (se aplican sobre el DOM, sin volver a pintar la página).
+const SRC = { lang: 'all' };
+const srcCount = l => FUENTES.reduce((n, g) => n + g.items.filter(it => l === 'all' || srcLang(it) === l).length, 0);
+const srcBar = () => `<div class="src-bar" role="search">
+  <input id="srcq" class="src-q" type="search" inputmode="search" autocomplete="off" placeholder="${L('Buscar por título, autor o tema', 'Cerca per títol, autor o tema')}" aria-label="${L('Buscar en las fuentes', 'Cerca a les fonts')}">
+  <div class="pills" role="group" aria-label="${L('Idioma', 'Idioma')}">${[['all', L('Todos', 'Tots')], ['es', L('Español', 'Espanyol')], ['en', L('Inglés', 'Anglès')]].map(([v, l]) => `<button class="pill" data-a="src-lang" data-v="${v}" aria-pressed="${SRC.lang === v}">${l} (${srcCount(v)})</button>`).join('')}</div>
+  <div class="row wrap" style="align-items:center;justify-content:space-between"><span class="small mut" id="srcn" role="status" aria-live="polite">${L(`${srcCount('all')} títulos`, `${srcCount('all')} títols`)}</span><button class="btn sm ghost" data-a="src-open" id="srco">${L('Abrir todo', 'Obrir tot')}</button></div></div>`;
+function srcApply() {
+  const words = srcNorm(($('#srcq') || {}).value || '').trim().split(/\s+/).filter(Boolean);
+  let shown = 0, total = 0;
+  $$('.src-g').forEach(g => {
+    let vis = 0;
+    $$('.src-d', g).forEach(d => {
+      total++; d.hidden = !((SRC.lang === 'all' || d.dataset.lang === SRC.lang) && words.every(w => d.dataset.q.includes(w)));
+      if (!d.hidden) { vis++; shown++; }
+    });
+    g.hidden = !vis;
+  });
+  const n = $('#srcn'); if (n) n.textContent = shown === total ? L(`${total} títulos`, `${total} títols`) : shown ? L(`Mostrando ${shown} de ${total}`, `Mostrant ${shown} de ${total}`) : L('Ningún título coincide. Prueba con otra palabra o quita el filtro.', 'Cap títol coincideix. Prova amb una altra paraula o treu el filtre.');
+  const o = $('#srco'); if (o) o.hidden = !shown;
+}
+document.addEventListener('input', e => { if (e.target && e.target.id === 'srcq') srcApply(); });
+A['src-lang'] = el => { SRC.lang = el.dataset.v; $$('[data-a=src-lang]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === SRC.lang))); srcApply(); };
+A['src-open'] = el => { const ds = $$('.src-d').filter(d => !d.hidden), allOpen = ds.length && ds.every(d => d.open); ds.forEach(d => { d.open = !allOpen; }); el.textContent = allOpen ? L('Abrir todo', 'Obrir tot') : L('Cerrar todo', 'Tancar tot'); };
 const stHTML = it => !it.st ? '' : `<div class="row wrap src-st" style="margin-top:8px;align-items:center"><span class="small mut">🛒 ${L('Dónde conseguirlo', 'On aconseguir-lo')}:</span>${it.st.length ? it.st.map(l => `<a class="btn sm" href="${esc(l.u)}" target="_blank" rel="noopener noreferrer">${esc(L(l.l, l.lc || l.l))}</a>`).join('') : `<span class="small mut">${L('Sin ficha localizada en las tiendas de la lista; pregúntalo en tu tienda habitual.', 'Sense fitxa localitzada a les botigues de la llista; pregunta-ho a la teva botiga habitual.')}</span>`}</div>`;
 // Tiendas donde buscar los libros. Mano de Mago va la primera por decisión del autor de la app; el resto, por orden alfabético. La app no cobra nada de ellas: sin afiliación ni comisión.
 const STORES = [
@@ -4493,7 +4827,8 @@ ROUTES['learn:fuentes'] = () => `
   <button class="mode" data-a="go-otras"><span class="ic">🗺️</span><span><b>${L('Otras barajas ordenadas', 'Altres baralles ordenades')}</b><span>${L('Anexo: cómo están ordenadas y un juego de cada una.', 'Annex: com estan ordenades i un joc de cadascuna.')}</span></span></button>
   <button class="mode" data-a="go-comparar"><span class="ic">⚖️</span><span><b>Barajas ordenadas: pros y contras</b><span>Si Stebbins, Aronson, Memorandum, Particle y más, frente a la Mnemónica de Tamariz.</span></span></button>
   <div class="panel stitch"><b style="font-family:var(--fh);font-weight:400;font-size:18px">🗂️ Qué es el Conjuring Archive</b><p class="small" style="margin:6px 0 8px">Una base de datos de bibliografía de magia creada por el mago alemán <b>Denis Behr</b>, con Lorenz Schär como principal colaborador. Cataloga efectos de libros, revistas y vídeos, con su página, de modo que es la manera más rápida de saber en qué obra está cada idea. No reproduce los métodos: para eso hay que ir al libro.</p><div class="row wrap"><a class="btn sm" href="https://www.conjuringarchive.com" target="_blank" rel="noopener noreferrer">Abrir el archivo</a><a class="btn sm" href="${CA}category/1576" target="_blank" rel="noopener noreferrer">Categoría «Mnemonica (Tamariz)»</a><a class="btn sm" href="${CA}person/273" target="_blank" rel="noopener noreferrer">Juan Tamariz</a></div></div>
-  ${FUENTES.map(g => `<div class="sec"><h3>${g.i} ${esc(g.g)}</h3></div><div class="gap">${g.items.map(srcHTML).join('')}</div>`).join('')}
+  ${(SRC.lang = 'all', srcBar())}
+  ${FUENTES.map(g => `<div class="src-g"><div class="sec"><h3>${g.i} ${esc(g.g)}</h3></div><div class="gap">${g.items.map(srcHTML).join('')}</div></div>`).join('')}
   <div class="sec"><h3>🇪🇸 La escuela española</h3></div>
   <div class="panel stitch"><p class="small" style="margin:0">Tres de los autores de esta lista (Tamariz, Aragón y DaOrtiz) pertenecen a la cartomagia española. Una reseña de 2017 de Magicana lo resumió así: <i>«it's the Spaniards' world, and we just live in it»</i>. En el índice del vol. I de Tamariz aparecen, entre otros, Arenillas, Antón López, Camilo Vázquez, Ramblar, García Soutullo y Riobóo (con Aronson, en «Las tres horas»).</p></div>
   ${storesHTML()}
@@ -4519,13 +4854,14 @@ const guiaCompartir = () => `
 ROUTES['learn:guia'] = () => `
   <div class="row mt"><button class="ibtn" data-a="back" data-tab="home" aria-label="Volver">‹</button><h2 style="margin:0">Cómo funciona</h2></div>
   <p class="mut">Entrenador de la baraja Mnemónica de Tamariz: aprendes el orden de las 52 cartas por peldaños (13, 26, 52), lo practicas con juegos y compites con la peña.</p>
-  <div class="sec"><h3>En cinco pestañas</h3></div>
+  <div class="sec"><h3>${L('Cinco bloques y tu perfil', 'Cinc blocs i el teu perfil')}</h3></div>
   <div class="gap">
-    <div class="panel"><b>🏠 Inicio</b><div class="small mut">Tu progreso, la recomendación del día y atajos.</div></div>
-    <div class="panel"><b>📖 Aprender</b><div class="small mut">Trece actos de cuatro cartas, con varias vías de memoria (cancioncita, dibujo, historia…). Al final de cada acto, una prueba que da estrellas.</div></div>
-    <div class="panel"><b>🎮 Jugar</b><div class="small mut">Carta al número, Vistazo, Mentiroso, La carta que falta, Memoria total y Gala. Lo que falles vuelve antes para repasarlo.</div></div>
-    <div class="panel"><b>🏆 Retos</b><div class="small mut">Reto del día, duelos, torneo con un solo móvil y la Sala en directo para hasta 15 magos.</div></div>
-    <div class="panel"><b>👤 Perfil</b><div class="small mut">Tu nombre de mago, logros, ajustes y copia de seguridad.</div></div>
+    <div class="panel"><b>🏠 ${L('Inicio', 'Inici')}</b><div class="small mut">${L('«Hoy toca»: lo que te conviene ahora, tu racha, tu progreso y atajos.', '«Avui toca»: el que et convé ara, la teva ratxa, el teu progrés i dreceres.')}</div></div>
+    <div class="panel"><b>📖 ${L('Aprender', 'Aprendre')}</b><div class="small mut">${L('Trece actos de cuatro cartas, con varias vías de memoria (cancioncita, dibujo, historia…). Al final de cada acto, una prueba que da estrellas.', 'Tretze actes de quatre cartes, amb diverses vies de memòria (cançoneta, dibuix, història…). Al final de cada acte, una prova que dóna estrelles.')}</div></div>
+    <div class="panel"><b>🎮 ${L('Jugar', 'Jugar')}</b><div class="small mut">${L('Los juegos, de fácil a difícil, con uno recomendado arriba. Lo que falles vuelve antes para repasarlo.', 'Els jocs, de fàcil a difícil, amb un de recomanat a dalt. El que falliu torna abans per repassar-ho.')}</div></div>
+    <div class="panel"><b>📚 ${L('Biblioteca', 'Biblioteca')}</b><div class="small mut">${L('Cultura mágica, barajas comparadas, juegos de magia con baraja ordenada, fuentes y ayuda.', 'Cultura màgica, baralles comparades, jocs de màgia amb baralla ordenada, fonts i ajuda.')}</div></div>
+    <div class="panel"><b>🏆 ${L('Peña', 'Penya')}</b><div class="small mut">${L('Reto del día, duelos, torneo con un solo móvil, la Sala en directo para hasta 15 magos, el ranking de AMIT y la Sala del cachondeo.', 'Repte del dia, duels, torneig amb un sol mòbil, la Sala en directe per a fins a 15 mags, el rànquing d\'AMIT i la Sala del cachondeig.')}</div></div>
+    <div class="panel"><b>👤 ${L('Perfil', 'Perfil')}</b><div class="small mut">${L('Tu avatar, arriba a la derecha: nombre de mago, logros, ajustes y copia de seguridad.', 'El teu avatar, a dalt a la dreta: nom de mag, assoliments, ajustos i còpia de seguretat.')}</div></div>
   </div>
   <div class="sec"><h3>Para magos</h3></div>
   <div class="gap">
@@ -4535,7 +4871,7 @@ ROUTES['learn:guia'] = () => `
   </div>
   <div class="sec"><h3>La Sala en directo (hasta 15)</h3></div>
   <ol class="steps">
-    <li>Uno crea la sala en <b>Retos › Sala en directo</b> y reparte el código de cuatro letras por el grupo de WhatsApp.</li>
+    <li>Uno crea la sala en <b>Peña › Sala en directo</b> y reparte el código de cuatro letras por el grupo de WhatsApp.</li>
     <li>El resto entra con ese código. Cada uno verá quién está dentro.</li>
     <li>Quien creó la sala es el <b>anfitrión</b>: elige el tipo de ronda y pulsa «Empezar». Todos juegan las mismas diez preguntas a la vez.</li>
     <li>Durante la ronda ves tu puesto; al terminar, el podio, los premios y la revancha.</li>
@@ -7121,7 +7457,7 @@ A['live-menu'] = () => {
 };
 A['live-new'] = () => { liveJoin(liveCode()); };
 A['live-join'] = () => { const code = ($('#lc').value || '').trim().toUpperCase().replace(/[^A-Z0-9]/g, ''); if (code.length < 4) return toast('Escribe el código de 4 caracteres'); liveJoin(code); };
-A['live-copy'] = () => copyText(`Te invito a la sala en directo de Mnemónica AMIT (hasta ${LIVE_MAX} magos). Abre la app, ve a Retos › Sala en directo › «Tengo un código» y escribe: ${LIVE.code}`);
+A['live-copy'] = () => copyText(`Te invito a la sala en directo de Mnemónica AMIT (hasta ${LIVE_MAX} magos). Abre la app, ve a Peña › Sala en directo › «Tengo un código» y escribe: ${LIVE.code}`);
 A['live-ready'] = () => livePush({ ready: !(LIVE.me && LIVE.me.ready) });
 A['live-mode'] = el => { LIVE.mode = el.dataset.gm === 'r' ? 'r' : 'c'; liveRefresh(); };
 A['live-go'] = el => {
@@ -7215,8 +7551,8 @@ async function rankAuto() {
   rankPaint(); if (FB.rkNow) FB.rkNow();
   const nm = (S.name || '').trim();
   toast(nm
-    ? L('Ya estás en el ranking de AMIT como «' + nm + '». Puedes cambiar el nombre en Perfil o salir desde Retos.', 'Ja ets al rànquing d\'AMIT com a «' + nm + '». Pots canviar el nom a Perfil o sortir des de Reptes.')
-    : L('Ya estás en el ranking de AMIT como «Mago anónimo». Ponle nombre a tu mago en Perfil o sal desde Retos.', 'Ja ets al rànquing d\'AMIT com a «Mago anònim». Posa nom al teu mag a Perfil o surt des de Reptes.'), 4800);
+    ? L('Ya estás en el ranking de AMIT como «' + nm + '». Puedes cambiar el nombre en Perfil o salir desde Peña.', 'Ja ets al rànquing d\'AMIT com a «' + nm + '». Pots canviar el nom a Perfil o sortir des de Penya.')
+    : L('Ya estás en el ranking de AMIT como «Mago anónimo». Ponle nombre a tu mago en Perfil o sal desde Peña.', 'Ja ets al rànquing d\'AMIT com a «Mago anònim». Posa nom al teu mag a Perfil o surt des de Penya.'), 4800);
 }
 A['rank-leave'] = async () => { await rankLeave(); rankPaint(); if (FB.web && FB.rkNow) FB.rkNow(); toast('Tu fila se ha retirado del ranking'); };
 A['rank-load'] = () => { rankInit(); rankPaint(); };
@@ -7538,7 +7874,7 @@ function fbLoginHTML() {
   <div class="row"><button class="btn sp" data-a="fb-mail-in"${d}>${L('Entrar', 'Entrar')}</button><button class="btn sp" data-a="fb-mail-new"${d}>${L('Crear cuenta', 'Crear compte')}</button></div>
   <button class="btn ghost block mt" data-a="fb-reset">${L('He olvidado la contraseña', 'He oblidat la contrasenya')}</button>
   <button class="btn ghost sm block mt" data-a="close">${L('Ahora no', 'Ara no')}</button>
-  <p class="tiny mut mt">${L('Se guarda tu correo (para identificarte), tu progreso y, en el ranking, tu nombre de mago, avatar y puntos (no se publica tu correo ni tu nombre de Google). Puedes salir del ranking desde Retos y borrarlo todo desde Perfil › Dónde se guarda tu progreso.', 'Es desa el teu correu (per identificar-te), el teu progrés i, al rànquing, el teu nom de mag, avatar i punts (no es publica el teu correu ni el teu nom de Google). Pots sortir del rànquing des de Reptes i esborrar-ho tot des de Perfil › On es desa el teu progrés.')}</p></div>`;
+  <p class="tiny mut mt">${L('Se guarda tu correo (para identificarte), tu progreso y, en el ranking, tu nombre de mago, avatar y puntos (no se publica tu correo ni tu nombre de Google). Puedes salir del ranking desde Peña y borrarlo todo desde Perfil › Dónde se guarda tu progreso.', 'Es desa el teu correu (per identificar-te), el teu progrés i, al rànquing, el teu nom de mag, avatar i punts (no es publica el teu correu ni el teu nom de Google). Pots sortir del rànquing des de Penya i esborrar-ho tot des de Perfil › On es desa el teu progrés.')}</p></div>`;
 }
 // Dirección pública de la web (sin «index.html»): es lo que se reparte por WhatsApp.
 const fbWebUrl = () => location.origin + location.pathname.replace(/index\.html$/, '');
@@ -8859,7 +9195,7 @@ trAdd('ca', {
 "Reto fiel": "Repte fidel",
 "Retos": "Reptes",
 "Retos del día (0)": "Reptes del dia (0)",
-"Retos › Sala en directo": "Reptes › Sala en directe",
+"Peña › Sala en directo": "Penya › Sala en directe",
 "Revoltijo": "Garbuix",
 "Rincón del camerino": "Racó del camerino",
 "Ritmo": "Ritme",
