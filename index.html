@@ -7,7 +7,7 @@
 <meta name="theme-color" content="#0b3a37">
 <meta name="application-name" content="Mnemónica AMIT">
 <meta name="author" content="Sergi">
-<meta name="app-rev" content="45">
+<meta name="app-rev" content="46">
 <meta name="copyright" content="© 2026 Sergi. Todos los derechos reservados.">
 <meta name="apple-mobile-web-app-title" content="Mnemónica">
 <title>Mnemónica AMIT · Entrena el orden de Tamariz</title>
@@ -807,6 +807,52 @@ details.src-d>p{margin-top:0}
 @media (min-width:768px){.verbar{left:calc(50% + 52px)}}
 @media (min-width:1100px){.verbar{left:calc(50% + 116px)}}
 
+/* Rev 46: enlaces legibles (sin el azul por defecto del navegador) y filas de tiendas */
+a{color:var(--brass-hi)}
+a:visited{color:var(--brass-hi)}
+a.btn{text-decoration:none}
+a.btn.brass{color:#2a1c05}
+a.btn.red{color:#2b0904}
+a.btn.grn{color:#04200f}
+.store-r{display:flex;align-items:center;gap:10px}
+.store-r .btn{flex:0 0 auto;min-width:150px;max-width:60%;color:var(--brass-hi);overflow-wrap:normal;word-break:normal}
+.store-r .small{flex:1 1 0;min-width:0}
+.store-r .colega{display:block;margin-top:2px;color:var(--brass-hi)}
+
+/* Rev 46: cabecera con Perfil (píldora), Ajustes y Ayuda; tres accesos grandes en Inicio */
+.top .ibtn{margin-left:0}
+.top .ibtn.lbl{gap:6px}
+.top .lb,.top .chip .lb{display:none}
+.chip.pf{padding:3px 10px 3px 4px;gap:8px;font-size:15px;line-height:1.2;cursor:pointer;color:inherit;font-family:inherit}
+.chip.pf .av{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;background:rgba(0,0,0,.35);border:1px solid var(--line);font-size:19px;line-height:1}
+.chip.pf .st{display:inline-flex;align-items:center;gap:3px}
+.chip.pf[aria-current="page"]{border-color:var(--brass-hi);box-shadow:0 0 0 2px rgba(243,214,143,.25)}
+.top .ibtn[aria-current="page"]{border-color:var(--brass-hi)}
+@media (max-width:430px){
+  .top{gap:6px;padding-inline:10px}
+  .logo span{display:none}
+  .chip.pf{gap:6px;padding-right:8px;font-size:14px;min-height:42px}
+  .top .ibtn{width:42px;height:42px}
+}
+@media (max-width:360px){
+  .top{gap:4px;padding-inline:8px}
+  .chip.pf{gap:4px;padding-right:6px;font-size:13px;min-height:40px}
+  .chip.pf .av{width:30px;height:30px;font-size:17px}
+  .top .ibtn{width:40px;height:40px;font-size:18px}
+}
+@media (min-width:700px){
+  .top .ibtn.lbl{width:auto;padding:0 14px;height:44px}
+  .top .lb{display:inline;font-size:15px;font-weight:700}
+  .top .chip.pf .lb{display:inline;font-size:15px;font-weight:700;color:var(--ivory)}
+}
+.acc3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}
+.acc{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;min-height:92px;padding:10px 6px;border-radius:14px;border:1.5px solid var(--line);background:rgba(0,0,0,.25);color:var(--txt);cursor:pointer;text-align:center;font-family:inherit}
+.acc .ic{font-size:26px;line-height:1.1}
+.acc b{font-family:var(--fh);font-weight:400;font-size:18px;color:var(--brass-hi)}
+.acc small{font-size:12.5px;line-height:1.2;color:var(--mut)}
+.acc:active{transform:translateY(1px)}
+@media (max-width:360px){.acc small{display:none}.acc{min-height:76px}}
+
 </style>
 </head>
 <body>
@@ -1046,7 +1092,7 @@ const DEF = () => ({
   streak: { n: 0, last: '', best: 0 },
   stats: { ans: 0, ok: 0, ses: 0, perfect: 0, bestStreak: 0, fast: 0, tourn: 0, wrongRun: 0, galaClean: 0, totalBest: null, totalRuns: 0 },
   hitos: {},
-  set: { sound: true, voice: true, fourc: false, calm: false, rank: false, rankOut: false, fbAsked: false, names: true, fast: false },
+  set: { sound: true, voice: true, fourc: false, calm: false, rank: false, rankOut: false, fbAsked: false, names: true, fast: false, vib: true, loud: true },
   gr: -1, conf: {}, exp: {}, sm: {},
   poker: { bank: 500, hands: 0, won: 0, lost: 0, push: 0, peak: 500, clean: 0, bestClean: 0, rebuys: 0, fines: 0, dbl: 0, dblWin: 0, best: -1, bigWin: 0, daily: '', tbl: 0 },
 });
@@ -1085,10 +1131,32 @@ function adoptState(o, t) {
 
 /* ===================== AUDIO ===================== */
 let AC = null;
+// iPhone: con «Sonar aunque el móvil esté en silencio» el audio web se declara de reproducción (ignora el interruptor lateral y usa el volumen multimedia).
+// Se vuelve a «auto» unos segundos después del último sonido para no tener ocupado el audio del móvil (la música de fondo se recupera).
+let audRel = 0;
+function audioMode() {
+  try {
+    if (!('audioSession' in navigator)) return;
+    const loud = !(S && S.set && S.set.loud === false);
+    navigator.audioSession.type = loud ? 'playback' : 'auto'; clearTimeout(audRel);
+    if (loud) audRel = setTimeout(() => { try { navigator.audioSession.type = 'auto'; } catch (e) { } }, 5000);
+  } catch (e) { }
+}
 function ac() {
   if (!S.set.sound) return null;
-  try { AC = AC || new (window.AudioContext || window.webkitAudioContext)(); if (AC.state === 'suspended') AC.resume(); return AC; } catch (e) { return null; }
+  try {
+    if (AC && AC.state === 'closed') AC = null;
+    audioMode();
+    if (!AC) AC = new (window.AudioContext || window.webkitAudioContext)();
+    // En iOS, al salir de la app el contexto pasa a «interrupted» (no a «suspended»): hay que reactivarlo con cualquier estado distinto de «running».
+    if (AC.state !== 'running') { const pr = AC.resume(); if (pr && pr.catch) pr.catch(() => { }); }
+    return AC;
+  } catch (e) { return null; }
 }
+// Al volver a la app se descarta un contexto no activo; el siguiente toque crea uno nuevo (dentro de un gesto, que es lo que exige iOS).
+function acRefresh() { try { if (AC && AC.state !== 'running') { const old = AC; AC = null; const pr = old.close && old.close(); if (pr && pr.catch) pr.catch(() => { }); } } catch (e) { AC = null; } }
+document.addEventListener('visibilitychange', () => { if (!document.hidden) acRefresh(); });
+window.addEventListener('pageshow', acRefresh);
 function tone(f, dur = .12, type = 'sine', vol = .15, when = 0, slide = 0) {
   const a = ac(); if (!a) return;
   try {
@@ -1125,7 +1193,30 @@ const SFX = {
   fanfare() { [[523, 0], [659, .1], [784, .2], [1047, .3]].forEach(([f, w]) => { tone(f, .12, 'sawtooth', .09, w); tone(f * 2, .12, 'square', .03, w); }); [523, 659, 784, 1047].forEach(f => tone(f, .7, 'sawtooth', .06, .45)); noise(.4, .05, .45, 7000); },
   clap(n = 14) { for (let i = 0; i < n; i++) noise(.06, .05, i * .045 + Math.random() * .03, 1800 + Math.random() * 1500); },
 };
-const vib = ms => { try { navigator.vibrate && navigator.vibrate(ms); } catch (e) { } };
+/* ===================== VIBRACIÓN ===================== */
+// Android y la mayoría de navegadores: navigator.vibrate. iPhone/iPad no lo incluyen; desde iOS 17.4 Safari da un toque háptico al conmutar un interruptor
+// <input type="checkbox" switch>, así que se usa ese truco (solo durante un gesto del usuario). Con «Vibración» desactivada no se hace nada.
+let HAP = null;
+const isIOS = () => /iP(hone|ad|od)/.test(navigator.userAgent || '') || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
+function hapTick() {
+  try {
+    if (!HAP || !HAP.isConnected) {
+      const l = document.createElement('label'); l.setAttribute('aria-hidden', 'true'); l.style.display = 'none';
+      const i = document.createElement('input'); i.type = 'checkbox'; i.setAttribute('switch', ''); i.tabIndex = -1; l.appendChild(i);
+      document.body.appendChild(l); HAP = l;
+    }
+    HAP.click();
+  } catch (e) { }
+}
+function buzz(p) {
+  if (!S || !S.set || S.set.vib === false) return false;
+  try { if (typeof navigator.vibrate === 'function') return !!navigator.vibrate(p); } catch (e) { }
+  if (!isIOS()) return false;
+  const seq = Array.isArray(p) ? p : [p]; let t = 0;
+  seq.forEach((d, i) => { if (i % 2 === 0) setTimeout(hapTick, t); t += d; });
+  return true;
+}
+const vib = ms => buzz(ms);
 
 /* ===================== CARTAS (SVG) ===================== */
 const SUIT_PATH = {
@@ -1290,7 +1381,7 @@ function render() {
   if (typeof verPaint === 'function') verPaint();
 }
 function chipsHTML() {
-  return `<span class="chip" title="Family points">⭐ <b>${S.xp}</b></span><span class="chip" title="Racha diaria">🔥 <b>${S.streak.n}</b></span><button class="chip avc" data-a="tab" data-tab="perfil" aria-label="Perfil y ajustes" title="Perfil" aria-current="${NAV.tab === 'perfil' ? 'page' : 'false'}">${esc(S.avatar || '🎩')}</button>`;
+  return `<button class="chip avc pf" data-a="tab" data-tab="perfil" aria-label="Perfil: ${S.xp} family points, racha de ${S.streak.n} días" title="Perfil" aria-current="${NAV.tab === 'perfil' ? 'page' : 'false'}"><span class="av" aria-hidden="true">${esc(S.avatar || '🎩')}</span><span class="st" title="Family points">⭐ <b>${S.xp}</b></span><span class="st" title="Racha diaria">🔥 <b>${S.streak.n}</b></span><span class="lb">Perfil</span></button>`;
 }
 function gradeOf(xp) {
   let i = 0; for (let k = 0; k < GRADES.length; k++) if (xp >= GRADES[k][0]) i = k;
@@ -1306,7 +1397,7 @@ const ICONS = {
 };
 const logoSVG = '<svg viewBox="0 0 32 32" aria-hidden="true"><rect x="5" y="5" width="14" height="20" rx="2.500" fill="#f8f2e3" stroke="#18161d" transform="rotate(-14 12 15)"/><rect x="12" y="6" width="14" height="20" rx="2.500" fill="#f8f2e3" stroke="#18161d" transform="rotate(10 19 16)"/><path d="M19 12.500c-2.400-2-5-.600-3.600 1.800 1 1.800 3.600 3.400 3.600 3.400s2.600-1.600 3.600-3.400c1.400-2.400-1.200-3.800-3.600-1.800z" fill="#c4262d" transform="rotate(10 19 16)"/></svg>';
 function shellInit() {
-  $('#app').innerHTML = `<header class="top"><button class="logo" data-a="tab" data-tab="home" aria-label="Inicio">${logoSVG}<span>Mnemónica</span></button><span class="sp"></span><div class="row" id="chips"></div><button class="ibtn" data-a="help" aria-label="Ayuda: cómo funciona esta pantalla" title="Ayuda">?</button></header>
+  $('#app').innerHTML = `<header class="top"><button class="logo" data-a="tab" data-tab="home" aria-label="Inicio">${logoSVG}<span>Mnemónica</span></button><span class="sp"></span><div class="row" id="chips"></div><button class="ibtn lbl" data-a="go-ajustes" aria-label="Ajustes: idioma, sonido y vibración" title="Ajustes"><span aria-hidden="true">⚙️</span><span class="lb">Ajustes</span></button><button class="ibtn lbl" data-a="help" aria-label="Ayuda: de qué va esto y cómo funciona esta pantalla" title="Ayuda"><span aria-hidden="true">?</span><span class="lb">Ayuda</span></button></header>
   <main id="view"></main>
   <nav class="tabs" aria-label="Secciones">${NAV_TABS.map(([k, l, ic]) =>
     `<button class="tab" data-a="tab" data-tab="${k}"><svg viewBox="0 0 24 24" aria-hidden="true">${ICONS[ic]}</svg><span>${l}</span></button>`).join('')}</nav>`;
@@ -1446,6 +1537,7 @@ ROUTES.home = () => {
   ${fresh ? '<p class="start-tag">👇 Empieza aquí</p>' : todayHeadHTML(rec)}
   <button class="cta" data-a="${rec.a}" data-act="${rec.arg ?? ''}"><span class="num">${rec.n}</span><span><span class="t">${esc(rec.t)}</span><br><span class="s">${esc(rec.s)}</span></span></button>
   ${fresh ? '' : todayNextHTML(rec)}
+  ${accesosHTML()}
   ${fresh ? howto : ''}
   </div><div class="hcr">
   <section class="hero sm" aria-label="Estado de tu baraja">${ringSVG(animate)}
@@ -1573,6 +1665,7 @@ ROUTES.perfil = () => {
   const nAch = Object.keys(S.ach).length;
   return `<div class="psplit"><div class="pcol"><div class="row mt"><span style="font-size:42px">${S.avatar}</span><div style="flex:1"><h2>${esc(S.name || 'Mago anónimo')}</h2><div class="mut">${esc(g.name)}</div></div><button class="ibtn" data-a="edit-profile" aria-label="Editar perfil">✎</button></div>
   <div class="panel stitch mt"><div class="row"><b>${S.xp} family points</b><span class="sp"></span><span class="mut small">${g.next ? `siguiente: ${esc(g.next)} (${g.hi})` : 'grado máximo'}</span></div><div class="mbar" style="height:9px"><i style="width:${Math.round(g.pct * 100)}%"></i></div></div>
+  <button class="mode mt" data-a="go-ajustes"><span class="ic">⚙️</span><span><b>${L('Ajustes', 'Ajustos')}</b><span>${L('Idioma, sonido, vibración y accesibilidad.', 'Llengua, so, vibració i accessibilitat.')}</span></span></button>
   <div class="stats"><div class="stat"><b>${acc}%</b><span>aciertos</span></div><div class="stat"><b>${st.ans}</b><span>respuestas</span></div><div class="stat"><b>${S.streak.best}</b><span>mejor racha (días)</span></div></div>
   <div class="sec"><h3>Mapa de memoria</h3><span class="mut small">${ALL_POS.filter(mastered).length}/52 dominadas</span></div>
   <div class="heat" role="img" aria-label="Mapa de calor de tus 52 cartas">${ALL_POS.map(p => `<i style="background:${levelColor(cardLevel(p))};${cardLevel(p) === 0 ? 'color:#9dbdb5' : ''}" title="${p}: ${esc(cshort(cardAt(p)))}">${p}</i>`).join('')}</div>
@@ -1584,10 +1677,7 @@ ROUTES.perfil = () => {
   <div class="sec"><h3>Logros</h3><span class="mut small">${nAch}/${ACH.length}</span></div>
   <div class="ach-grid">${ACH.map(a => `<div class="ach ${S.ach[a.id] ? '' : 'off'}"><span class="ic">${a.ic}</span><div><b>${a.n}</b><span>${a.d}</span></div></div>`).join('')}</div>
   <div class="sec"><h3>Ajustes</h3></div>
-  <div class="panel">
-    <div class="langrow first"><span class="small mut" translate="no">Idioma · Llengua</span>${langPillsHTML()}</div>
-    ${tg('sound', 'Sonido', 'Efectos, aplausos y tic-tac de la cuenta atrás. En el iPhone los calla el modo silencio.')}${tg('voice', 'Voz', 'Lectura en voz alta de estrofas y cartas.')}${tg('fourc', 'Baraja de cuatro colores', 'Tréboles verdes y rombos azules: se distinguen mejor a toda prisa.')}${tg('fast', 'Ritmo rápido', 'Activado: tras cada respuesta la pantalla pasa sola a los 2,5 segundos y el número se envía solo si es de dos cifras o del 6 al 9. Desactivado: confirmas con ✓ y pulsas «Siguiente».')}${tg('calm', 'Menos movimiento', 'Reduce animaciones y quita el confeti.')}${tg('names', 'Humor con nombres de socios', 'Los chistes mencionan con cariño a socios de AMIT. Desactívalo para ver solo chistes sin nombres.')}
-  </div>
+  ${settingsPanelHTML()}
   <div class="row wrap mt"><button class="btn sm" data-a="go-guia">📲 Cómo funciona</button><button class="btn sm" data-a="credits">🪄 Créditos</button><button class="btn sm" data-a="comodin">🃏 Comodín</button><button class="btn sm" data-a="sugerir">💬 Sugerencias</button><button class="btn sm" data-a="export">Copiar mi progreso</button><button class="btn sm" data-a="import">Importar progreso</button></div>
   <div class="sec"><h3>Guardado</h3></div>
   ${psHTML()}
@@ -2189,7 +2279,7 @@ function curtain() {
   setTimeout(() => { c.classList.add('open'); try { SFX.flip(); } catch (e) { } }, 300);
   setTimeout(() => c.remove(), 1500);
 }
-const vibPat = p => { try { navigator.vibrate && navigator.vibrate(p); } catch (e) { } };
+const vibPat = p => buzz(p);
 // Cuenta ascendente de la puntuación en la pantalla de resultados.
 function countUp(el, to, ms = 900) {
   if (!el || fxCalm() || !(to > 0)) return;
@@ -4152,7 +4242,7 @@ function tabOf() {
 
 // «Atrás» inteligente: una pila corta de las pantallas estables por las que pasas (no partidas a medias). «Atrás» vuelve a la anterior;
 // al tocar una pestaña de la barra, la pila empieza de nuevo. Sin pila, «atrás» hace lo de siempre (ir al inicio).
-const NAV_BACK_TABS = new Set(['home', 'learn', 'play', 'biblio', 'retos', 'perfil']);
+const NAV_BACK_TABS = new Set(['home', 'learn', 'play', 'biblio', 'retos', 'perfil', 'ajustes', 'ayuda']);
 const NAV_BACK_SUBS = new Set([null, 'rincon', 'present', 'otras', 'comparar', 'fuentes', 'guia', 'top', 'juegos', 'practica', 'cachondeo', 'mia']);
 NAV.stack = [];
 let navBacking = false;
@@ -4195,17 +4285,90 @@ ROUTES.biblio = () => `<h2 class="mt">${L('Biblioteca', 'Biblioteca')}</h2>
   </div>
   <div class="sec"><h3>${L('Ayuda y créditos', 'Ajuda i crèdits')}</h3></div>
   <div class="modes">
+    ${libBtn('go-ayuda', '❓', L('Ayuda: ¿de qué va esto?', 'Ajuda: de què va això?'), L('Qué es la app, cómo se usa y cómo instalarla en el móvil.', 'Què és l\'app, com es fa servir i com instal·lar-la al mòbil.'))}
+    ${libBtn('go-ajustes', '⚙️', L('Ajustes', 'Ajustos'), L('Idioma, sonido, vibración y accesibilidad.', 'Llengua, so, vibració i accessibilitat.'))}
+    ${libBtn('go-perfil', '👤', L('Perfil y progreso', 'Perfil i progrés'), L('Tu nombre, avatar, logros y copia de seguridad.', 'El teu nom, avatar, assoliments i còpia de seguretat.'))}
     ${libBtn('go-guia', '📲', L('Cómo funciona', 'Com funciona'), L('La app por dentro, instalarla en el móvil y la copia de seguridad.', 'L\'app per dins, instal·lar-la al mòbil i la còpia de seguretat.'))}
     ${libBtn('credits', '🪄', L('Créditos y dedicatoria', 'Crèdits i dedicatòria'), L('Para quién es esta app y a quién se da las gracias.', 'Per a qui és aquesta app i a qui es donen les gràcies.'))}
     ${libBtn('sugerir', '💬', L('Sugerencias por WhatsApp', 'Suggeriments per WhatsApp'), L('Dime qué te falta o qué sobra.', 'Digues què et falta o què sobra.'))}
   </div>`;
+
+/* ===================== AJUSTES · AYUDA · ACCESOS (Rev 46) ===================== */
+// Perfil, Ajustes y Ayuda se encuentran siempre: cabecera (⚙️, ? y el avatar), tres botones grandes en Inicio y la Biblioteca.
+H('Ajustes', 'Ajustos', 'Ajustes');
+H('Ayuda', 'Ajuda', 'Ayuda');
+H('Perfil', 'Perfil', 'Perfil');
+H('Sonido', 'So', 'Sonido');
+H('Efectos, aplausos y tic-tac de la cuenta atrás.', 'Efectes, aplaudiments i tic-tac del compte enrere.', 'Efectos, aplausos y tic-tac de la cuenta atrás.');
+H('Sonar aunque el móvil esté en silencio', 'Sonar encara que el mòbil estigui en silenci', 'Sonar aunque el móvil esté en silencio, che');
+H('Pensado para el iPhone: el interruptor lateral no calla los efectos y se usa el volumen multimedia. Desactívalo si prefieres que respete el silencio.', 'Pensat per a l\'iPhone: l\'interruptor lateral no calla els efectes i s\'usa el volum multimèdia. Desactiva-ho si prefereixes que respecti el silenci.', 'Pensado para el iPhone: el interruptor lateral no calla los efectos y se usa el volumen multimedia. Desactívalo si preferís que respete el silencio.');
+H('Vibración', 'Vibració', 'Vibración');
+H('Al acertar rachas, subir de grado y en los errores de algunos juegos. En el iPhone depende de la versión de iOS (hace falta la 17.4 o posterior).', 'En encertar ratxes, pujar de grau i en els errors d\'alguns jocs. A l\'iPhone depèn de la versió d\'iOS (cal la 17.4 o posterior).', 'Al acertar rachas, subir de grado y en los errores de algunos juegos. En el iPhone depende de la versión de iOS (hace falta la 17.4 o posterior).');
+H('El sonido está desactivado. Actívalo en Ajustes (⚙️, arriba).', 'El so està desactivat. Activa\'l a Ajustos (⚙️, a dalt).', 'El sonido está desactivado. Activalo en Ajustes (⚙️, arriba).');
+H('Perfil y progreso', 'Perfil i progrés', 'Perfil y progreso');
+
+const settingsPanelHTML = () => `<div class="panel">
+    <div class="langrow first"><span class="small mut" translate="no">Idioma · Llengua</span>${langPillsHTML()}</div>
+    ${tg('sound', 'Sonido', 'Efectos, aplausos y tic-tac de la cuenta atrás.')}${tg('loud', 'Sonar aunque el móvil esté en silencio', 'Pensado para el iPhone: el interruptor lateral no calla los efectos y se usa el volumen multimedia. Desactívalo si prefieres que respete el silencio.')}${tg('vib', 'Vibración', 'Al acertar rachas, subir de grado y en los errores de algunos juegos. En el iPhone depende de la versión de iOS (hace falta la 17.4 o posterior).')}${tg('voice', 'Voz', 'Lectura en voz alta de estrofas y cartas.')}${tg('fourc', 'Baraja de cuatro colores', 'Tréboles verdes y rombos azules: se distinguen mejor a toda prisa.')}${tg('fast', 'Ritmo rápido', 'Activado: tras cada respuesta la pantalla pasa sola a los 2,5 segundos y el número se envía solo si es de dos cifras o del 6 al 9. Desactivado: confirmas con ✓ y pulsas «Siguiente».')}${tg('calm', 'Menos movimiento', 'Reduce animaciones y quita el confeti.')}${tg('names', 'Humor con nombres de socios', 'Los chistes mencionan con cariño a socios de AMIT. Desactívalo para ver solo chistes sin nombres.')}
+    <div class="row wrap" style="margin-top:12px"><button class="btn sm" data-a="test-fx">🔊 ${L('Probar sonido y vibración', 'Provar so i vibració')}</button></div>
+    <p class="tiny mut" id="fxstat" role="status" style="margin:8px 0 0"></p>
+  </div>`;
+
+// Prueba de sonido y vibración con un diagnóstico claro de lo que ha pasado.
+A['test-fx'] = () => {
+  const out = $('#fxstat'); const say = t => { if (out) out.textContent = t; };
+  let snd = L('Sonido desactivado: actívalo arriba.', 'So desactivat: activa\'l a dalt.');
+  if (S.set.sound) { const a = ac(); try { SFX.win(); } catch (e) { } snd = a ? L('Sonido enviado.', 'So enviat.') : L('Este navegador no deja reproducir sonido.', 'Aquest navegador no deixa reproduir so.'); }
+  let vb;
+  if (S.set.vib === false) vb = L('Vibración desactivada.', 'Vibració desactivada.');
+  else if (buzz([60, 60, 60])) vb = L('Vibración enviada.', 'Vibració enviada.');
+  else vb = L('Este móvil o navegador no permite vibrar desde una web.', 'Aquest mòbil o navegador no permet vibrar des d\'una web.');
+  say(snd + ' ' + vb);
+  setTimeout(() => {
+    if (!S.set.sound) return;
+    if (!AC || AC.state !== 'running') say(L('No se oye nada: el navegador tiene el audio parado. Sal de la app y vuelve a abrirla, y comprueba el volumen y el modo silencio.', 'No se sent res: el navegador té l\'àudio aturat. Surt de l\'app i torna-la a obrir, i comprova el volum i el mode silenci.') + ' ' + vb);
+  }, 700);
+};
+
+ROUTES.ajustes = () => `<div class="row mt"><button class="ibtn" data-a="back" data-tab="home" aria-label="Volver">‹</button><h2 style="margin:0">⚙️ ${L('Ajustes', 'Ajustos')}</h2></div>
+  <p class="mut">${L('Idioma, sonido, vibración y accesibilidad. Se guardan en este dispositivo.', 'Llengua, so, vibració i accessibilitat. Es desen en aquest dispositiu.')}</p>
+  ${settingsPanelHTML()}
+  <div class="modes mt">
+    ${libBtn('go-perfil', '👤', L('Perfil y progreso', 'Perfil i progrés'), L('Tu nombre, avatar, logros, copia de seguridad y cuenta.', 'El teu nom, avatar, assoliments, còpia de seguretat i compte.'))}
+    ${libBtn('go-ayuda', '❓', L('Ayuda: ¿de qué va esto?', 'Ajuda: de què va això?'), L('Qué es la app, cómo se usa y cómo instalarla en el móvil.', 'Què és l\'app, com es fa servir i com instal·lar-la al mòbil.'))}
+  </div>`;
+
+ROUTES.ayuda = () => `<div class="row mt"><button class="ibtn" data-a="back" data-tab="home" aria-label="Volver">‹</button><h2 style="margin:0">❓ ${L('Ayuda', 'Ajuda')}</h2></div>
+  <div class="panel stitch mt"><b style="font-family:var(--fh);font-weight:400;font-size:20px;color:var(--brass-hi)">${L('¿De qué va esto?', 'De què va això?')}</b>
+    <p class="small" style="margin:8px 0 6px">${L('Esta app te enseña a memorizar la <b>Mnemónica de Tamariz</b>, una baraja de 52 cartas en un orden fijo, y a jugar con ella. Es un homenaje de estudio para los socios de AMIT Terrassa.', 'Aquesta app t\'ensenya a memoritzar la <b>Mnemònica de Tamariz</b>, una baralla de 52 cartes en un ordre fix, i a jugar-hi. És un homenatge d\'estudi per als socis d\'AMIT Terrassa.')}</p>
+    <ul class="small help-l"><li>${L('<b>Aprender:</b> 13 actos de cuatro cartas, con canción, dibujo, recital, historias y comodín.', '<b>Aprendre:</b> 13 actes de quatre cartes, amb cançó, dibuix, recital, històries i comodí.')}</li><li>${L('<b>Jugar:</b> número ↔ carta, vecinos y fluidez, con repaso espaciado. Cada acierto suma family points.', '<b>Jugar:</b> número ↔ carta, veïns i fluïdesa, amb repàs espaiat. Cada encert suma family points.')}</li><li>${L('<b>Peña:</b> retos, ranking y humor de la casa.', '<b>Penya:</b> reptes, rànquing i humor de la casa.')}</li><li>${L('<b>Biblioteca:</b> cultura mágica, juegos para hacer con la baraja y fuentes.', '<b>Biblioteca:</b> cultura màgica, jocs per fer amb la baralla i fonts.')}</li></ul></div>
+  <div class="panel stitch"><div class="small">${FP_NOTE()}</div></div>
+  <div class="modes mt">
+    ${libBtn('go-guia', '📲', L('Cómo funciona e instalar en el móvil', 'Com funciona i instal·lar al mòbil'), L('La app por dentro, la pantalla de inicio y la copia de seguridad.', 'L\'app per dins, la pantalla d\'inici i la còpia de seguretat.'))}
+    ${libBtn('go-practica', '🧭', L('Cómo practicar', 'Com practicar'), L('Lo esencial, el plan de siete días y los métodos para memorizar.', 'Allò essencial, el pla de set dies i els mètodes per memoritzar.'))}
+    ${libBtn('conv', 'ℹ️', L('Cómo se lee el orden', 'Com es llegeix l\'ordre'), L('Número, carta y palo: la convención que usa la app.', 'Número, carta i coll: la convenció que fa servir l\'app.'))}
+    ${libBtn('go-ajustes', '⚙️', L('Ajustes', 'Ajustos'), L('Idioma, sonido, vibración y accesibilidad.', 'Llengua, so, vibració i accessibilitat.'))}
+    ${libBtn('go-perfil', '👤', L('Perfil y progreso', 'Perfil i progrés'), L('Tu nombre, avatar, logros y copia de seguridad.', 'El teu nom, avatar, assoliments i còpia de seguretat.'))}
+    ${libBtn('sugerir', '💬', L('Sugerencias por WhatsApp', 'Suggeriments per WhatsApp'), L('Dime qué te falta o qué sobra.', 'Digues què et falta o què sobra.'))}
+    ${libBtn('credits', '🪄', L('Créditos y dedicatoria', 'Crèdits i dedicatòria'), L('Para quién es esta app y a quién se da las gracias.', 'Per a qui és aquesta app i a qui es donen les gràcies.'))}
+  </div>`;
+
+A['go-ajustes'] = () => go('ajustes');
+A['go-ayuda'] = () => go('ayuda');
+A['go-perfil'] = () => go('perfil');
+
+// Tres botones grandes en Inicio.
+const accesosHTML = () => `<div class="acc3" role="group" aria-label="${L('Tu espacio', 'El teu espai')}">
+  <button class="acc" data-a="go-perfil"><span class="ic" aria-hidden="true">👤</span><b>${L('Perfil', 'Perfil')}</b><small>${L('Tu progreso', 'El teu progrés')}</small></button>
+  <button class="acc" data-a="go-ajustes"><span class="ic" aria-hidden="true">⚙️</span><b>${L('Ajustes', 'Ajustos')}</b><small>${L('Idioma y sonido', 'Llengua i so')}</small></button>
+  <button class="acc" data-a="go-ayuda"><span class="ic" aria-hidden="true">❓</span><b>${L('Ayuda', 'Ajuda')}</b><small>${L('¿De qué va esto?', 'De què va això?')}</small></button></div>`;
 
 /* ===================== FASE 3 · VERSIÓN VISIBLE Y AVISO DE VERSIÓN NUEVA =====================
    La versión («Rev N») la pone build.py. En la web, al abrir la app y al volver a ella desde segundo plano (lo típico
    del iPad, que guarda la página vieja en caché), se pide la página otra vez saltándose la caché y se mira su <meta app-rev>.
    Si es mayor, sale un aviso con «Actualizar». Actualizar guarda el progreso y recarga con una dirección nueva, que
    obliga al navegador a bajar el archivo actual. No se toca nada del progreso guardado. */
-const APP_REV = Number('45') || 0;
+const APP_REV = Number('46') || 0;
 const VER = { latest: 0, at: 0, dismissed: 0, show: false, busy: false };
 // Solo en la web propia (FB.web: dirección http/https fuera de Claude). La copia suelta o dentro de Claude no se actualiza sola.
 const verWeb = () => typeof fetch === 'function' && !!FB.web;
@@ -4818,9 +4981,10 @@ const STORES = [
   ['Tienda Magia', 'https://tiendamagia.com/', 'España · libros en español y en inglés, con envío internacional', 'Espanya · llibres en espanyol i en anglès, amb enviament internacional'],
   ['Vanishing Inc.', 'https://www.vanishingincmagic.com/', 'Tienda online internacional · en inglés', 'Botiga en línia internacional · en anglès']
 ];
+H('Este es colega.', 'Aquest és un col·lega.', 'Este es un pibe de fiar, che.');
 const storesHTML = () => `<div class="sec"><h3>🛒 ${L('Dónde buscar los libros', 'On buscar els llibres')}</h3></div>
   <div class="panel stitch"><p class="small" style="margin:0 0 8px"><b>${L('Esta app no cobra nada de estas tiendas.', 'Aquesta app no cobra res d\'aquestes botigues.')}</b> ${L('No hay afiliación, comisión, descuento ni acuerdo de ningún tipo, y los enlaces no llevan códigos de seguimiento. Mano de Mago aparece la primera por decisión del autor de la app; el resto, por orden alfabético. No son una recomendación y es posible que no tengan todos los títulos.', 'No hi ha afiliació, comissió, descompte ni cap mena d\'acord, i els enllaços no porten codis de seguiment. Mano de Mago apareix la primera per decisió de l\'autor de l\'app; la resta, per ordre alfabètic. No són una recomanació i és possible que no tinguin tots els títols.')}</p>
-  <div class="gap">${STORES.map(([n, u, es, ca]) => `<div class="row" style="align-items:center;gap:10px"><a class="btn sm" href="${esc(u)}" target="_blank" rel="noopener noreferrer" style="min-width:150px;text-align:center">${esc(n)}</a><span class="small mut">${L(es, ca)}</span></div>`).join('')}</div></div>`;
+  <div class="gap">${STORES.map(([n, u, es, ca], i) => `<div class="store-r"><a class="btn sm" href="${esc(u)}" target="_blank" rel="noopener noreferrer">${i === 0 ? '<span aria-hidden="true">😉</span>' : ''}<span>${esc(n)}</span></a><span class="small mut">${L(es, ca)}${i === 0 ? ` <b class="colega">${L('Este es colega.', 'Aquest és un col·lega.')}</b>` : ''}</span></div>`).join('')}</div></div>`;
 ROUTES['learn:fuentes'] = () => `
   <div class="row mt"><button class="ibtn" data-a="back" data-tab="home" aria-label="Volver">‹</button><h2 style="margin:0">Fuentes y bibliografía</h2></div>
   <p class="mut">Por si quieres seguir tirando del hilo: libros, descargas y webs sobre la Mnemónica y otras barajas ordenadas, en español y en inglés. Cada título enlaza, siempre que existe, con su <b>ficha en el Conjuring Archive</b> (🗂️) y, cuando la he localizado, con la <b>tienda donde se consigue</b> (🛒).</p>
@@ -6556,11 +6720,11 @@ A['vio-play'] = () => {
 // declaramos reproducción durante unos segundos y luego volvemos a «auto» (los efectos de juego siguen respetando el silencio).
 let audT = 0;
 function soundOnTap(fn) {
-  try { if ('audioSession' in navigator) { navigator.audioSession.type = 'playback'; clearTimeout(audT); audT = setTimeout(() => { try { navigator.audioSession.type = 'auto'; } catch (e) { } }, 3500); } } catch (e) { }
+  try { if ('audioSession' in navigator) { navigator.audioSession.type = 'playback'; clearTimeout(audT); audT = setTimeout(audioMode, 3500); } } catch (e) { }
   fn();
 }
 A.tachan = () => {
-  if (!S.set.sound) { toast('El sonido está desactivado. Se activa en Perfil, en Ajustes.', 2800); return; }
+  if (!S.set.sound) { toast('El sonido está desactivado. Actívalo en Ajustes (⚙️, arriba).', 2800); return; }
   soundOnTap(() => SFX.tachan());
   toast('¡Chan-ta-ta-chán!', 1300);
   setTimeout(() => { if (AC && AC.state !== 'running') toast('No se oye nada: puede ser el volumen o el modo silencio del móvil.', 3200); }, 600);
@@ -6742,6 +6906,7 @@ A.help = () => {
   openSheet(`<h3>${h.t}</h3>
   <ul class="small help-l">${h.li.map(x => `<li>${x}</li>`).join('')}</ul>
   <div class="panel stitch"><div class="small">${FP_NOTE()}</div></div>
+  <div class="row wrap mt"><button class="btn brass block" data-a="go-ayuda">❓ ${L('Ayuda completa: ¿de qué va esto?', 'Ajuda completa: de què va això?')}</button></div>
   <div class="row wrap mt"><button class="btn sm" data-a="go-guia">📲 ${L('Guía completa e instalar en el móvil', 'Guia completa i instal·lar al mòbil')}</button><button class="btn sm" data-a="conv">ℹ️ ${L('Cómo se lee el orden', 'Com es llegeix l\'ordre')}</button>${FB.web ? `<button class="btn sm" data-a="go-compartir">🔗 ${L('Compartir la web', 'Compartir la web')}</button>` : ''}</div>
   <div class="langrow mt">${langPillsHTML()}</div>`);
 };
