@@ -702,6 +702,29 @@ html[lang=ca] .y-and::before{content:'i'}
 .mbc{padding:3px 8px;border-radius:8px;background:rgba(255,255,255,.1);font-size:16px}
 b.rd{color:#ff948b}
 #mbnum{width:96px;text-align:center;font-size:22px}
+/* Efectos wow con iconos de la casa (pizza, birra, varita, baraja) */
+.fx-pop{position:fixed;left:50%;top:34%;z-index:96;pointer-events:none;text-align:center;line-height:1;transform:translate(-50%,-50%);animation:fxpop 1.5s cubic-bezier(.2,.9,.3,1.2) forwards}
+.fx-pop span{display:block;font-size:92px;filter:drop-shadow(0 6px 14px rgba(0,0,0,.55))}
+.fx-pop small{display:block;margin-top:8px;font:400 19px var(--fh);color:var(--brass-hi);text-shadow:0 2px 10px #000}
+@keyframes fxpop{0%{opacity:0;transform:translate(-50%,-50%) scale(.2) rotate(-12deg)}22%{opacity:1;transform:translate(-50%,-50%) scale(1.18) rotate(5deg)}70%{opacity:1;transform:translate(-50%,-50%) scale(1) rotate(0)}100%{opacity:0;transform:translate(-50%,-64%) scale(1.08)}}
+/* Salto de varita */
+.sal-lives{display:flex;gap:4px;font-size:20px;line-height:1}
+.sal-beer.lost{opacity:.22;filter:grayscale(1);transform:scale(.8) rotate(-18deg)}
+.sal-beer{transition:transform .25s,opacity .25s}
+.sal-base{display:flex;flex-direction:column;align-items:center;gap:6px;margin:10px 0 4px}
+.sal-jump{font:400 24px/1.2 var(--fh);text-align:center}
+.sal-jump .arrow{display:inline-block;margin:0 6px;animation:salwave 1.2s ease-in-out infinite}
+@keyframes salwave{0%,100%{transform:translateX(0)}50%{transform:translateX(5px)}}
+.sal-recap{min-height:28px;text-align:center;font-size:15px;color:var(--mut)}
+.sal-recap b{color:var(--brass-hi);font-weight:400;font-family:var(--fh);font-size:18px}
+.tray .pc.sal-good{outline:3px solid var(--ok,#7fd1b9);outline-offset:3px;border-radius:7px;animation:salpop .4s}
+.tray .pc.sal-bad{outline:3px solid var(--ko,#e0524f);outline-offset:3px;border-radius:7px;opacity:.75}
+@keyframes salpop{0%{transform:scale(1)}50%{transform:scale(1.12)}100%{transform:scale(1)}}
+.fxdemo{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.fxdemo button{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 4px;font-size:30px;line-height:1}
+.fxdemo button span{font:400 13px var(--fb,inherit);color:var(--mut)}
+@media (prefers-reduced-motion:reduce){.fx-pop,.sal-jump .arrow,.tray .pc.sal-good{animation:none}}
+
 
 </style>
 </head>
@@ -1758,7 +1781,7 @@ const MODES = {
 const modeBtn = k => `<button class="mode" data-a="setup" data-m="${k}"><span class="ic">${MODES[k].ic}</span><span><b>${MODES[k].t}</b><span>${MODES[k].d}</span></span></button>`;
 ROUTES.play = () => `<h2 class="mt">Jugar</h2><p class="mut">Los juegos siguen la lógica de cómo se aprende: primero la pareja, luego los vecinos y, al final, la fluidez. Cada juego te cuenta por qué ayuda.</p>${helpBtn()}
   <div class="sec"><h3>1 · La pareja: número ↔ carta</h3></div><div class="modes">${['p2c', 'c2p'].map(modeBtn).join('')}</div>
-  <div class="sec"><h3>2 · La secuencia: los vecinos</h3></div><div class="modes">${['vistazo', 'gap', 'order'].map(modeBtn).join('')}</div>
+  <div class="sec"><h3>2 · La secuencia: los vecinos</h3></div><div class="modes">${['vistazo', 'gap', 'salto', 'order'].map(modeBtn).join('')}</div>
   <div class="sec"><h3>3 · Fluidez y escena</h3></div><div class="modes">${['mix', 'total', 'gala'].map(modeBtn).join('')}</div>
   <div class="sec"><h3>Para afinar el ojo</h3></div><div class="modes">${modeBtn('liar')}</div>
   <div class="sec"><h3>Para jugártela</h3></div><div class="modes">${modeBtn('poker')}</div>`;
@@ -1803,7 +1826,7 @@ function setupHTML() {
   const m = SETUP.mode, M = MODES[m];
   let body = '';
   normRange('scope'); normRange('part');
-  if (m === 'order' && (SETUP.scope === 'act' || SETUP.scope === 'rebel')) SETUP.scope = 'seen';
+  if ((m === 'order' || m === 'salto') && (SETUP.scope === 'act' || SETUP.scope === 'rebel')) SETUP.scope = 'seen';
   const scopeBlock = `<div class="field"><label>Alcance</label>${pills('scope', [['seen', 'Lo que ya has visto'], ['all', 'Las 52'], ['act', 'Un acto'], ['range', 'Un tramo'], ['rebel', 'Rebeldes']], SETUP.scope)}
     ${SETUP.scope === 'act' ? `<select id="su-act" data-a-change="su-act">${ACTS.map((a, i) => `<option value="${i}" ${i === SETUP.act ? 'selected' : ''}>Acto ${i + 1}: ${esc(a.t)}</option>`).join('')}</select>` : ''}${SETUP.scope === 'range' ? rangeBlock('scope') : ''}</div>`;
   if (m === 'total') {
@@ -1812,6 +1835,10 @@ function setupHTML() {
   } else if (m === 'order') {
     body = scopeBlock.replace(/<div class="pills">.*?<\/div>/s, pills('scope', [['seen', 'Lo que ya has visto'], ['all', 'Las 52'], ['range', 'Un tramo']], SETUP.scope)).replace(/<select.*?<\/select>/s, '') +
       `<div class="field"><label>Cartas en la tira</label>${pills('size', [[4, '4 (un acto)'], [8, '8'], [13, '13']], SETUP.size)}</div>`;
+  } else if (m === 'salto') {
+    body = scopeBlock.replace(/<div class="pills">.*?<\/div>/s, pills('scope', [['seen', 'Lo que ya has visto'], ['all', 'Las 52'], ['range', 'Un tramo']], SETUP.scope)).replace(/<select.*?<\/select>/s, '') +
+      `<div class="field"><label>${L('Longitud del salto', 'Llargada del salt')}</label>${pills('sjump', [['a', L('De 1 en 1', 'D\'1 en 1')], ['c', L('Hasta 3', 'Fins a 3')], ['e', L('Hasta 5', 'Fins a 5')]], SETUP.sjump)}</div>
+      <p class="small mut">${L('Tienes tres cañas: cada fallo se bebe una. Si aciertas, aterrizas y esa carta es la de salida del siguiente salto. Puedes cerrar la barra cuando quieras.', 'Tens tres canyes: cada error se\'n beu una. Si encertes, aterres i aquesta carta és la de sortida del següent salt. Pots tancar la barra quan vulguis.')}</p>`;
   } else if (m === 'poker') {
     const P = S.poker;
     body = `<p class="small mut">${L('Las cartas de tu alcance llegan como números y hay que traducirlas; las demás salen ya a la vista. Cada fallo es una multa.', 'Les cartes del teu abast arriben com a números i cal traduir-les; les altres surten ja a la vista. Cada error és una multa.')}</p>` + scopeBlock +
@@ -1840,7 +1867,7 @@ A.su = el => {
   SETUP[k] = v; repaintSetup();
 };
 document.addEventListener('change', e => { const t = e.target; if (t && t.id === 'su-act') SETUP.act = +t.value; });
-A['setup-go'] = () => { closeSheet(); const m = SETUP.mode; if (m === 'total') startTotal(); else if (m === 'order') startOrder(); else if (m === 'gala') startGala(); else if (m === 'poker') startPoker(); else startMode(m); };
+A['setup-go'] = () => { closeSheet(); const m = SETUP.mode; if (m === 'total') startTotal(); else if (m === 'order') startOrder(); else if (m === 'salto') startSalto(); else if (m === 'gala') startGala(); else if (m === 'poker') startPoker(); else startMode(m); };
 function startMode(m) {
   const M = MODES[m], scope = resolveScope(SETUP.scope, SETUP.act), cfgN = SETUP.n, sec = SETUP.sec;
   const again = () => startMode(m);
@@ -2006,9 +2033,18 @@ A['gala-setup'] = () => { SETUP.mode = 'gala'; openSheet(setupHTML()); };
 /* ===================== EFECTOS WOW ===================== */
 const fxCalm = () => !!(S && S.set && S.set.calm) || !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
 let fxRaf = 0;
+// Paquetes de iconos para el confeti. Los palos (♥ ♦ ♣ ♠) siguen siendo el de siempre; estos son los de la casa.
+const FX_PACKS = {
+  pizza: ['🍕', '🍕', '🍍', '🧀', '🍕'],          // la piña en la pizza: el debate eterno del jueves
+  birra: ['🍺', '🍻', '🍺', '🥨', '🍻'],
+  varita: ['🪄', '✨', '🪄', '🔮', '✨'],
+  baraja: ['🃏', '🎴', '♠️', '♥️', '♦️', '♣️'],
+  teatro: ['🎩', '🪄', '🃏', '✨', '🐇', '🍕', '🍺'],
+};
+const FX_ROT = ['pizza', 'birra', 'varita', 'baraja'];
 function fxClear() {
   cancelAnimationFrame(fxRaf); fxRaf = 0;
-  ['fxc', 'fxs', 'fxk'].forEach(id => { const e = document.getElementById(id); if (e) e.remove(); });
+  ['fxc', 'fxs', 'fxk', 'fxp'].forEach(id => { const e = document.getElementById(id); if (e) e.remove(); });
 }
 // Lluvia de palos (♥ ♦ ♣ ♠). opts: n, x, y (0-1), spread: 'burst' | 'rain', pow, dur
 function confetti(o = {}) {
@@ -2019,10 +2055,10 @@ function confetti(o = {}) {
   cv.width = W * dpr; cv.height = H * dpr; document.body.appendChild(cv);
   const g = cv.getContext('2d'); if (!g) { cv.remove(); return; } g.scale(dpr, dpr);
   const rain = o.spread === 'rain', n = o.n || 70, ox = (o.x ?? .5) * W, oy = (o.y ?? .4) * H;
-  const cols = ['#e8c36e', '#f3ecd9', '#e0524f', '#7fd1b9', '#f0a45d'], gl = ['♥', '♦', '♣', '♠'];
+  const cols = ['#e8c36e', '#f3ecd9', '#e0524f', '#7fd1b9', '#f0a45d'], pk = o.pack ? (Array.isArray(o.pack) ? o.pack : FX_PACKS[o.pack]) : null, gl = pk && pk.length ? pk : ['♥', '♦', '♣', '♠'];
   const P = Array.from({ length: n }, () => {
     const a = (rain ? Math.PI / 2 : -Math.PI / 2) + (Math.random() - .5) * (rain ? 1.1 : 2.8), v = (rain ? 2 : 5) + Math.random() * (o.pow || 9);
-    return { x: rain ? Math.random() * W : ox, y: rain ? -20 - Math.random() * H * .25 : oy, vx: Math.cos(a) * v, vy: Math.sin(a) * v, r: Math.random() * 6.28, vr: (Math.random() - .5) * .3, s: 12 + Math.random() * 12, c: cols[(Math.random() * cols.length) | 0], t: gl[(Math.random() * 4) | 0] };
+    return { x: rain ? Math.random() * W : ox, y: rain ? -20 - Math.random() * H * .25 : oy, vx: Math.cos(a) * v, vy: Math.sin(a) * v, r: Math.random() * 6.28, vr: (Math.random() - .5) * .3, s: (pk ? 20 : 12) + Math.random() * (pk ? 14 : 12), c: cols[(Math.random() * cols.length) | 0], t: gl[(Math.random() * gl.length) | 0] };
   });
   const t0 = performance.now(), dur = o.dur || 2100;
   const step = t => {
@@ -2041,6 +2077,14 @@ function spotlight() {
   if (fxCalm()) return;
   const d = document.createElement('div'); d.id = 'fxs'; d.className = 'fx-spot'; d.setAttribute('aria-hidden', 'true');
   document.body.appendChild(d); setTimeout(() => d.remove(), 1800);
+}
+// Icono grande que salta en medio de la pantalla con una frase corta (hitos). En modo calma no se muestra.
+function wowPop(glyphs, text) {
+  if (fxCalm()) return;
+  const old = document.getElementById('fxp'); if (old) old.remove();
+  const d = document.createElement('div'); d.id = 'fxp'; d.className = 'fx-pop'; d.setAttribute('aria-hidden', 'true');
+  d.innerHTML = `<span>${esc(glyphs)}</span>${text ? `<small>${esc(text)}</small>` : ''}`;
+  document.body.appendChild(d); setTimeout(() => d.remove(), 1600);
 }
 // Telón que se abre: se usa al empezar una Gala.
 function curtain() {
@@ -2072,14 +2116,14 @@ function rankUpShow(g) {
   openSheet(`<div class="center rankup"><div class="ru-ic vio playing" aria-hidden="true">${typeof violinSVG === 'function' ? violinSVG() : '🎩'}</div><div class="tiny mut">Nuevo grado</div><h3 class="ru-name">${esc(g.name)}</h3>
     <p class="small mut">${g.next ? `El siguiente es <b>${esc(g.next)}</b> (${g.hi} family points).` : 'Es el grado máximo. A partir de aquí, solo queda el aplauso.'}</p>
     <button class="btn brass block mt" data-a="close">Seguir</button></div>`);
-  confetti({ n: 120, x: .5, y: .3, pow: 12 }); setTimeout(() => confetti({ n: 60, spread: 'rain', dur: 2400 }), 500);
+  confetti({ n: 120, x: .5, y: .3, pow: 12, pack: 'teatro' }); setTimeout(() => confetti({ n: 60, spread: 'rain', dur: 2400, pack: 'varita' }), 500);
 }
 // Se llama al pintar la pantalla de resultados.
 function resultFx(res) {
   const pct = res.total ? res.correct / res.total : 0;
   countUp($('.score'), res.score);
-  if (res.total >= 5 && pct === 1) { spotlight(); confetti({ n: 80 }); vibPat([30, 40, 30, 40, 90]); if (res.total >= 10) hito('perfect', { n: res.total }); else SFX.sparkle(); }
-  else if (res.newAch && res.newAch.length) { confetti({ n: 50, y: .3 }); vibPat([30, 40, 30]); }
+  if (res.total >= 5 && pct === 1) { spotlight(); confetti({ n: 80, pack: 'baraja' }); vibPat([30, 40, 30, 40, 90]); if (res.total >= 10) hito('perfect', { n: res.total }); else SFX.sparkle(); }
+  else if (res.newAch && res.newAch.length) { confetti({ n: 50, y: .3, pack: 'varita' }); vibPat([30, 40, 30]); }
   if (res.newAch && res.newAch.length) hito('ach', { list: res.newAch });
   rankCheck();
   setTimeout(hitoScan, 1600);
@@ -2087,8 +2131,9 @@ function resultFx(res) {
 // Racha dentro de una ronda: pequeñas explosiones cada cinco aciertos.
 function streakFx(n) {
   // Hitos de la escalera de la app: 13 (un palo), 26 (media baraja) y 52 (la baraja entera).
-  if (n === 13 || n === 26 || n === 52) { spotlight(); try { SFX.sparkle(); setTimeout(() => SFX.tachan(), 260); } catch (e) { } confetti({ n: n === 52 ? 130 : 90, y: .4, pow: 11, dur: 2300 }); vibPat([30, 40, 30, 40, 90]); return; }
-  if (n >= 5 && n % 5 === 0) { SFX.sparkle(); confetti({ n: Math.min(30 + n * 3, 70), y: .55, pow: 7, dur: 1500 }); vibPat([25, 30, 25]); }
+  if (n === 13 || n === 26 || n === 52) { spotlight(); try { SFX.sparkle(); setTimeout(() => SFX.tachan(), 260); } catch (e) { } confetti({ n: n === 52 ? 130 : 90, y: .4, pow: 11, dur: 2300, pack: n === 13 ? 'pizza' : n === 26 ? 'birra' : 'teatro' }); vibPat([30, 40, 30, 40, 90]);
+    wowPop(n === 13 ? '🍕🍍' : n === 26 ? '🍻' : '🪄🃏', n === 13 ? L('¡Pizza con piña!', 'Pizza amb pinya!') : n === 26 ? L('¡Ronda para toda la barra!', 'Ronda per a tota la barra!') : L('¡Baraja completa!', 'Baralla completa!')); return; }
+  if (n >= 5 && n % 5 === 0) { SFX.sparkle(); confetti({ n: Math.min(30 + n * 3, 70), y: .55, pow: 7, dur: 1500, pack: FX_ROT[(n / 5 - 1) % 4] }); vibPat([25, 30, 25]); }
 }
 
 /* ===================== CARTAS GEMELAS Y REPASO EXPRÉS ===================== */
@@ -2807,12 +2852,11 @@ const HJ = { cat: 'all', cur: null };
 const HJ_CATS = [['all', '🎲', 'Cualquiera'], ['magos', '🎩', 'De magos'], ['vida', '🍺', 'De barra'], ['cuna', '🧔', 'El cuñado'], ['cana', '🔥', 'Con más caña'], ['pena', '🎭', 'La peña']];
 function hjNew() {
   let c = HJ.cat;
-  const pool = ['magos', 'vida', 'cuna', 'cana', 'vol'].concat(namesOn() ? ['pena'] : []);
+  const pool = ['magos', 'vida', 'cuna', 'cana'].concat(namesOn() ? ['pena'] : []);
   if (c === 'all' || !pool.includes(c)) c = pick(pool);
   if (c === 'magos') HJ.cur = { k: 't', who: '🎩 De camerino', t: flBag('hjm', () => QUIPS.slice()) };
   else if (c === 'vida') HJ.cur = { k: 't', who: '🍺 De barra', t: flBag('hjv', () => VIDA.slice()) };
   else if (c === 'cana') HJ.cur = { k: 't', who: '🔥 Con más caña', t: flBag('hjk', () => CANA.slice()) };
-  else if (c === 'vol') HJ.cur = { k: 't', who: '🙋 Voluntarios', t: flBag('hjvol', () => VOLU.slice()) };
   else if (c === 'cuna') { const d = flBag('hjc', () => DUELO.slice()); HJ.cur = { k: 'd', q: d[0], a: d[1] }; }
   else { const j = flBag('sala', () => penaLines('all')); HJ.cur = { k: 't', who: `${j.ic} ${j.n}`, t: j.t, ca: j.ca }; }
 }
@@ -2832,8 +2876,8 @@ ROUTES['learn:cachondeo'] = () => `
   <div class="panel stitch mt">${hjHTML()}<button class="btn brass block mt" data-a="hj-next">Otro chiste</button></div>
   <div class="sec"><h3>🤷 Excusas del mago</h3></div>
   <div class="panel stitch"><p class="small mut">Para cuando falles delante de gente. Cada excusa lleva una carta al azar de la Mnemónica.</p>${excHTML()}<div class="row wrap mt"><button class="btn sm brass sp" data-a="exc">Otra excusa</button><button class="btn sm sp" data-a="exc-copy">Copiar</button></div></div>
-  ${volPanelHTML()}
   ${namesOn() ? `<details class="basic mt2"><summary><span class="fi">🏛️</span><span>Quién es quién en AMIT (de broma)</span></summary><div class="bx"><div class="org">${ORG.map(([r, w]) => `<div class="orow"><span class="orole">${esc(r)}</span><b>${esc(w)}</b></div>`).join('')}</div><p class="tiny mut mt">Con todo el cariño del mundo para la peña de AMIT, los que están y los que vendrán.</p></div></details>` : ''}
+  ${fxPanelHTML()}
   <button class="mode mt2" data-a="sugerir"><span class="ic">💬</span><span><b>${L('Sugerencias por WhatsApp', 'Suggeriments per WhatsApp')}</b><span>${L('Ideas, fallos, chistes que faltan y bromas que sobran. Se mandan por WhatsApp a quien tú elijas.', 'Idees, errors, acudits que falten i bromes que sobren. S\'envien per WhatsApp a qui tu triïs.')}</span></span></button>
   <button class="mode mt2" data-a="go-mia"><span class="ic">🃏</span><span><b>${L('Tu propia baraja', 'La teva pròpia baralla')}</b><span>${L('Carga tu orden de 52 cartas y practícalo aquí. Aparte de la Mnemónica, que sigue siendo lo principal.', 'Carrega el teu ordre de 52 cartes i practica\'l aquí. A part de la Mnemònica, que continua sent el principal.')}</span></span></button>
   <button class="mode mt2" data-a="go-rincon"><span class="ic">📜</span><span><b>Cultura mágica</b><span>Para cuando toque hablar en serio: historia de las barajas ordenadas y curiosidades con fuente.</span></span></button>
@@ -3335,7 +3379,7 @@ TO_MSGS.push(
 STREAK_MSGS[6] = H('Seis seguidas. «Y voló y yo volé»: así va la racha.', 'Sis seguides. «Y voló y yo volé»: així va la ratxa.');
 STREAK_MSGS[12] = H('Doce seguidas. Doce hombres sin piedad, y tú sin un solo fallo.', 'Dotze seguides. Dotze homes sense pietat, i tu sense cap error.', 'Doce seguidas. Doce hombres sin piedad, y vos sin una sola falla.');
 
-/* ===================== HUMOR 5 · más cachondeo, cultura popular y voluntarios del festival =====================
+/* ===================== HUMOR 5 · más cachondeo y cultura popular =====================
    Todo el texto es original de la app. De la cultura popular solo se usan referencias y muletillas de dominio público
    (cine, series, concursos, redes); nada se pone en boca de nadie y no se imita a personas reales.
    Regla de la casa: se ríe de situaciones y manías con cariño, nunca de personas concretas ni de asuntos serios.
@@ -3465,100 +3509,17 @@ excAdd('esa carta estaba en modo «no molestar».', 'aquesta carta estava en mod
 excAdd('la baraja no ha pasado la ITV de la memoria.', 'la baralla no ha passat la ITV de la memòria.');
 excAdd('he confundido la 14 con la 41, que es como confundir a Chiquito con Rubianes: parecidos solo para el que no los ve.', 'he confós la 14 amb la 41, que és com confondre Chiquito amb Rubianes: semblants només per a qui no els mira.');
 
-/* ---------- Consejos de camerino ---------- */
-TIPS.push(
-  'Repasa cinco cartas al día y apúntate a una tarea del festival: las dos cosas empiezan por poco y luego ya no hay quien te pare.',
-  'Las cartas rebeldes son como los voluntarios del festival: están todas en el grupo, pero hay que ir a buscarlas una a una.'
-);
-HX.ca['Repasa cinco cartas al día y apúntate a una tarea del festival: las dos cosas empiezan por poco y luego ya no hay quien te pare.'] = 'Repassa cinc cartes al dia i apunta\'t a una tasca del festival: les dues coses comencen per poc i després ja no hi ha qui et pari.';
-HX.ca['Las cartas rebeldes son como los voluntarios del festival: están todas en el grupo, pero hay que ir a buscarlas una a una.'] = 'Les cartes rebels són com els voluntaris del festival: són totes al grup, però cal anar a buscar-les una a una.';
-
 /* ---------- La peña: líneas nuevas (solo salen con los nombres activados) ---------- */
 const socioAdd = (n, es, ca) => { const s = SOCIOS.find(x => x.n === n); if (s) s.gen.push(H(es, ca)); };
-socioAdd('Kao', 'Kao sujeta con imperdibles lo que se descose. Si alguna vez falta un voluntario, probablemente también le ponga un imperdible.', 'En Kao subjecta amb imperdibles el que es descus. Si algun dia falta un voluntari, probablement també li posarà un imperdible.');
 socioAdd('Mag Ger', 'Pídele a Mag Ger que escoja una carta y descubrirás un efecto que ni el mago controla: el «efecto Mag Ger».', 'Demana al Mag Ger que esculli una carta i descobriràs un efecte que ni el mag controla: l\'«efecte Mag Ger».');
 socioAdd('David', 'David hizo un cartel con la IA y el cartel hizo a David con seis dedos. Aun así, tiene magia.', 'En David va fer un cartell amb la IA i el cartell va fer en David amb sis dits. Tot i així, té màgia.');
 socioAdd('Harvi', 'Harvi puede desenredar cualquier asunto de una asamblea… pero sus cuerdas, ya es otro cantar.', 'En Harvi pot desembolicar qualsevol afer d\'una assemblea… però les seves cordes, ja és una altra cançó.');
 socioAdd('Toni', 'Toni viene del Vallès Oriental: la distancia es corta, pero el tatuaje de Leia llega siempre antes.', 'En Toni ve del Vallès Oriental: la distància és curta, però el tatuatge de la Leia sempre arriba abans.');
 socioAdd('Melanie', 'Mientras otros sacan una moneda de la oreja, Melanie saca un elefante. La ambición es una virtud.', 'Mentre uns altres treuen una moneda de l\'orella, la Melanie treu un elefant. L\'ambició és una virtut.');
-socioAdd('Santi', 'Santi, vestido de dragón, es el único que consigue que un voluntario se sienta tranquilo: con un dragón al lado, nadie se mete contigo.', 'En Santi, vestit de drac, és l\'únic que aconsegueix que un voluntari se senti tranquil: amb un drac al costat, ningú no se\'n fica amb tu.');
 socioAdd('Coquis', 'Coquis, bibliotecario: si necesitas algo para el festival, seguro que ya hay un libro sobre ello… con fecha de devolución.', 'En Coquis, bibliotecari: si necessites alguna cosa per al festival, segur que ja hi ha un llibre sobre això… amb data de devolució.');
 socioAdd('Pedro', 'Pedro, fiscalista, te explica la Mnemónica y, de paso, la letra pequeña de cada carta.', 'En Pedro, fiscalista, t\'explica la Mnemònica i, de passada, la lletra petita de cada carta.');
 socioAdd('El Sr. Piña y Jared', 'El Sr. Piña y Jared defienden la piña en la pizza. Es la única discusión del jueves en la que los dos bandos tienen razón.', 'El Sr. Piña i en Jared defensen la pinya a la pizza. És l\'única discussió del dijous en què els dos bàndols tenen raó.');
 
-/* ---------- Voluntarios del festival ---------- */
-const VOLU = [
-  H('Se busca voluntario para el festival. Requisitos: tener manos, tener sábado y no tener «reunión de cole». Se valorará saber plegar sillas.', 'Es busca voluntari per al festival. Requisits: tenir mans, tenir dissabte i no tenir «reunió d\'escola». Es valorarà saber plegar cadires.'),
-  H('Los voluntarios ven el festival desde el mejor sitio: detrás del escenario. Los cuñados, desde la fila diez, también opinan.', 'Els voluntaris veuen el festival des del millor lloc: darrere l\'escenari. Els cunyats, des de la fila deu, també opinen.'),
-  H('Hay tres tipos de socios: los que se apuntan, los que dicen «cuenta conmigo» y los que están «de viaje» desde el 17 de diciembre.', 'Hi ha tres tipus de socis: els que s\'apunten, els que diuen «compta amb mi» i els que són «de viatge» des del 17 de desembre.'),
-  H('Un voluntario es como una carta de la Mnemónica: todos saben que tiene que estar, pero hay que ir a buscarlo.', 'Un voluntari és com una carta de la Mnemònica: tothom sap que hi ha de ser, però cal anar-lo a buscar.'),
-  H('Encuesta de voluntarios: siete puestos, un voto por puesto y el mismo socio votando en tres. Matemáticas de peña.', 'Enquesta de voluntaris: set llocs, un vot per lloc i el mateix soci votant en tres. Matemàtiques de penya.'),
-  H('«Cuenta conmigo para lo que haga falta». Traducción simultánea: cuenta conmigo para lo que no haga falta nada.', '«Compta amb mi per a tot el que faci falta». Traducció simultània: compta amb mi per a tot el que no faci falta res.'),
-  H('Hacer bulto con la camiseta del festival cuenta como voluntariado. Con la camiseta puesta, se entiende: en el armario no hace bulto.', 'Fer nombre amb la samarreta del festival compta com a voluntariat. Amb la samarreta posada, s\'entén: a l\'armari no fa nombre.'),
-  H('Control de acceso: la oportunidad de decirle «no» a un cuñado con total impunidad. Úsala bien.', 'Control d\'accés: l\'oportunitat de dir «no» a un cunyat amb total impunitat. Fes-la servir bé.'),
-  H('Montaje de sillas: la única disciplina de la magia donde nadie te pide que repitas el efecto.', 'Muntatge de cadires: l\'única disciplina de la màgia on ningú no et demana que repeteixis l\'efecte.'),
-  H('Ser voluntario tiene tres ventajas: la gratitud eterna de la peña, un sitio en la foto de grupo y cero sillas libres.', 'Ser voluntari té tres avantatges: l\'agraïment etern de la penya, un lloc a la foto de grup i cap cadira lliure.'),
-  H('Quien se apunta a todo y no va a nada es el verdadero mago: desaparece sin necesidad de pañuelo.', 'Qui s\'apunta a tot i no va enlloc és el veritable mag: desapareix sense necessitat de mocador.'),
-  H('Si llegas antes que el público y te marchas después, ya eres de los voluntarios que encienden la luz y la apagan.', 'Si arribes abans que el públic i te\'n vas després, ja ets dels voluntaris que encenen el llum i l\'apaguen.'),
-  H('El que lleva el cartel con IA y seis dedos también cuenta como voluntario. Se valora el esfuerzo, no los dedos.', 'El que porta el cartell amb IA i sis dits també compta com a voluntari. Es valora l\'esforç, no els dits.'),
-  H('«Se necesitan manos para el festival». Preferiblemente con guantes: ya sabemos cómo son los magos con las cuerdas.', '«Calen mans per al festival». Preferiblement amb guants: ja sabem com són els mags amb les cordes.'),
-  H('Montar, atender, guiar y desmontar: cuatro verbos y ni un solo truco. Aun así, es lo que hace que el truco ocurra.', 'Muntar, atendre, guiar i desmuntar: quatre verbs i cap truc. Tot i així, és el que fa que el truc passi.'),
-  H('Si de verdad no puedes ayudar, no pasa nada: ahí están las excusas de la Sala. Pero que sean buenas, que las del curso pasado ya nos las sabemos.', 'Si de veritat no pots ajudar, no passa res: aquí tens les excuses de la Sala. Però que siguin bones, que les del curs passat ja ens les sabem.')
-];
-const VOL_PUESTOS = [
-  ['Bienvenida y asientos', 'Benvinguda i seients', 'Tu misión: sonreír y guiar al público a su asiento. Sobre todo a los cuñados, que siempre quieren primera fila.', 'La teva missió: somriure i guiar el públic al seu seient. Sobretot els cunyats, que sempre volen primera fila.'],
-  ['Atención al público', 'Atenció al públic', 'Tu misión: contestar «¿a qué hora empieza?» unas ochenta veces. Con la sonrisa intacta.', 'La teva missió: contestar «a quina hora comença?» unes vuitanta vegades. Amb el somriure intacte.'],
-  ['Montaje de sillas', 'Muntatge de cadires', 'Tu misión: llegar antes que las sillas.', 'La teva missió: arribar abans que les cadires.'],
-  ['Apoyo a artistas', 'Suport a artistes', 'Tu misión: sujetar, pasar y desaparecer. Como un ayudante de los buenos.', 'La teva missió: subjectar, passar i desaparèixer. Com un ajudant dels bons.'],
-  ['Talleres de niños', 'Tallers de nens', 'Tu misión: sobrevivir. Lleva paciencia y cinta de doble cara.', 'La teva missió: sobreviure. Porta paciència i cinta de doble cara.'],
-  ['Cartelería', 'Cartelleria', 'Tu misión: pegar carteles. El que sale con seis dedos, al fondo.', 'La teva missió: enganxar cartells. El que surt amb sis dits, al fons.'],
-  ['Hacer bulto con la camiseta', 'Fer nombre amb la samarreta', 'Tu misión: existir, con camiseta. Es lo más difícil de todo.', 'La teva missió: existir, amb samarreta. És el més difícil de tot.']
-];
-const VOL_RESET = H('Cuadro completo. Ahora solo falta que vengan los voluntarios de verdad. Si te animas, la encuesta del grupo te está esperando.', 'Quadre complet. Ara només falta que vinguin els voluntaris de veritat. Si t\'animes, l\'enquesta del grup t\'està esperant.');
-const EXC_VOL = [];
-const excv = (es, ca) => EXC_VOL.push([es, ca]);
-excv('tengo reunión de cole… del hijo de mi vecino.', 'tinc reunió d\'escola… del fill del meu veí.');
-excv('mi horóscopo dice que es mal día para plegar sillas.', 'el meu horòscop diu que és mal dia per plegar cadires.');
-excv('me han dicho que hay que madrugar y mi mago interior no sale antes de las once.', 'm\'han dit que cal matinar i el meu mag interior no surt abans de les onze.');
-excv('estoy en un retiro espiritual… en el sofá.', 'sóc en un retir espiritual… al sofà.');
-excv('he quedado con mi gato para una sesión de coaching.', 'he quedat amb el meu gat per a una sessió de coaching.');
-excv('tengo una cena con mis suegros que lleva organizada desde 2019.', 'tinc un sopar amb els sogres que fa organitzat des del 2019.');
-excv('mi pañuelo de seda está en la lavadora y no sé si volverá.', 'el meu mocador de seda és a la rentadora i no sé si tornarà.');
-excv('me he apuntado a un curso online de «Cómo no apuntarse a nada».', 'm\'he apuntat a un curs en línia de «Com no apuntar-se a res».');
-excv('he agotado los family points del trimestre y el saldo está en rojo.', 'he esgotat els family points del trimestre i el saldo és en vermell.');
-excv('estoy en pleno ensayo de un número que nunca estrenaré.', 'sóc en ple assaig d\'un número que mai no estrenaré.');
-excv('le prometí a una carta que no la perdería de vista, y es la 27.', 'vaig prometre a una carta que no la perdria de vista, i és la 27.');
-excv('mi IA no me ha terminado todavía el cartel de la excusa.', 'la meva IA encara no m\'ha acabat el cartell de l\'excusa.');
-excv('tengo que actualizar el Excel de mi orden de baraja. Es urgente. Lo es.', 'he d\'actualitzar l\'Excel del meu ordre de baralla. És urgent. Ho és.');
-excv('hasta esa fecha estoy «de viaje» (de la cocina al sofá).', 'fins aquesta data sóc «de viatge» (de la cuina al sofà).');
-const VOLX = { i: 0 };
-const volExcText = () => { const e = EXC_VOL[VOLX.i % EXC_VOL.length]; return L('No puedo ser voluntario porque ' + e[0], 'No puc ser voluntari perquè ' + e[1]); };
-const volState = () => Math.max(0, Math.min(VOL_PUESTOS.length, (S.stats && S.stats.vol) | 0));
-function volPanelHTML() {
-  const n = volState(), tot = VOL_PUESTOS.length, last = n ? VOL_PUESTOS[n - 1] : null;
-  const msg = n >= tot ? VOL_RESET : (last ? L(last[2], last[3]) : L('Pulsa «Me apunto» y la app te asigna un puesto del festival. Es de broma… pero la encuesta del grupo es de verdad.', 'Prem «M\'apunto» i l\'app t\'assigna un lloc del festival. És de broma… però l\'enquesta del grup és de veritat.'));
-  return `<div id="volSec"><div class="sec"><h3>🙋 ${L('Voluntarios del festival', 'Voluntaris del festival')}</h3></div>
-  <div class="panel stitch" id="volBox"><p class="small mut" style="margin:0 0 8px">${L('Cuesta encontrar voluntarios. Aquí, al menos, el cuadro se llena en un minuto.', 'Costa trobar voluntaris. Aquí, almenys, el quadre s\'omple en un minut.')}</p>
-    <div class="row"><b>${L('Puestos cubiertos', 'Llocs coberts')}: ${n}/${tot}</b></div>
-    <div class="mbar" style="height:9px" role="img" aria-label="${n}/${tot}"><i style="width:${Math.round(100 * n / tot)}%"></i></div>
-    <div class="jk mt"><div class="jk-t" id="volMsg">${last ? '<b>' + esc(L(last[0], last[1])) + '.</b> ' : ''}${esc(msg)}</div></div>
-    <div class="row wrap mt"><button class="btn sm brass sp" data-a="vol-join">${n >= tot ? L('Vaciar el cuadro', 'Buidar el quadre') : L('🙋 Me apunto', '🙋 M\'apunto')}</button><button class="btn sm sp" data-a="vol-exc">${L('Dame una excusa', 'Dona\'m una excusa')}</button></div>
-    <p class="small mut mt" id="volExc" aria-live="polite" style="margin-bottom:0">${esc(volExcText())}</p>
-  </div></div>`;
-}
-A['vol-join'] = () => {
-  if (volState() >= VOL_PUESTOS.length) S.stats.vol = 0; else S.stats.vol = volState() + 1;
-  save(); const b = $('#volSec'); if (b) b.outerHTML = volPanelHTML();
-  if (volState() === 1) toast(L('¡Apuntado! (en la app, que es gratis)', 'Apuntat! (a l\'app, que és gratis)'), 2200);
-  hsBump('jokes');
-};
-A['vol-exc'] = () => { VOLX.i = Math.floor(Math.random() * EXC_VOL.length); const p = $('#volExc'); if (p) p.textContent = volExcText(); hsBump('jokes'); };
-ACH.push({ id: 'manos', ic: '🙋', n: 'Manos arriba', d: 'Te apuntas de voluntario… en la app.', f: () => (S.stats.vol || 0) >= 1 });
-
-HJ_CATS.push(['vol', '🙋', 'Voluntarios']);
-HX.ca['Voluntarios'] = 'Voluntaris';
-HX.ca['Manos arriba'] = 'Mans enlaire';
-HX.ca['Te apuntas de voluntario… en la app.'] = 'T\'apuntes de voluntari… a l\'app.';
 HX.ca['💬 Sugerencias'] = '💬 Suggeriments';
 
 /* ---------- Rev 41: retoques del humor de la peña y del festival ---------- */
@@ -3862,6 +3823,119 @@ TIPS.push(
   H(`Saber la teoría no es saber hacerlo: el cuerpo memoriza el tacto y el ritmo. Repite en voz alta, no solo en la cabeza.`, `Saber la teoria no és saber-ho fer: el cos memoritza el tacte i el ritme. Repeteix en veu alta, no només al cap.`),
   H(`Un juego nuevo solo cuando el anterior ya sale: era el trato del peluquero de Kaps. Aplícalo a tus estrofas.`, `Un joc nou només quan l'anterior ja surt: era el tracte del perruquer de Kaps. Aplica-ho a les teves estrofes.`)
 );
+
+/* ===================== SALTO DE VARITA · saltos por la baraja y efectos de la casa =====================
+   Juego original de la app. Se parte de una carta, se salta 1 a 5 puestos hacia delante o hacia atrás y se aterriza en la
+   carta correcta, que pasa a ser la de salida del siguiente salto. Tres cañas de vida: cada fallo se bebe una.
+   Es un ejercicio de orden con la baraja en la cabeza (carta → puesto → puesto ± n → carta), sin copiar a nadie.
+   Se carga después de humor2.js (usa H) y antes de i18n_humor2.js. Convención de la app: baraja boca abajo, la 1 arriba;
+   «hacia delante» suma y «hacia atrás» resta; tras la 52 vuelve la 1. */
+
+MODES.salto = {
+  ic: '🪄',
+  t: H('Salto de varita', 'Salt de vareta'),
+  d: H('Salta varios puestos por la baraja y aterriza en la carta correcta.', 'Salta diversos llocs per la baralla i aterra a la carta correcta.'),
+  why: H('Los vecinos ya los sabes; los saltos te obligan a moverte por la baraja en los dos sentidos sin recitarla entera. Es lo que haces cuando cuentas cartas con la baraja en la mano.', 'Els veïns ja els saps; els salts t\'obliguen a moure\'t per la baralla en tots dos sentits sense recitar-la sencera. És el que fas quan comptes cartes amb la baralla a la mà.')
+};
+SETUP.sjump = SETUP.sjump || 'c';
+
+const SAL_J = { a: [1], c: [1, 2, 3], e: [1, 2, 3, 4, 5] };
+const salWrap = p => ((p - 1) % 52 + 52) % 52 + 1;
+let SAL = null;
+
+function startSalto() {
+  let scope = resolveScope(SETUP.scope === 'act' || SETUP.scope === 'rebel' ? 'seen' : SETUP.scope, 0);
+  if (scope.length < 4) scope = ALL_POS.slice();
+  SAL = { scope, lvl: SAL_J[SETUP.sjump] ? SETUP.sjump : 'c', lives: 3, chain: 0, errors: 0, miss: [], base: null, prevBase: null, q: null, opts: [], fb: null, busy: false, t0: now(), tmark: now(), tm: 0, prevBest: S.stats.saltoBest || 0, hints: 0 };
+  salNext();
+  Object.assign(NAV, { tab: 'salto', sub: null, arg: null, immersive: true, after: null }); render();
+}
+function salNext() {
+  const O = SAL, sc = new Set(O.scope), js = SAL_J[O.lvl];
+  const cand = (b, anywhere) => { const r = []; for (const j of js) for (const d of [1, -1]) { const t = salWrap(b + d * j); if (anywhere || sc.has(t)) r.push({ d, j, t }); } return r; };
+  let b = O.base, c = b != null && sc.has(b) ? cand(b) : [];
+  if (!c.length) for (const x of shuffle(O.scope)) { const cc = cand(x); if (cc.length) { b = x; c = cc; break; } }
+  if (!c.length) { b = pick(O.scope); c = cand(b, true); }
+  const nb = c.filter(x => x.t !== O.prevBase), m = pick(nb.length ? nb : c);
+  O.base = b; O.q = { b, d: m.d, j: m.j, t: m.t, hint: false }; O.opts = salOpts(O.q); O.fb = null; O.busy = false; O.tmark = now();
+}
+// Tres señuelos que son los errores típicos: saltar al otro lado, quedarse corto o pasarse un puesto, o una carta cualquiera.
+function salOpts(q) {
+  const t = q.t, pool = new Set(), add = p => { p = salWrap(p); if (p !== t && p !== q.b) pool.add(p); };
+  add(q.b - q.d * q.j); add(t + 1); add(t - 1); add(q.b + q.d * (q.j + 1)); add(q.b + q.d * Math.max(1, q.j - 1));
+  const arr = shuffle([...pool]).slice(0, 3);
+  while (arr.length < 3) { const r = pick(ALL_POS); if (r !== t && r !== q.b && !arr.includes(r)) arr.push(r); }
+  return shuffle([t, ...arr]);
+}
+const salLine = q => `${numHTML(q.b)} ${q.d > 0 ? '+' : '−'} ${q.j} = ${numHTML(q.t)}`;
+ROUTES.salto = () => {
+  NAV.immersive = true; const O = SAL, q = O.q, fb = O.fb;
+  const word = q.d > 0 ? L('hacia delante', 'cap endavant') : L('hacia atrás', 'cap enrere');
+  const places = q.j === 1 ? L('puesto', 'lloc') : L('puestos', 'llocs');
+  const beers = [0, 1, 2].map(i => `<span class="sal-beer${i < O.lives ? '' : ' lost'}">🍺</span>`).join('');
+  return `<div class="ses"><div class="hud"><button class="ibtn" data-a="sal-quit" aria-label="${L('Salir', 'Sortir')}">✕</button><div class="prog"><div class="bar"><i style="width:${Math.min(100, O.chain / 52 * 100)}%"></i></div></div><span class="chip">🪄 <b>${O.chain}</b></span><span class="sal-lives" role="img" aria-label="${L('Cañas que te quedan', 'Canyes que et queden')}: ${O.lives}">${beers}</span></div>
+  <div class="kicker center">${L('Salta con la varita y aterriza en la carta correcta. La baraja va boca abajo, con la 1 arriba.', 'Salta amb la vareta i aterra a la carta correcta. La baralla va cara avall, amb l\'1 a dalt.')}</div>
+  <div class="sal-base"><span class="tiny mut">${L('Sales de esta carta', 'Surts d\'aquesta carta')}</span>${cardHTML(q.b, { w: 96, paint: false })}${q.hint || fb ? `<span class="small">${L('Es la', 'És la')} ${numHTML(q.b)}</span>` : ''}</div>
+  <div class="sal-jump" aria-live="polite">🪄 ${q.j} ${places} <span class="arrow" aria-hidden="true">${q.d > 0 ? '➡️' : '⬅️'}</span> ${word}</div>
+  <div class="sal-recap" id="salRecap">${fb ? (fb.ok ? `<b>${L('¡Bien!', 'Bé!')}</b> ${salLine(q)}` : `<b>${L('Era esta', 'Era aquesta')}:</b> ${salLine(q)}`) : ''}</div>
+  <div class="tray mt" id="tray">${O.opts.map(p => `<button class="pc${fb && p === q.t ? ' sal-good' : ''}${fb && !fb.ok && p === fb.pick ? ' sal-bad' : ''}" style="--w:68px;background:none;border:0;padding:0" data-a="sal-pick" data-p="${p}" aria-label="${L('Carta', 'Carta')}">${faceSVG(cardAt(p).code)}</button>`).join('')}</div>
+  <div class="row wrap mt2" style="justify-content:center;gap:8px"><button class="btn sm ghost" data-a="sal-hint"${q.hint || fb ? ' disabled' : ''}>${L('💡 Pista: ¿qué puesto es?', '💡 Pista: quin lloc és?')}</button><button class="btn sm ghost" data-a="sal-stop">${L('🛑 Cerrar la barra', '🛑 Tancar la barra')}</button></div></div>`;
+};
+const SAL_CHEERS = {
+  5: ['🍕', 'Cinco seguidos', 'Cinc seguits'], 10: ['🍺', 'Diez seguidos: ronda para ti', 'Deu seguits: ronda per a tu'], 15: ['🪄', 'Quince: la varita ya obedece', 'Quinze: la vareta ja obeeix'],
+  20: ['🃏', 'Veinte: la baraja te conoce', 'Vint: la baralla et coneix'], 26: ['🍻', 'Media baraja a saltos', 'Mitja baralla a salts'], 39: ['🎩', 'Treinta y nueve: casi en el último truco', 'Trenta-nou: gairebé a l\'últim truc'], 52: ['🪄', 'Vuelta completa a la baraja', 'Volta completa a la baralla']
+};
+A['sal-pick'] = el => {
+  const O = SAL; if (!O || O.busy || !O.q) return; O.busy = true;
+  const p = +el.dataset.p, q = O.q, ok = p === q.t, ms = now() - O.tmark;
+  S.stats.ans++;
+  if (ok) {
+    SFX.ok(); O.chain++; S.stats.ok++; if (!q.hint) srsGrade('p2c', q.t, true, ms);
+    const ch = SAL_CHEERS[O.chain]; if (ch) toast(`${ch[0]} ${L(ch[1], ch[2])}`, 1500);
+    streakFx(O.chain);
+  } else {
+    SFX.ko(); vib(40); O.lives--; O.errors++; O.miss.push(q.t); srsGrade('p2c', q.t, false, 9999); try { noteConf(q.t, p); } catch (e) { }
+  }
+  O.fb = { ok, pick: p };
+  render();
+  O.tm = setTimeout(() => {
+    if (SAL !== O) return;
+    if (O.lives <= 0 || O.chain >= 52) return salEnd();
+    O.prevBase = q.b; O.base = q.t; salNext(); render();
+  }, ok ? 900 : 1800);
+};
+A['sal-hint'] = () => { const O = SAL; if (!O || O.busy || !O.q || O.q.hint) return; O.q.hint = true; O.hints++; render(); };
+A['sal-quit'] = () => openSheet(`<h3>${L('¿Cerrar la barra?', 'Tancar la barra?')}</h3><div class="row mt"><button class="btn sp" data-a="close">${L('Seguir', 'Continuar')}</button><button class="btn red sp" data-a="sal-exit">${L('Salir', 'Sortir')}</button></div>`);
+A['sal-exit'] = () => { if (SAL) clearTimeout(SAL.tm); SAL = null; closeSheet(); go('play'); };
+A['sal-stop'] = () => { const O = SAL; if (!O || O.busy) return; if (!O.chain) return A['sal-exit'](); clearTimeout(O.tm); salEnd(); };
+function salEnd() {
+  const O = SAL; clearTimeout(O.tm);
+  const ms = now() - O.t0, chain = O.chain, total = Math.max(1, chain + O.errors), clean = O.errors === 0 && chain >= 10;
+  const xp = chain * 6 + (clean ? 25 : 0), record = chain > O.prevBest && chain >= 5;
+  S.xp += xp; S.stats.ses++; touchStreak(); if (clean) S.stats.perfect++; S.stats.saltoBest = Math.max(S.stats.saltoBest || 0, chain); save();
+  const verdict = O.chain >= 52 ? L('Vuelta completa a la baraja.', 'Volta completa a la baralla.') : O.lives <= 0 ? L(`Se acabaron las cañas con ${chain} ${plural(chain, 'salto', 'saltos')} seguidos.`, `S'han acabat les canyes amb ${chain} ${plural(chain, 'salt', 'salts')} seguits.`) : L(`Barra cerrada con ${chain} ${plural(chain, 'salto', 'saltos')}.`, `Barra tancada amb ${chain} ${plural(chain, 'salt', 'salts')}.`);
+  const res = { id: 'salto', title: `${L('Salto de varita', 'Salt de vareta')} · ${SAL_NAMES[O.lvl]()}`, correct: chain, total, score: Math.max(0, chain * 100 - O.errors * 30), ms, best: chain, xp, ans: O.miss.map(p => ({ ok: false, q: mkQ('p2c', p), k: 'p2c', pos: p })), cfg: { back: ['play'], again: () => startSalto() } };
+  SAL = null;
+  showResults(res, { noReview: true, verdictOverride: verdict, extraHTML: record ? `<div class="ach-pop mt"><span class="ic">🏆</span><div><b style="font-family:var(--fh);font-weight:400">${L('Nuevo récord de saltos', 'Nou rècord de salts')}</b><div class="small mut">${L('Tu cadena más larga hasta hoy.', 'La teva cadena més llarga fins avui.')}</div></div></div>` : '' });
+}
+const SAL_NAMES = { a: () => L('de 1 en 1', 'd\'1 en 1'), c: () => L('hasta 3', 'fins a 3'), e: () => L('hasta 5', 'fins a 5') };
+
+ACH.push(
+  { id: 'varita', ic: '🪄', n: H('Varita afinada', 'Vareta afinada'), d: H('Encadena 10 saltos seguidos en «Salto de varita».', 'Encadena 10 salts seguits a «Salt de vareta».'), f: () => (S.stats.saltoBest || 0) >= 10 },
+  { id: 'barra', ic: '🍻', n: H('Cierre de barra', 'Tancament de barra'), d: H('Encadena 26 saltos seguidos en «Salto de varita».', 'Encadena 26 salts seguits a «Salt de vareta».'), f: () => (S.stats.saltoBest || 0) >= 26 }
+);
+
+/* ---------- Efectos de la casa: panel de la Sala del cachondeo ---------- */
+const FX_DEMO = { pizza: ['🍕🍍', '¡Pizza con piña!', 'Pizza amb pinya!'], birra: ['🍻', '¡Una ronda!', 'Una ronda!'], varita: ['🪄✨', '¡Abracadabra!', 'Abracadabra!'], baraja: ['🃏🎴', '¡Baraja en mano!', 'Baralla a la mà!'] };
+const fxPanelHTML = () => `<div class="sec"><h3>🎆 ${L('Efectos de la casa', 'Efectes de la casa')}</h3></div>
+  <div class="panel stitch"><p class="small mut" style="margin:0 0 8px">${L('Así celebra la app tus rachas: pizza con piña a las 13, una ronda de cañas a las 26 y varitas y barajas a las 52. Pruébalos aquí.', 'Així celebra l\'app les teves ratxes: pizza amb pinya a les 13, una ronda de canyes a les 26 i vareta i baralles a les 52. Prova-ho aquí.')}</p>
+  <div class="fxdemo">${[['pizza', '🍕', L('Pizza', 'Pizza')], ['birra', '🍺', L('Birra', 'Birra')], ['varita', '🪄', L('Varita', 'Vareta')], ['baraja', '🃏', L('Baraja', 'Baralla')]].map(([k, ic, l]) => `<button class="btn" data-a="fx-demo" data-k="${k}" aria-label="${l}">${ic}<span>${l}</span></button>`).join('')}</div>
+  <p class="tiny mut" style="margin:8px 0 0">${L('Con el modo calma o con «reducir movimiento» en el móvil, no se anima nada.', 'Amb el mode calma o amb «reduir moviment» al mòbil, no s\'anima res.')}</p></div>`;
+A['fx-demo'] = el => {
+  const k = el.dataset.k, d = FX_DEMO[k]; if (!d) return;
+  if (fxCalm()) return toast(L('Modo calma: los efectos están apagados.', 'Mode calma: els efectes estan apagats.'), 2000);
+  try { SFX.sparkle(); } catch (e) { } confetti({ n: 70, y: .5, pow: 9, pack: k }); wowPop(d[0], L(d[1], d[2])); vibPat([25, 30, 25]);
+};
 
 /* ===================== LA ESCALERA 13 → 26 → 52 · CÓMO PRACTICAR · FUENTES · CÓMO FUNCIONA ===================== */
 // Los métodos se describen con palabras propias a partir de los volúmenes I y II de Tamariz. Las posiciones, las fórmulas
@@ -4332,31 +4406,97 @@ const FUENTES = [
     ]
   }
 ];
-const srcHTML = it => `<div class="panel src"><b>${esc(it.t)}</b><div class="small mut">${esc(it.a)} · ${esc(it.m)}</div><p class="small">${esc(it.n)}</p><div class="row wrap">${it.ls.map(l => `<a class="btn sm" href="${esc(l.u)}" target="_blank" rel="noopener noreferrer">${l.ca ? '🗂️ ' : ''}${esc(l.l)}</a>`).join('')}${it.ls.length ? `<button class="btn sm ghost" data-a="copy-url" data-u="${esc(it.ls[0].u)}">Copiar enlace</button>` : ''}</div></div>`;
-// Tiendas donde buscar los libros (orden alfabético, sin preferencia). La app no cobra nada de ellas: sin afiliación ni comisión.
+/* Dónde conseguir cada título: solo fichas localizadas en las tiendas de la lista (noviembre de 2026). El stock cambia a diario.
+   l = texto es, lc = texto ca (el idioma se resuelve al pintar). Un array vacío = sin ficha localizada. */
+const STK = {
+  'Sinfonía en Mnemónica Mayor (2 vols.)': [
+    { u: 'https://tiendamagia.com/en/magic-books-spanish/sinfonia-en-mnemonica-mayor-2-volumenes-juan-tamariz-book-in-spanish', l: 'Tienda Magia' },
+    { u: 'https://magiaestudio.com/producto/sinfonia-en-mnemonica-mayor-2-volumenes-dvd-juan-tamariz/', l: 'Magia Estudio' },
+    { u: 'https://www.magosartesanos.com/contents/es/p3987.html', l: 'MagosArtesanos' }
+  ],
+  'Mnemonica': [
+    { u: 'https://www.tannens.com/products/mnemonica', l: "Tannen's" },
+    { u: 'https://www.vanishingincmagic.com/card-magic/mnemonica/', l: 'Vanishing Inc.' },
+    { u: 'https://shop.penguinmagic.com/products/mnemonica', l: 'Penguin Magic' }
+  ],
+  'A Stack to Remember': [
+    { u: 'https://www.vanishingincmagic.com/card-magic/bound-to-please/', l: 'Vanishing Inc. · en «Bound to Please»', lc: 'Vanishing Inc. · dins «Bound to Please»' },
+    { u: 'https://www.penguinmagic.com/p/9965', l: 'Penguin Magic · en «Bound to Please»', lc: 'Penguin Magic · dins «Bound to Please»' }
+  ],
+  'The Six-Hour Memorized Deck': [],
+  'Memorandum': [
+    { u: 'https://www.vanishingincmagic.com/card-magic/memorandum/', l: 'Vanishing Inc.' },
+    { u: 'https://tiendamagia.com/en/magic-books-spanish/memorandum-cosas-mias-20-woody-aragon-book-in-spanish', l: 'Tienda Magia · edición en español', lc: 'Tienda Magia · edició en espanyol' },
+    { u: 'https://www.penguinmagic.com/magician/woody-aragon', l: 'Penguin Magic · página del autor', lc: 'Penguin Magic · pàgina de l\'autor' }
+  ],
+  'A Book in English': [
+    { u: 'https://www.vanishingincmagic.com/card-magic/a-book-in-english/', l: 'Vanishing Inc.' },
+    { u: 'https://www.penguinmagic.com/magician/woody-aragon', l: 'Penguin Magic · página del autor', lc: 'Penguin Magic · pàgina de l\'autor' }
+  ],
+  'Mi baraja personal': [
+    { u: 'https://www.penguinmagic.com/magician/dani-daortiz', l: 'Penguin Magic · página de Dani DaOrtiz', lc: 'Penguin Magic · pàgina de Dani DaOrtiz' }
+  ],
+  'My Personal Stack': [
+    { u: 'https://www.penguinmagic.com/magician/dani-daortiz', l: 'Penguin Magic · página de Dani DaOrtiz', lc: 'Penguin Magic · pàgina de Dani DaOrtiz' }
+  ],
+  'The Aronson Stack for Everybody': [],
+  'The Particle System': [
+    { u: 'https://www.vanishingincmagic.com/magic-books/particle-system/', l: 'Vanishing Inc.' }
+  ],
+  'A Stack to Forget': [],
+  'In Order to Amaze': [
+    { u: 'https://manodemago.com/categoria-producto/libros/libros-mentalismo', l: 'Mano de Mago · «En orden de ilusión» (español, en la categoría)', lc: 'Mano de Mago · «En orden de ilusión» (espanyol, a la categoria)' },
+    { u: 'https://www.vanishingincmagic.com/magic-books/in-order-to-amaze/', l: 'Vanishing Inc.' },
+    { u: 'https://www.tannens.com/products/in-order-to-amaze', l: "Tannen's" },
+    { u: 'https://www.librosdemagia.com/catalogo/ver/71825-en-orden-de-ilusion.html', l: 'Libros de Magia · «En orden de ilusión» (español)', lc: 'Libros de Magia · «En orden de ilusión» (espanyol)' },
+    { u: 'https://magiaestudio.com/producto/en-orden-de-ilusion-pit-hartling/', l: 'Magia Estudio · «En orden de ilusión» (español)', lc: 'Magia Estudio · «En orden de ilusión» (espanyol)' },
+    { u: 'https://tiendamagia.com/en/magic-books-spanish/en-orden-de-ilusion-pitt-hartling-libro', l: 'Tienda Magia · «En orden de ilusión» (español)', lc: 'Tienda Magia · «En orden de ilusión» (espanyol)' }
+  ],
+  'Letters from Juan, vol. 6': [
+    { u: 'https://www.penguinmagic.com/s/juan+tamariz+secrets', l: 'Penguin Magic · resultados de búsqueda', lc: 'Penguin Magic · resultats de cerca' }
+  ],
+  'Second Thoughts': [
+    { u: 'https://www.penguinmagic.com/p/12797', l: 'Penguin Magic' },
+    { u: 'https://www.vanishingincmagic.com/magic-books/second-thoughts/', l: 'Vanishing Inc.' }
+  ],
+  'Hojas sueltas': [],
+  'Amnesia': [
+    { u: 'https://www.penguinmagic.com/p/21308', l: 'Penguin Magic' },
+    { u: 'https://www.vanishingincmagic.com/magic-books/amnesia/', l: 'Vanishing Inc.' }
+  ],
+  'The Memory Arts': [
+    { u: 'https://www.vanishingincmagic.com/ebooks/the-memory-arts-book/', l: 'Vanishing Inc. · libro y ediciones', lc: 'Vanishing Inc. · llibre i edicions' },
+    { u: 'https://tiendamagia.com/es/descarga-magia-con-cartas-/the-memory-arts-book-a-mnemonica-special-edition-by-sarah-and-david-trustman-ebook-descarga', l: 'Tienda Magia · edición Mnemonica (ebook)', lc: 'Tienda Magia · edició Mnemonica (ebook)' }
+  ]
+};
+FUENTES.forEach(g => g.items.forEach(it => { if (STK[it.t] !== undefined) it.st = STK[it.t]; }));
+const srcHTML = it => `<div class="panel src"><b>${esc(it.t)}</b><div class="small mut">${esc(it.a)} · ${esc(it.m)}</div><p class="small">${esc(it.n)}</p><div class="row wrap">${it.ls.map(l => `<a class="btn sm" href="${esc(l.u)}" target="_blank" rel="noopener noreferrer">${l.ca ? '🗂️ ' : ''}${esc(l.l)}</a>`).join('')}${it.ls.length ? `<button class="btn sm ghost" data-a="copy-url" data-u="${esc(it.ls[0].u)}">Copiar enlace</button>` : ''}</div>${stHTML(it)}</div>`;
+const stHTML = it => !it.st ? '' : `<div class="row wrap src-st" style="margin-top:8px;align-items:center"><span class="small mut">🛒 ${L('Dónde conseguirlo', 'On aconseguir-lo')}:</span>${it.st.length ? it.st.map(l => `<a class="btn sm" href="${esc(l.u)}" target="_blank" rel="noopener noreferrer">${esc(L(l.l, l.lc || l.l))}</a>`).join('') : `<span class="small mut">${L('Sin ficha localizada en las tiendas de la lista; pregúntalo en tu tienda habitual.', 'Sense fitxa localitzada a les botigues de la llista; pregunta-ho a la teva botiga habitual.')}</span>`}</div>`;
+// Tiendas donde buscar los libros. Mano de Mago va la primera por decisión del autor de la app; el resto, por orden alfabético. La app no cobra nada de ellas: sin afiliación ni comisión.
 const STORES = [
+  ['Mano de Mago', 'https://manodemago.com/', 'España · libros de magia para todos los niveles', 'Espanya · llibres de màgia per a tots els nivells'],
+  ['Libros de Magia', 'https://www.librosdemagia.com/', 'Madrid · tienda en línea de Páginas Libros de Magia, especializada en libros', 'Madrid · botiga en línia de Páginas Libros de Magia, especialitzada en llibres'],
   ['Close-Up Magic Shop', 'https://www.closeupmagicshop.com/', 'España · libros en castellano y en inglés', 'Espanya · llibres en castellà i en anglès'],
   ['Magia Estudio', 'https://magiaestudio.com/', 'Madrid · tienda y editorial (Mystica)', 'Madrid · botiga i editorial (Mystica)'],
   ['MagosArtesanos', 'https://www.magosartesanos.com/', 'España · biblioteca mágica en castellano', 'Espanya · biblioteca màgica en castellà'],
-  ['Mano de Mago', 'https://manodemago.com/', 'España · libros de magia con cartas y de todos los niveles', 'Espanya · llibres de màgia amb cartes i de tots els nivells'],
   ['Penguin Magic', 'https://www.penguinmagic.com/', 'EE. UU. · tienda online internacional', 'EUA · botiga en línia internacional'],
   ['Tannen\'s', 'https://www.tannens.com/', 'Nueva York · abierta desde 1925', 'Nova York · oberta des de 1925'],
   ['Tienda Magia', 'https://tiendamagia.com/', 'España · libros en español y en inglés, con envío internacional', 'Espanya · llibres en espanyol i en anglès, amb enviament internacional'],
   ['Vanishing Inc.', 'https://www.vanishingincmagic.com/', 'Tienda online internacional · en inglés', 'Botiga en línia internacional · en anglès']
 ];
 const storesHTML = () => `<div class="sec"><h3>🛒 ${L('Dónde buscar los libros', 'On buscar els llibres')}</h3></div>
-  <div class="panel stitch"><p class="small" style="margin:0 0 8px"><b>${L('Esta app no cobra nada de estas tiendas.', 'Aquesta app no cobra res d\'aquestes botigues.')}</b> ${L('No hay afiliación, comisión, descuento ni acuerdo de ningún tipo, y los enlaces no llevan códigos de seguimiento. Están por orden alfabético, no son una recomendación y es posible que no tengan todos los títulos.', 'No hi ha afiliació, comissió, descompte ni cap mena d\'acord, i els enllaços no porten codis de seguiment. Estan per ordre alfabètic, no són una recomanació i és possible que no tinguin tots els títols.')}</p>
+  <div class="panel stitch"><p class="small" style="margin:0 0 8px"><b>${L('Esta app no cobra nada de estas tiendas.', 'Aquesta app no cobra res d\'aquestes botigues.')}</b> ${L('No hay afiliación, comisión, descuento ni acuerdo de ningún tipo, y los enlaces no llevan códigos de seguimiento. Mano de Mago aparece la primera por decisión del autor de la app; el resto, por orden alfabético. No son una recomendación y es posible que no tengan todos los títulos.', 'No hi ha afiliació, comissió, descompte ni cap mena d\'acord, i els enllaços no porten codis de seguiment. Mano de Mago apareix la primera per decisió de l\'autor de l\'app; la resta, per ordre alfabètic. No són una recomanació i és possible que no tinguin tots els títols.')}</p>
   <div class="gap">${STORES.map(([n, u, es, ca]) => `<div class="row" style="align-items:center;gap:10px"><a class="btn sm" href="${esc(u)}" target="_blank" rel="noopener noreferrer" style="min-width:150px;text-align:center">${esc(n)}</a><span class="small mut">${L(es, ca)}</span></div>`).join('')}</div></div>`;
 ROUTES['learn:fuentes'] = () => `
   <div class="row mt"><button class="ibtn" data-a="back" data-tab="home" aria-label="Volver">‹</button><h2 style="margin:0">Fuentes y bibliografía</h2></div>
-  <p class="mut">Por si quieres seguir tirando del hilo: libros, descargas y webs sobre la Mnemónica y otras barajas ordenadas, en español y en inglés. Cada título enlaza, siempre que existe, con su <b>ficha en el Conjuring Archive</b> (🗂️).</p>
+  <p class="mut">Por si quieres seguir tirando del hilo: libros, descargas y webs sobre la Mnemónica y otras barajas ordenadas, en español y en inglés. Cada título enlaza, siempre que existe, con su <b>ficha en el Conjuring Archive</b> (🗂️) y, cuando la he localizado, con la <b>tienda donde se consigue</b> (🛒).</p>
   <button class="mode" data-a="go-otras"><span class="ic">🗺️</span><span><b>${L('Otras barajas ordenadas', 'Altres baralles ordenades')}</b><span>${L('Anexo: cómo están ordenadas y un juego de cada una.', 'Annex: com estan ordenades i un joc de cadascuna.')}</span></span></button>
   <button class="mode" data-a="go-comparar"><span class="ic">⚖️</span><span><b>Barajas ordenadas: pros y contras</b><span>Si Stebbins, Aronson, Memorandum, Particle y más, frente a la Mnemónica de Tamariz.</span></span></button>
   <div class="panel stitch"><b style="font-family:var(--fh);font-weight:400;font-size:18px">🗂️ Qué es el Conjuring Archive</b><p class="small" style="margin:6px 0 8px">Una base de datos de bibliografía de magia creada por el mago alemán <b>Denis Behr</b>, con Lorenz Schär como principal colaborador. Cataloga efectos de libros, revistas y vídeos, con su página, de modo que es la manera más rápida de saber en qué obra está cada idea. No reproduce los métodos: para eso hay que ir al libro.</p><div class="row wrap"><a class="btn sm" href="https://www.conjuringarchive.com" target="_blank" rel="noopener noreferrer">Abrir el archivo</a><a class="btn sm" href="${CA}category/1576" target="_blank" rel="noopener noreferrer">Categoría «Mnemonica (Tamariz)»</a><a class="btn sm" href="${CA}person/273" target="_blank" rel="noopener noreferrer">Juan Tamariz</a></div></div>
-  ${storesHTML()}
   ${FUENTES.map(g => `<div class="sec"><h3>${g.i} ${esc(g.g)}</h3></div><div class="gap">${g.items.map(srcHTML).join('')}</div>`).join('')}
   <div class="sec"><h3>🇪🇸 La escuela española</h3></div>
   <div class="panel stitch"><p class="small" style="margin:0">Tres de los autores de esta lista (Tamariz, Aragón y DaOrtiz) pertenecen a la cartomagia española. Una reseña de 2017 de Magicana lo resumió así: <i>«it's the Spaniards' world, and we just live in it»</i>. En el índice del vol. I de Tamariz aparecen, entre otros, Arenillas, Antón López, Camilo Vázquez, Ramblar, García Soutullo y Riobóo (con Aronson, en «Las tres horas»).</p></div>
+  ${storesHTML()}
   <p class="credit">La disponibilidad de cada título cambia (algunos están agotados o solo en digital). Pregunta en tu tienda de magia habitual. Esta app no cobra comisión por ningún enlace. Datos de las fichas del Conjuring Archive consultadas en noviembre de 2026.</p>`;
 A['go-fuentes'] = () => go('learn', 'fuentes');
 A['copy-url'] = el => copyText(el.dataset.u);
