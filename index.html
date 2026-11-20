@@ -872,6 +872,32 @@ a.btn.grn{color:#04200f}
 .rc-rh>div,details.fact summary>span:last-of-type{min-width:0}
 #rcHoy .rc-efe{background:rgba(0,0,0,.28)}
 
+/* Salas del hub en cuadrícula compacta (Rev 47) */
+.rc-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.rc-room{display:grid;grid-template-columns:30px minmax(0,1fr);grid-template-areas:"i t" "i n";column-gap:8px;align-items:center;min-height:58px;padding:8px 10px;border-radius:12px;border:1.5px solid var(--line);background:rgba(0,0,0,.22);color:var(--txt);text-align:left;cursor:pointer;font:inherit}
+.rc-room .ic{grid-area:i;font-size:24px;text-align:center;line-height:1}
+.rc-room .rt{grid-area:t;font:400 15px/1.15 var(--fh);color:var(--brass-hi);overflow-wrap:anywhere}
+.rc-room .rn{grid-area:n;font-size:12.5px;color:var(--mut)}
+.rc-room:active{transform:translateY(1px)}
+#rcRooms,#rcHoy{scroll-margin-top:72px}
+.rc-jump{gap:8px;margin:2px 0 4px}
+
+/* Salas = puertas que se abren (Rev 47) */
+.rc-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.rc-door{position:relative;display:block;width:100%;height:96px;padding:0;border:2px solid var(--brass-lo);border-radius:10px 10px 4px 4px;background:radial-gradient(circle at 50% 70%,#ffe7ae 0%,var(--brass) 42%,#5a3d1a 100%);color:var(--txt);cursor:pointer;font:inherit;perspective:640px;overflow:hidden;box-shadow:0 2px 0 rgba(0,0,0,.35),inset 0 0 14px rgba(0,0,0,.45);-webkit-tap-highlight-color:transparent}
+.rc-door .dr-in{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px}
+.rc-door .dr-in .ic{font-size:32px;line-height:1;transform:scale(.7);transition:transform .45s ease}
+.rc-door .dr-in .rn{font:400 13px/1 var(--fb);color:#2a1c08}
+.rc-door .dr-leaf{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:6px 22px 6px 10px;text-align:center;border-radius:8px 8px 2px 2px;background:linear-gradient(90deg,#2e2110 0%,#4d3417 45%,#3a2810 100%);box-shadow:inset -3px 0 0 rgba(0,0,0,.35),inset 0 0 0 5px #3a2810,inset 0 0 0 6px rgba(243,214,143,.28);transform-origin:left center;transition:transform .5s cubic-bezier(.22,.7,.2,1);backface-visibility:hidden;-webkit-backface-visibility:hidden}
+.rc-door .rt{font:400 15px/1.15 var(--fh);color:var(--brass-hi);overflow-wrap:anywhere;text-shadow:0 1px 0 rgba(0,0,0,.6)}
+.rc-door .dr-knob{position:absolute;right:9px;top:50%;width:9px;height:9px;margin-top:-4px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff3c9,var(--brass) 55%,var(--brass-lo));box-shadow:0 1px 2px rgba(0,0,0,.6)}
+.rc-door:active .dr-leaf,.rc-door:focus-visible .dr-leaf{transform:rotateY(24deg)}
+@media (hover:hover){.rc-door:hover .dr-leaf{transform:rotateY(24deg)}}
+.rc-door.open .dr-leaf{transform:rotateY(78deg)}
+.rc-door.open .dr-in .ic{transform:scale(1.08)}
+.rc-door:focus-visible{outline:3px solid var(--brass-hi);outline-offset:2px}
+@media (prefers-reduced-motion:reduce){.rc-door .dr-leaf,.rc-door .dr-in .ic{transition:none}}
+
 </style>
 </head>
 <body>
@@ -4201,9 +4227,9 @@ TIPS.push(
 
 /* ---------- 1) Salas ---------- */
 const RC_ROOMS = [
-  { k: 'basico', ic: '🎓', t: H('Lo básico y vocabulario', 'Allò bàsic i vocabulari'), d: H('Qué es una baraja ordenada, tres cartas de explicación y un glosario sin secretos.', 'Què és una baralla ordenada, tres cartes d\'explicació i un glossari sense secrets.') },
+  { k: 'vocab', ic: '📖', t: H('Vocabulario mágico', 'Vocabulari màgic'), d: H('Un glosario sin secretos: de «faro» a «cuñado».', 'Un glossari sense secrets: de «faro» a «cunyat».') },
   { k: 'naipes', ic: '🃏', t: H('La baraja y su historia', 'La baralla i la seva història'), d: H('De China a Vitoria: palos, reyes, impuestos y calendarios.', 'De la Xina a Vitòria: pals, reis, impostos i calendaris.') },
-  { k: 'barajas', ic: '🔢', t: H('Barajas ordenadas', 'Baralles ordenades'), d: H('Quién ordenó qué y cuándo, de Galasso a Joshua Jay.', 'Qui va ordenar què i quan, de Galasso a Joshua Jay.') },
+  { k: 'barajas', ic: '🔢', t: H('Barajas ordenadas', 'Baralles ordenades'), d: H('Curiosidades sobre barajas ordenadas, de Galasso a Joshua Jay.', 'Curiositats sobre baralles ordenades, de Galasso a Joshua Jay.') },
   { k: 'memoria', ic: '🧠', t: H('Memorizar, mezclar, calcular', 'Memoritzar, barrejar, calcular'), d: H('Métodos para aprender las 52, el faro y las matemáticas del orden.', 'Mètodes per aprendre les 52, el faro i les matemàtiques de l\'ordre.') },
   { k: 'historia', ic: '🏛️', t: H('Historia de la magia', 'Història de la màgia'), d: H('De San Agustín a Mago Pop, con una línea del tiempo.', 'De Sant Agustí a Mago Pop, amb una línia del temps.') },
   { k: 'quien', ic: '👤', t: H('Quién fue quién', 'Qui va ser qui'), d: H('Los nombres que salen en la app, de Robert-Houdin a Mago Pop.', 'Els noms que surten a l\'app, de Robert-Houdin a Mago Pop.') },
@@ -4277,6 +4303,12 @@ FACTS.push(
   { r: 'anecdotas', c: 'magia', i: '🎪', t: H('Penn & Teller: 25 años en el mismo hotel', 'Penn & Teller: 25 anys al mateix hotel'),
     x: H('Penn Jillette y Teller llevan juntos desde 1975. Su residencia en el Rio de Las Vegas empezó el 5 de enero de 2001 y es la más larga de un cabeza de cartel en un mismo hotel de la ciudad. Penn habla; Teller, casi siempre, no.', 'Penn Jillette i Teller porten junts des del 1975. La seva residència al Rio de Las Vegas va començar el 5 de gener del 2001 i és la més llarga d\'un cap de cartell en un mateix hotel de la ciutat. Penn parla; Teller, gairebé sempre, no.'),
     s: 'Las Vegas Weekly · Las Vegas Review-Journal · Wikipedia' },
+  { r: 'historia', c: 'magia', i: '😇', t: H('San Juan Bosco, el santo de los magos', 'Sant Joan Bosco, el sant dels mags'),
+    x: H('Juan Bosco, sacerdote italiano y fundador de los salesianos, murió en Turín el 31 de enero de 1888. Se acercaba a los chicos pobres con juegos de magia y fue canonizado el 1 de abril de 1934. Un congreso de magos celebrado en España lo proclamó patrón del gremio, y cada 31 de enero se celebra el Día del Mago.', 'Joan Bosco, sacerdot italià i fundador dels salesians, va morir a Torí el 31 de gener del 1888. S\'acostava als nois pobres amb jocs de màgia i va ser canonitzat l\'1 d\'abril del 1934. Un congrés de mags celebrat a Espanya el va proclamar patró del gremi, i cada 31 de gener se celebra el Dia del Mag.'),
+    s: 'La Nación · La Patilla · Uno TV' },
+  { r: 'historia', c: 'magia', i: '🏰', t: H('El Magic Castle, la Meca de los magos', 'El Magic Castle, la Meca dels mags'),
+    x: H('En una mansión de 1909 en Hollywood, los hermanos Bill y Milt Larsen abrieron el 2 de enero de 1963 un club privado para magos, sede de la Academy of Magical Arts. Solo se entra como socio o invitado de un socio. Dai Vernon se instaló en Los Ángeles ese año y actuó allí durante décadas.', 'En una mansió del 1909 a Hollywood, els germans Bill i Milt Larsen van obrir el 2 de gener del 1963 un club privat per a mags, seu de la Academy of Magical Arts. Només s\'hi entra com a soci o convidat d\'un soci. Dai Vernon es va instal·lar a Los Angeles aquell any i hi va actuar durant dècades.'),
+    s: 'Wikipedia · magiccastle.com · Beverly Press' },
   { r: 'oficio', c: 'magia', i: '📜', t: H('La historia también es una presentación', 'La història també és una presentació'),
     x: H('El mago Raúl Jiménez cuenta que estudiar historia de la magia le dio ideas de presentación: unas anillas que giran una junto a la otra, que ya describe San Agustín en «La ciudad de Dios»; el pañuelo con el que desaparece un billete, que ya cita Reginald Scot; o la carta en el techo, que Charles Sorel describió en 1603. Saber de dónde viene un juego, dice, cambia cómo se hace.', 'El mag Raúl Jiménez explica que estudiar història de la màgia li va donar idees de presentació: unes anelles que giren una al costat de l\'altra, que ja descriu Sant Agustí a «La ciutat de Déu»; el mocador amb què desapareix un bitllet, que ja cita Reginald Scot; o la carta al sostre, que Charles Sorel va descriure el 1603. Saber d\'on ve un joc, diu, canvia com es fa.'),
     s: 'El Manuscrito (número especial Riobóo) · Raúl Jiménez' }
@@ -4303,6 +4335,7 @@ const RC_GLOS = [
   { t: H('Mentalismo', 'Mentalisme'), d: H('La magia que simula leer la mente, adivinar o predecir. Muchos juegos de cartas se presentan así.', 'La màgia que simula llegir la ment, endevinar o predir. Molts jocs de cartes es presenten així.') },
   { t: H('Escapismo', 'Escapisme'), d: H('Las fugas: cadenas, esposas, cajas, agua. El terreno de Houdini.', 'Les fugides: cadenes, manilles, caixes, aigua. El terreny de Houdini.') },
   { t: H('FISM', 'FISM'), d: H('Fédération Internationale des Sociétés Magiques, fundada el 5 de septiembre de 1948. Cada tres años organiza el campeonato mundial, la «olimpiada de la magia».', 'Fédération Internationale des Sociétés Magiques, fundada el 5 de setembre del 1948. Cada tres anys organitza el campionat mundial, l\'«olimpíada de la màgia».') },
+  { t: H('Magic Castle', 'Magic Castle'), d: H('Club privado de magos en Hollywood y sede de la Academy of Magical Arts desde 1963. Se entra como socio o invitado de un socio.', 'Club privat de mags a Hollywood i seu de la Academy of Magical Arts des del 1963. S\'hi entra com a soci o convidat d\'un soci.') },
   { t: H('Cuñado', 'Cunyat'), d: H('Espectador que sabe cómo se hace, aunque nadie se lo haya preguntado. Especie abundante en bodas y comuniones.', 'Espectador que sap com es fa, encara que ningú no li ho hagi preguntat. Espècie abundant en casaments i comunions.') },
   { t: H('Peña', 'Penya'), d: H('Grupo de aficionados que se reúne a practicar, enseñarse juegos y tomar café. AMIT Terrassa es una.', 'Grup d\'aficionats que es reuneix per practicar, ensenyar-se jocs i prendre cafè. AMIT Terrassa n\'és una.') }
 ];
@@ -4316,7 +4349,7 @@ const RC_PEOPLE = [
   { n: 'Harry Houdini', y: '1874–1926', ic: '⛓️', q: 'Houdini', s: 'Britannica · Biography.com',
     t: H('Nacido Erik Weisz en Budapest y criado en Wisconsin. Se hizo mundialmente famoso como escapista: esposas, cajas, cuerdas, agua. Escribió el artículo sobre magia de la Enciclopedia Británica.', 'Nascut Erik Weisz a Budapest i criat a Wisconsin. Es va fer mundialment famós com a escapista: manilles, caixes, cordes, aigua. Va escriure l\'article sobre màgia de l\'Enciclopèdia Britànica.') },
   { n: 'Dai Vernon', y: '1894–1992', ic: '👨‍🏫', q: 'Vernon', s: 'Britannica · Wikipedia',
-    t: H('Canadiense, «El Profesor». Se anunció como «el hombre que engañó a Houdini» y fue maestro de generaciones. Vivió sus últimas décadas en el Magic Castle de Hollywood y se retiró de los escenarios a los 96 años.', 'Canadenc, «El Professor». Es va anunciar com «l\'home que va enganyar Houdini» i va ser mestre de generacions. Va viure les seves últimes dècades al Magic Castle de Hollywood i es va retirar dels escenaris als 96 anys.') },
+    t: H('Canadiense, «El Profesor». Se anunció como «el hombre que engañó a Houdini» y fue maestro de generaciones. Se instaló en Los Ángeles en 1963, fue durante décadas el mago residente del Magic Castle de Hollywood y se retiró de los escenarios a los 96 años.', 'Canadenc, «El Professor». Es va anunciar com «l\'home que va enganyar Houdini» i va ser mestre de generacions. Es va instal·lar a Los Angeles el 1963, va ser durant dècades el mag resident del Magic Castle de Hollywood i es va retirar dels escenaris als 96 anys.') },
   { n: 'Tony Slydini', y: '1900–1991', ic: '🎭', q: 'Slydini', s: 'Wikipedia (Tony Slydini)',
     t: H('Nacido en Foggia (Italia), pasó su juventud en Buenos Aires y desde 1930 vivió en Nueva York. Maestro de la misdirection en la magia de cerca. Algunas fuentes dan 1901 como año de nacimiento.', 'Nascut a Foggia (Itàlia), va passar la joventut a Buenos Aires i des del 1930 va viure a Nova York. Mestre de la misdirection en la màgia de prop. Algunes fonts donen el 1901 com a any de naixement.') },
   { n: 'Fred Kaps', y: '1926–1980', ic: '🏆', q: 'Kaps', s: 'Wikipedia · Genii · El Manuscrito n.º 4',
@@ -4349,7 +4382,8 @@ const RC_TLM = [
   { y: '1946', t: H('Ámsterdam', 'Amsterdam'), x: H('Primer congreso internacional de magos tras la guerra. La idea venía de 1937 y la guerra la había frenado.', 'Primer congrés internacional de mags després de la guerra. La idea venia del 1937 i la guerra l\'havia frenat.'), s: 'Magicana' },
   { y: '1948', t: H('Nace la FISM', 'Neix la FISM'), x: H('El 5 de septiembre se funda la federación que organizará los campeonatos mundiales.', 'El 5 de setembre es funda la federació que organitzarà els campionats mundials.'), s: 'FISM · Wikipedia' },
   { y: '1950', t: H('Mystica gana en Barcelona', 'Mystica guanya a Barcelona'), x: H('Fred Kaps, aún con el nombre de Mystica, gana el Gran Premio de la FISM en Barcelona.', 'Fred Kaps, encara amb el nom de Mystica, guanya el Gran Premi de la FISM a Barcelona.'), s: 'Genii · Wikipedia' },
-  { y: '1963', t: H('Vernon y el Magic Castle', 'Vernon i el Magic Castle'), x: H('Dai Vernon se instala en el Magic Castle de Hollywood, donde vivirá sus últimas décadas.', 'Dai Vernon s\'instal·la al Magic Castle de Hollywood, on viurà les últimes dècades.'), s: 'Wikipedia' },
+  { y: '1953', t: H('San Juan Bosco, patrón de los magos', 'Sant Joan Bosco, patró dels mags'), x: H('Un congreso de magos celebrado en España lo proclama patrón del gremio, por los juegos de magia con los que atraía a los chicos.', 'Un congrés de mags celebrat a Espanya el proclama patró del gremi, pels jocs de màgia amb què atreia els nois.'), s: 'La Nación · Uno TV' },
+  { y: '1963', t: H('Abre el Magic Castle', 'S\'obre el Magic Castle'), x: H('El 2 de enero abre en Hollywood el club de la Academy of Magical Arts, creado por los hermanos Bill y Milt Larsen. Dai Vernon se instala ese año en Los Ángeles y actuará allí durante décadas.', 'El 2 de gener s\'obre a Hollywood el club de la Academy of Magical Arts, creat pels germans Bill i Milt Larsen. Dai Vernon s\'instal·la aquell any a Los Angeles i hi actuarà durant dècades.'), s: 'Wikipedia · magiccastle.com' },
   { y: '1970', t: H('Ascanio en Ámsterdam', 'Ascanio a Amsterdam'), x: H('Primer premio de cartomagia en el campeonato mundial de la FISM.', 'Primer premi de cartomàgia al campionat mundial de la FISM.'), s: 'Wikipedia · Genii' },
   { y: '1971', t: H('Escuela Mágica de Madrid', 'Escola Màgica de Madrid'), x: H('Tamariz, Ascanio y otros maestros fundan la escuela.', 'Tamariz, Ascanio i altres mestres funden l\'escola.'), s: 'El Español' },
   { y: '1973', t: H('Tamariz en París', 'Tamariz a París'), x: H('Primer premio de cartomagia de la FISM.', 'Primer premi de cartomàgia de la FISM.'), s: 'Wikipedia · El Debate' },
@@ -4362,8 +4396,10 @@ const RC_TLM = [
 
 /* ---------- 6) Efemérides (solo fechas contrastadas; si las fuentes difieren, la ficha lo dice) ---------- */
 const EFE = [
+  { m: 1, d: 2, y: 1963, t: H('Abre sus puertas en Hollywood el Magic Castle, sede de la Academy of Magical Arts y club privado para magos, creado por los hermanos Bill y Milt Larsen.', 'Obre les portes a Hollywood el Magic Castle, seu de la Academy of Magical Arts i club privat per a mags, creat pels germans Bill i Milt Larsen.'), s: 'Wikipedia · magiccastle.com · Discover Los Angeles' },
   { m: 1, d: 5, y: 2001, t: H('Penn & Teller estrenan su residencia en el Rio de Las Vegas, hoy la más larga de la ciudad en un mismo hotel.', 'Penn & Teller estrenen la seva residència al Rio de Las Vegas, avui la més llarga de la ciutat en un mateix hotel.'), s: 'Las Vegas Weekly' },
   { m: 1, d: 15, y: 1991, t: H('Muere en Orange (Nueva Jersey) Tony Slydini, maestro de la misdirection en la magia de cerca.', 'Mor a Orange (Nova Jersey) Tony Slydini, mestre de la misdirection en la màgia de prop.'), s: 'Wikipedia' },
+  { m: 1, d: 31, y: 1888, t: H('Muere en Turín san Juan Bosco, el sacerdote que atraía a los chicos con juegos de magia. Es el patrón de los magos y por eso se celebra hoy el Día del Mago.', 'Mor a Torí sant Joan Bosco, el sacerdot que atreia els nois amb jocs de màgia. És el patró dels mags i per això se celebra avui el Dia del Mag.'), n: H('Según los salesianos, un congreso de magos celebrado en España lo proclamó patrón en 1953. La prensa cita además un reconocimiento de Juan Pablo II en 2002.', 'Segons els salesians, un congrés de mags celebrat a Espanya el va proclamar patró el 1953. La premsa cita a més un reconeixement de Joan Pau II el 2002.'), s: 'La Nación · La Patilla · Uno TV' },
   { m: 2, d: 14, y: 1948, t: H('Nace en Filadelfia Teller, la mitad silenciosa de Penn & Teller.', 'Neix a Filadèlfia Teller, la meitat silenciosa de Penn & Teller.'), s: 'Wikipedia' },
   { m: 3, d: 5, y: 1955, t: H('Nace en Greenfield (Massachusetts) Penn Jillette, la mitad parlanchina de Penn & Teller.', 'Neix a Greenfield (Massachusetts) Penn Jillette, la meitat xerraire de Penn & Teller.'), s: 'Wikipedia' },
   { m: 3, d: 11, y: 1875, t: H('Muere en Viena Johann Nepomuk Hofzinser, el funcionario que se hizo leyenda de la cartomagia.', 'Mor a Viena Johann Nepomuk Hofzinser, el funcionari que es va fer llegenda de la cartomàgia.'), n: H('Alguna fuente da el 14 de marzo.', 'Alguna font dona el 14 de març.'), s: 'Britannica · The Magic Detective' },
@@ -4403,6 +4439,8 @@ VF.push(
   { s: H('Penn & Teller actúan en el mismo hotel de Las Vegas desde 2001.', 'Penn & Teller actuen al mateix hotel de Las Vegas des del 2001.'), v: true, w: H('En el Rio, desde el 5 de enero de 2001: la residencia más larga de un cabeza de cartel en un hotel de la ciudad.', 'Al Rio, des del 5 de gener del 2001: la residència més llarga d\'un cap de cartell en un hotel de la ciutat.') },
   { s: H('El Mago Pop llevó su espectáculo a Broadway en 2023.', 'El Mago Pop va portar el seu espectacle a Broadway el 2023.'), v: true, w: H('«Nada es imposible», de Antonio Díaz, nacido en Badia del Vallès.', '«Nada es imposible», d\'Antonio Díaz, nascut a Badia del Vallès.') },
   { s: H('Gabi Pareras nació en Madrid.', 'Gabi Pareras va néixer a Madrid.'), v: false, w: H('Nació y murió en Barcelona (1965–2020).', 'Va néixer i va morir a Barcelona (1965–2020).') },
+  { s: H('San Juan Bosco es el patrón de los magos.', 'Sant Joan Bosco és el patró dels mags.'), v: true, w: H('Un congreso de magos celebrado en España lo proclamó patrón. Su fiesta, el 31 de enero, es el Día del Mago.', 'Un congrés de mags celebrat a Espanya el va proclamar patró. La seva festa, el 31 de gener, és el Dia del Mag.') },
+  { s: H('El Magic Castle está en Las Vegas.', 'El Magic Castle és a Las Vegas.'), v: false, w: H('Está en Hollywood (Los Ángeles) y abrió el 2 de enero de 1963.', 'És a Hollywood (Los Angeles) i va obrir el 2 de gener del 1963.') },
   { s: H('El primer congreso internacional de magos tras la guerra se celebró en Ámsterdam en 1946.', 'El primer congrés internacional de mags després de la guerra es va celebrar a Amsterdam el 1946.'), v: true, w: H('Dos años después se fundó la FISM.', 'Dos anys després es va fundar la FISM.') }
 );
 
@@ -4424,10 +4462,10 @@ const rcRoomName = k => (RC_ALL[k] || {}).t || '';
 
 /* ---------- 9) Piezas de HTML ---------- */
 const rcSrc = s => s ? `<div class="tiny mut">Fuente: ${esc(s)}</div>` : '';
-const rcChip = r => r ? `<div class="rc-in"><button class="btn sm ghost" data-a="rc-room" data-r="${r}"><span>${esc(L('Ir a la sala', 'Anar a la sala'))}</span> <span>«${esc(rcRoomName(r))}»</span></button></div>` : '';
+const rcChip = r => r === 'portada' ? `<div class="rc-in"><button class="btn sm ghost" data-a="go-rincon"><span>${esc(L('Ver al principio de Cultura mágica', 'Veure al principi de Cultura màgica'))}</span></button></div>` : r ? `<div class="rc-in"><button class="btn sm ghost" data-a="rc-room" data-r="${r}"><span>${esc(L('Ir a la sala', 'Anar a la sala'))}</span> <span>«${esc(rcRoomName(r))}»</span></button></div>` : '';
 const rcFactHTML = (f, chip) => `<details class="fact"><summary><span class="fi">${f.i}</span><span>${esc(f.t)}</span></summary><p>${esc(f.x)}</p>${rcSrc(f.s)}${chip ? rcChip(f.r) : ''}</details>`;
 const rcEfeHTML = (e, chip) => `<div class="rc-efe"><div class="rc-efd" translate="no">${esc(rcDate(e.d, e.m))}<small>${e.y}${rcAgo(e.y) ? ' · ' + esc(rcAgo(e.y)) : ''}</small></div><div><div>${esc(e.t)}</div>${e.n ? `<div class="tiny mut">${esc(e.n)}</div>` : ''}${rcSrc(e.s)}${chip ? rcChip('calendario') : ''}</div></div>`;
-const rcGlosHTML = (g, chip) => `<details class="fact"><summary><span class="fi">📖</span><span>${esc(g.t)}</span></summary><p>${esc(g.d)}</p>${chip ? rcChip('basico') : ''}</details>`;
+const rcGlosHTML = (g, chip) => `<details class="fact"><summary><span class="fi">📖</span><span>${esc(g.t)}</span></summary><p>${esc(g.d)}</p>${chip ? rcChip('vocab') : ''}</details>`;
 const rcPersHTML = (p, chip) => `<details class="fact"><summary><span class="fi">${p.ic}</span><span class="rc-pn"><span translate="no">${esc(p.n)}</span>${p.y ? `<small translate="no">${esc(p.y)}</small>` : ''}</span></summary><p>${esc(p.t)}</p>${rcSrc(p.s)}<div class="rc-in"><button class="btn sm ghost" data-a="rc-find" data-q="${esc(p.q)}">🔎 <span>${esc(L('Ver sus curiosidades', 'Veure les seves curiositats'))}</span></button></div>${chip ? rcChip('quien') : ''}</details>`;
 const rcTlmHTML = list => `<ol class="tl">${list.map(t => `<li><span class="y" translate="no">${esc(t.y)}</span><div><b>${esc(t.t)}</b><div class="small">${esc(t.x)}</div>${rcSrc(t.s)}</div></li>`).join('')}</ol>`;
 const rcFactsOf = k => FACTS.filter(f => f.r === k);
@@ -4455,12 +4493,12 @@ function rcHoyHTML() {
 function rcEntries() {
   const o = [];
   FACTS.forEach(f => o.push({ k: 'fact', r: f.r, t: f.t, x: f.x, s: f.s, f }));
-  RC_GLOS.forEach(g => o.push({ k: 'glos', r: 'basico', t: g.t, x: g.d, s: '', g }));
+  RC_GLOS.forEach(g => o.push({ k: 'glos', r: 'vocab', t: g.t, x: g.d, s: '', g }));
   RC_PEOPLE.forEach(p => o.push({ k: 'pers', r: 'quien', t: p.n, x: p.t, s: p.s, hx: p.y + ' ' + p.q, p }));
   RC_TLM.forEach(t => o.push({ k: 'tlm', r: 'historia', t: t.t, x: t.x, s: t.s, hx: t.y, tl: t }));
-  TIMELINE.forEach(t => o.push({ k: 'hito', r: 'barajas', t: t.t, x: t.x, s: t.s, hx: t.y, tl: t }));
+  TIMELINE.forEach(t => o.push({ k: 'hito', r: 'portada', t: t.t, x: t.x, s: t.s, hx: t.y, tl: t }));
   EFE.forEach(e => o.push({ k: 'efe', r: 'calendario', t: e.t, x: e.n || '', s: e.s, hx: e.y + ' ' + e.d + ' ' + RC_MES.es[e.m - 1] + ' ' + RC_MES.ca[e.m - 1], e }));
-  BASICS.forEach(b => o.push({ k: 'bas', r: 'basico', t: b.q, x: '', s: '', hx: b.a.replace(/<[^>]+>/g, ' '), b }));
+  BASICS.forEach(b => o.push({ k: 'bas', r: 'portada', t: b.q, x: '', s: '', hx: b.a.replace(/<[^>]+>/g, ' '), b }));
   return o;
 }
 let RC_HAYC = null;
@@ -4475,7 +4513,7 @@ function rcHitHTML(e) {
   if (e.k === 'glos') return rcGlosHTML(e.g, true);
   if (e.k === 'pers') return rcPersHTML(e.p, true);
   if (e.k === 'efe') return rcEfeHTML(e.e, true);
-  if (e.k === 'bas') return `<details class="fact"><summary><span class="fi">${e.b.ic}</span><span>${esc(e.b.q)}</span></summary>${rcChip('basico')}</details>`;
+  if (e.k === 'bas') return `<details class="basic"><summary><span class="fi">${e.b.ic}</span><span>${esc(e.b.q)}</span></summary><div class="bx">${e.b.a}</div>${rcChip('portada')}</details>`;
   const t = e.tl; // hitos
   return `<details class="fact"><summary><span class="fi">📅</span><span class="rc-pn"><span>${esc(t.t)}</span><small translate="no">${esc(t.y)}</small></span></summary><p>${esc(t.x)}</p>${rcSrc(t.s)}${rcChip(e.r)}</details>`;
 }
@@ -4509,10 +4547,9 @@ document.addEventListener('input', e => { if (e.target && e.target.id === 'rcq')
 
 /* ---------- 13) Vistas ---------- */
 const rcBar = back => `<div class="row mt"><button class="ibtn" data-a="${back ? 'go-rincon' : 'back" data-tab="home'}" aria-label="${esc(L('Volver', 'Tornar'))}">‹</button><h2 style="margin:0">${esc(L('Cultura mágica', 'Cultura màgica'))}</h2></div>`;
-const rcRoomBtn = r => `<button class="mode mt2" data-a="rc-room" data-r="${r.k}"><span class="ic">${r.ic}</span><span><b>${esc(r.t)}</b><span>${esc(r.d)}</span></span><span class="mside"><span class="small mut" translate="no">${rcRoomCount(r.k)}</span></span></button>`;
+const rcRoomBtn = r => `<button class="rc-door" data-a="rc-room" data-r="${r.k}"><span class="dr-in" aria-hidden="true"><span class="ic">${r.ic}</span><span class="rn" translate="no">${rcRoomCount(r.k)}</span></span><span class="dr-leaf"><span class="rt">${esc(r.t)}</span><span class="dr-knob" aria-hidden="true"></span></span></button>`;
 function rcRoomCount(k) {
-  if (k === 'basico') return RC_GLOS.length + BASICS.length;
-  if (k === 'barajas') return rcFactsOf(k).length + TIMELINE.length;
+  if (k === 'vocab') return RC_GLOS.length;
   if (k === 'historia') return rcFactsOf(k).length + RC_TLM.length;
   if (k === 'quien') return RC_PEOPLE.length;
   if (k === 'calendario') return EFE.length;
@@ -4521,33 +4558,36 @@ function rcRoomCount(k) {
 function rcHubView() {
   const q = RCS.q || '', ok = q.trim().length >= 2, r = ok ? rcSearch(q) : null;
   return `${rcBar(false)}
-  <p class="mut">${esc(L('Un rato de cultura antes (o después) de entrenar. Busca un nombre, un año o una palabra, o entra en una sala.', 'Una estona de cultura abans (o després) d\'entrenar. Cerca un nom, un any o una paraula, o entra en una sala.'))}</p>
+  <p class="mut">${esc(L('Un rato de cultura antes (o después) de entrenar: qué es una baraja ordenada, quién ordenó qué y cuándo, y curiosidades con fuente.', 'Una estona de cultura abans (o després) d\'entrenar: què és una baralla ordenada, qui va ordenar què i quan, i curiositats amb font.'))}</p>
   <div class="src-bar" role="search">
     <input id="rcq" class="src-q" type="search" inputmode="search" autocomplete="off" value="${esc(q)}" placeholder="${esc(L('Buscar: Houdini, faro, Ascanio, 1980…', 'Cercar: Houdini, faro, Ascanio, 1980…'))}" aria-label="${esc(L('Buscar en Cultura mágica', 'Cercar a Cultura màgica'))}">
     <div class="row wrap" style="align-items:center;justify-content:space-between"><span class="small mut" id="rcqn" role="status" aria-live="polite">${esc(ok ? rcStatus(r.n) : L(`Busca entre ${rcTotal()} entradas`, `Cerca entre ${rcTotal()} entrades`))}</span><button class="btn sm ghost" id="rcclr" data-a="rc-clear"${q ? '' : ' hidden'}>✕ <span>${esc(L('Borrar', 'Esborrar'))}</span></button></div>
   </div>
   <div id="rcRes" class="mt"${ok ? '' : ' hidden'}>${ok ? r.html : ''}</div>
   <div id="rcHub"${ok ? ' hidden' : ''}>
-    <div class="panel tilt mt" id="rcHoy">${rcHoyHTML()}</div>
+    <div class="row wrap rc-jump"><button class="btn sm ghost" data-a="rc-jump" data-t="#rcRooms">🚪 <span>${esc(L('Ir a las salas', 'Anar a les sales'))}</span></button><button class="btn sm ghost" data-a="rc-jump" data-t="#rcHoy">📅 <span>${esc(L('Hoy en la magia', 'Avui en la màgia'))}</span></button></div>
+    <div class="sec"><h3>${esc(L('Lo básico, en tres cartas', 'Allò bàsic, en tres cartes'))}</h3></div>
+    <div class="gap">${BASICS.map((b, i) => `<details class="basic"${i === 0 ? ' open' : ''}><summary><span class="fi">${b.ic}</span><span>${esc(b.q)}</span></summary><div class="bx">${b.a}</div></details>`).join('')}</div>
+    <div class="sec"><h3>${esc(L('Cómo han ordenado la baraja los magos', 'Com han ordenat la baralla els mags'))}</h3><span class="mut small">${TIMELINE.length} ${esc(L('hitos', 'fites'))}</span></div>
+    <ol class="tl" aria-label="${esc(L('Línea del tiempo de las barajas ordenadas', 'Línia del temps de les baralles ordenades'))}">${TIMELINE.map(t => `<li><span class="y" translate="no">${esc(t.y)}</span><div><b>${esc(t.t)}</b><div class="small">${esc(t.x)}</div><div class="tiny mut">${esc(t.s)}</div></div></li>`).join('')}</ol>
+    <p class="small mut">${esc(L('Los hitos hasta 1980 siguen la historia que cuenta Tamariz en el capítulo 1 de su libro. Los posteriores, de las fuentes citadas en cada uno.', 'Les fites fins al 1980 segueixen la història que explica Tamariz al capítol 1 del seu llibre. Les posteriors, de les fonts citades a cadascuna.'))}</p>
+    <div class="sec" id="rcRooms"><h3>${esc(L('Salas', 'Sales'))}</h3><span class="mut small">${esc(L('todo lo demás, por temas', 'tota la resta, per temes'))}</span></div>
+    <div class="rc-grid">${RC_ROOMS.concat([RC_CAL]).map(rcRoomBtn).join('')}</div>
+    <div class="panel tilt mt2" id="rcHoy">${rcHoyHTML()}</div>
     <div class="sec"><h3>${esc(L('Una curiosidad para hoy', 'Una curiositat per avui'))}</h3></div>
     <div class="gap" id="rcDaily">${rcDailyHTML()}</div>
-    <div class="sec"><h3>${esc(L('Salas', 'Sales'))}</h3><span class="mut small" translate="no">${rcTotal()}</span></div>
-    ${RC_ROOMS.concat([RC_CAL]).map((r2, i) => rcRoomBtn(r2).replace(' mt2"', i ? ' mt"' : ' "')).join('')}
     <div class="sec"><h3>${esc(L('Y para pasarlo bien', 'I per passar-ho bé'))}</h3></div>
     <button class="mode" data-a="go-present"><span class="ic">🎬</span><span><b>${L('Presentar con baraja ordenada', 'Presentar amb baralla ordenada')}</b><span>${L('Momentos wow y doce ideas de presentación sacadas de la bibliografía.', 'Moments wow i dotze idees de presentació extretes de la bibliografia.')}</span></span></button>
     <button class="mode mt" data-a="go-cachondeo"><span class="ic">🍺</span><span><b>Sala del cachondeo</b><span>${L('Chistes de magos, de barra, del cuñado y de la peña, y excusas de mago.', 'Acudits de mags, de barra, del cunyat i de la penya, i excuses de mag.')}</span></span></button>
     <button class="mode mt" data-a="vf-start"><span class="ic">🎓</span><span><b>Verdadero o falso mágico</b><span>Diez afirmaciones sobre barajas, magos y la Mnemónica. ¿Cuántas te cuelan?</span></span></button>
-    <p class="credit">${L('Datos con fuente: el libro de Tamariz (vol. I), Kuhn, Weber, Kaplan, El Taumaturgo, El Manuscrito (CIM, Málaga), «Recordando a Arturo», Wikipedia, Britannica, Magicana, FISM, Conjuring Arts, Vanishing Inc., Gibecière y prensa de agosto de 2026. Donde las fuentes dan fechas distintas, la ficha lo indica.', 'Dades amb font: el llibre de Tamariz (vol. I), Kuhn, Weber, Kaplan, El Taumaturgo, El Manuscrito (CIM, Màlaga), «Recordando a Arturo», Wikipedia, Britannica, Magicana, FISM, Conjuring Arts, Vanishing Inc., Gibecière i premsa d\'agost del 2026. On les fonts donen dates diferents, la fitxa ho indica.')}</p>
+    <p class="credit">${L('Datos con fuente: el libro de Tamariz (vol. I), Kuhn, Weber, Kaplan, El Taumaturgo, El Manuscrito (CIM, Málaga), «Recordando a Arturo», Wikipedia, Britannica, Magicana, FISM, magiccastle.com, La Nación, Conjuring Arts, Vanishing Inc., Gibecière y prensa de agosto de 2026. Donde las fuentes dan fechas distintas, la ficha lo indica.', 'Dades amb font: el llibre de Tamariz (vol. I), Kuhn, Weber, Kaplan, El Taumaturgo, El Manuscrito (CIM, Màlaga), «Recordando a Arturo», Wikipedia, Britannica, Magicana, FISM, magiccastle.com, La Nación, Conjuring Arts, Vanishing Inc., Gibecière i premsa d\'agost del 2026. On les fonts donen dates diferents, la fitxa ho indica.')}</p>
   </div>`;
 }
 function rcBody(k) {
-  if (k === 'basico') return `<div class="gap mt">${BASICS.map((b, i) => `<details class="basic"${i === 0 ? ' open' : ''}><summary><span class="fi">${b.ic}</span><span>${esc(b.q)}</span></summary><div class="bx">${b.a}</div></details>`).join('')}</div>
-    <div class="sec"><h3>${esc(L('Vocabulario mágico', 'Vocabulari màgic'))}</h3><span class="mut small" translate="no">${RC_GLOS.length}</span></div>
-    <div class="gap">${RC_GLOS.map(g => rcGlosHTML(g)).join('')}</div>`;
-  if (k === 'barajas') return `<div class="sec"><h3>${esc(L('Cómo han ordenado la baraja los magos', 'Com han ordenat la baralla els mags'))}</h3><span class="mut small" translate="no">${TIMELINE.length}</span></div>
-    <ol class="tl" aria-label="${esc(L('Línea del tiempo de las barajas ordenadas', 'Línia del temps de les baralles ordenades'))}">${TIMELINE.map(t => `<li><span class="y" translate="no">${esc(t.y)}</span><div><b>${esc(t.t)}</b><div class="small">${esc(t.x)}</div><div class="tiny mut">${esc(t.s)}</div></div></li>`).join('')}</ol>
-    <p class="small mut">${esc(L('Los hitos hasta 1980 siguen la historia que cuenta Tamariz en el capítulo 1 de su libro. Los posteriores, de las fuentes citadas en cada uno.', 'Les fites fins al 1980 segueixen la història que explica Tamariz al capítol 1 del seu llibre. Les posteriors, de les fonts citades a cadascuna.'))}</p>
-    <div class="sec"><h3>${esc(L('Curiosidades', 'Curiositats'))}</h3><span class="mut small" translate="no">${rcFactsOf(k).length}</span></div>${rcFactList(k).replace('gap mt', 'gap')}`;
+  if (k === 'vocab') return `<div class="gap mt">${RC_GLOS.map(g => rcGlosHTML(g)).join('')}</div>
+    <button class="btn ghost block mt2" data-a="go-rincon">🎓 <span>${esc(L('Lo básico, en tres cartas, está al principio', 'Allò bàsic, en tres cartes, és al principi'))}</span></button>`;
+  if (k === 'barajas') return `${rcFactList(k)}
+    <button class="btn ghost block mt2" data-a="go-rincon">📅 <span>${esc(L('La cronología de las barajas ordenadas, al principio', 'La cronologia de les baralles ordenades, al principi'))}</span></button>`;
   if (k === 'historia') return `<div class="sec"><h3>${esc(L('Cronología', 'Cronologia'))}</h3><span class="mut small" translate="no">${RC_TLM.length}</span></div>${rcTlmHTML(RC_TLM)}
     <div class="sec"><h3>${esc(L('Curiosidades', 'Curiositats'))}</h3><span class="mut small" translate="no">${rcFactsOf(k).length}</span></div>${rcFactList(k).replace('gap mt', 'gap')}`;
   if (k === 'quien') return `<div class="gap mt">${RC_PEOPLE.map(p => rcPersHTML(p)).join('')}</div><p class="small mut">${esc(L('Fechas de nacimiento y muerte contrastadas con Britannica, Wikipedia y la prensa de cada momento. Donde hay dudas, la ficha lo dice.', 'Dates de naixement i mort contrastades amb Britannica, Wikipedia i la premsa de cada moment. On hi ha dubtes, la fitxa ho diu.'))}</p>`;
@@ -4574,8 +4614,16 @@ ROUTES['learn:rincon'] = arg => (arg && RC_ALL[arg]) ? rcRoomView(arg) : rcHubVi
 /* ---------- 14) Acciones ---------- */
 RCS.q = ''; RCS.dd = null;
 A['go-rincon'] = () => { RCS.q = ''; go('learn', 'rincon'); };
-A['rc-room'] = el => { if (RC_ALL[el.dataset.r]) go('learn', 'rincon', el.dataset.r); };
+A['rc-room'] = el => {
+  const r = el.dataset.r; if (!RC_ALL[r]) return;
+  if (!el.classList.contains('rc-door') || rcCalm()) { go('learn', 'rincon', r); return; }
+  if (el.dataset.busy) return;
+  el.dataset.busy = '1'; el.classList.add('open');
+  setTimeout(() => { if ($('#rcRooms')) go('learn', 'rincon', r); }, 460);
+};
 A['rc-find'] = el => { RCS.q = el.dataset.q || ''; go('learn', 'rincon', null); };
+const rcCalm = () => !!(S.set && S.set.calm) || !!(window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches);
+A['rc-jump'] = el => { const t = $(el.dataset.t); if (!t) return; t.scrollIntoView({ behavior: rcCalm() ? 'auto' : 'smooth', block: 'start' }); };
 A['rc-clear'] = () => { const i = $('#rcq'); if (i) { i.value = ''; i.focus(); } rcApply(''); };
 A['rc-otra'] = () => {
   const cur = RCS.dd != null ? RCS.dd : rcDayIdx();
