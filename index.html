@@ -7,7 +7,7 @@
 <meta name="theme-color" content="#0b3a37">
 <meta name="application-name" content="Mnemónica AMIT">
 <meta name="author" content="Sergi">
-<meta name="app-rev" content="46">
+<meta name="app-rev" content="47">
 <meta name="copyright" content="© 2026 Sergi. Todos los derechos reservados.">
 <meta name="apple-mobile-web-app-title" content="Mnemónica">
 <title>Mnemónica AMIT · Entrena el orden de Tamariz</title>
@@ -784,7 +784,7 @@ b.rd{color:#ff948b}
 .mode-rep span{font-size:20px;line-height:1}.mode-rep small{font-size:12px;font-weight:700}
 /* Fase 3: Fuentes plegables, buscador y filtro */
 .src-bar{display:flex;flex-direction:column;gap:10px;margin:14px 0 4px}
-.src-q{width:100%;padding:11px 14px;border-radius:12px;border:1.5px solid var(--line);background:rgba(0,0,0,.28);color:var(--ink,inherit);font:inherit;font-size:16px}
+.src-q{width:100%;padding:11px 14px;border-radius:12px;border:1.5px solid var(--line);background:rgba(0,0,0,.28);color:var(--txt);font:inherit;font-size:16px}
 .src-q:focus-visible{outline:2px solid var(--brass-hi);outline-offset:2px}
 details.src-d{padding:0}
 details.src-d[hidden],.src-g[hidden]{display:none}
@@ -852,6 +852,25 @@ a.btn.grn{color:#04200f}
 .acc small{font-size:12.5px;line-height:1.2;color:var(--mut)}
 .acc:active{transform:translateY(1px)}
 @media (max-width:360px){.acc small{display:none}.acc{min-height:76px}}
+
+/* ---------- Cultura mágica · salas, buscador y efemérides (Rev 47) ---------- */
+#rcHub[hidden],#rcRes[hidden],#rcclr[hidden]{display:none}
+.rc-efe{display:grid;grid-template-columns:84px minmax(0,1fr);gap:4px 12px;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:rgba(0,0,0,.2);align-items:start;overflow-wrap:anywhere}
+.rc-efd{font:400 16px/1.15 var(--fh);color:var(--brass-hi)}
+.rc-efe>div:last-child{font-size:16px;line-height:1.3}
+.rc-efe .tiny{font-size:13px}
+.rc-efd small{display:block;margin-top:3px;font:400 13px/1.2 var(--fb);color:var(--mut)}
+.rc-pn{display:flex;flex-direction:column;gap:2px;min-width:0}
+.rc-pn small{font:400 13px/1.2 var(--fb);color:var(--mut)}
+.rc-in{padding:0 14px 12px}
+.rc-in .btn{height:auto;text-align:left;white-space:normal}
+.rc-rh{display:flex;gap:12px;align-items:center;margin:12px 0 4px}
+.rc-ri{font-size:34px;width:44px;text-align:center;flex:none}
+.rc-nav{display:flex;gap:10px;justify-content:space-between}
+.rc-nav>*{flex:1 1 0;min-width:0}
+.rc-nav .btn{height:auto;white-space:normal;text-align:center}
+.rc-rh>div,details.fact summary>span:last-of-type{min-width:0}
+#rcHoy .rc-efe{background:rgba(0,0,0,.28)}
 
 </style>
 </head>
@@ -3093,9 +3112,9 @@ const SOCIOS = [
     ko: ["Toni: «Ayúdame, Mnemónica, eres mi única esperanza». Y esa carta tampoco ha acudido.", "Esa carta viene del Vallès Oriental: nadie la ha visto entrar y ahora está en medio. Toni dice que no sabe nada."],
     gen: ["Toni lleva a Leia tatuada en la pierna y es del Vallès Oriental: en AMIT, un infiltrado… pero de los que traen cartas.", "A Toni se le pregunta por la Mnemónica y responde con Star Wars. Y, curiosamente, funciona: la baraja tiene su propia galaxia."] },
   { n: "David", ic: "🎯",
-    ok: ["David, el pro, asiente: eso estaba en el temario. Y lo ha explicado él.", "Aprobado por David, que se sabe el truco… y cómo enseñártelo.", "David, alumno de Gabi Pareras, aprueba: carta bien aprendida, con estilo de maestro.", "David lo celebra con un cartel nuevo. Lo ha hecho una IA, claro: «Carta acertada. Función a las 20:00»."],
-    ko: ["David te lo explica otra vez, con paciencia. Y otra. Es el pro: enseña hasta cuando no se lo pides.", "Esa carta David te la explica en dos minutos. Y en cinco, la entiendes de verdad.", "David le pide a la IA un cartel que diga «Hoy no ha salido, pero mañana sí». Le sale con seis dedos y una carta con ocho palos."],
-    gen: ["David es el pro de AMIT y nos enseña un montón: de cada cinco cosas que sabemos de magia, tres vienen de él.", "David fue alumno de Gabi Pareras y se anuncia como «David tiene magia». Y sí: la tiene, aunque los carteles los haga la IA.", "David usa tanto la IA para los carteles que ya le pide que haga también el truco. Todavía no sale, pero el cartel es precioso."] },
+    ok: ["David, el pro, asiente: eso estaba en el temario. Y lo ha explicado él.", "Aprobado por David, que se sabe el truco… y cómo enseñártelo.", "David, alumno de Gabi Pareras, aprueba: carta bien aprendida, con estilo de maestro.", "David lo celebra a su manera: te enseña una variante para que la próxima salga todavía más limpia."],
+    ko: ["David te lo explica otra vez, con paciencia. Y otra. Es el pro: enseña hasta cuando no se lo pides.", "Esa carta David te la explica en dos minutos. Y en cinco, la entiendes de verdad.", "David te propone repasarla juntos con una baraja y un café. Es el pro: hasta tus fallos los convierte en clase."],
+    gen: ["David es el pro de AMIT y nos enseña un montón: de cada cinco cosas que sabemos de magia, tres vienen de él.", "David fue alumno de Gabi Pareras y se anuncia como «David tiene magia». Y sí: la tiene.", "David prefiere enseñarte el juego antes que presumir de él. En magia, eso vale más que cualquier aplauso."] },
   { n: "Harvi", ic: "🪢",
     ok: ["Harvi, que se lía con las cuerdas, hoy no se ha liado con las cartas: ¡acierto!", "Acierto limpio, sin nudos. Harvi toma nota."],
     ko: ["Harvi te entiende: él también se ha liado con cosas más fáciles que 52 cartas.", "Esa carta se te ha hecho un nudo. Harvi sabe de eso: te presta una cuerda."],
@@ -3167,9 +3186,9 @@ OK_MSGS.push('Kao lo sujeta con un imperdible.', 'Salva asiente desde la sombra.
 KO_MSGS.push('Kao: «Eso no se sujeta ni con imperdibles».', 'Salva lo ha visto desde la sombra.', 'Miquel: «Cara o cruz: ha salido cruz».', 'Coquis lo archiva en «Para repasar».',
   'Jordi Masgic: error de sistema. Reinicia.', 'El Mag Domi, al rescat (la calculadora, no).', 'Jaume Andreu: contraejemplo encontrado.', 'Albert: «Esa carta era fácil».', 'Los Piña: eso no pasa ni en la brisca.',
   'Carlos, profe de ingeniería: «Suspenso, con recuperación».', 'Pedro: esa carta tiene letra pequeña.', 'David te lo explica otra vez. Con paciencia.', 'Harvi: «A mí también se me hacen nudos».', 'Santi se fue a los madriles y esa carta, con él.',
-  "Toni: «Ayúdame, Mnemónica, eres mi única esperanza».", "David le pide a la IA un cartel para esto. Le saldrá con seis dedos.", "Al Sr. Piña se le escapa una risa… y la barba tiembla.", "Sergi, el novato pelón, también se queda sin pelo con esta carta.", "Santi, vestido de dragón, chamusca esa carta.", "Kao no te ha oído: lleva los auriculares puestos.");
+  "Toni: «Ayúdame, Mnemónica, eres mi única esperanza».", "David asiente despacio: ya tiene la explicación preparada para cuando termines.", "Al Sr. Piña se le escapa una risa… y la barba tiembla.", "Sergi, el novato pelón, también se queda sin pelo con esta carta.", "Santi, vestido de dragón, chamusca esa carta.", "Kao no te ha oído: lleva los auriculares puestos.");
 TO_MSGS.push('Tiempo agotado: ni el imperdible de Kao lo frena.', 'Se acabó el tiempo. Coquis tiene más, pero no te lo presta.', 'Salva lo tenía previsto: se te acababa el tiempo.', 'Tiempo. Carlos, el canario, ya ha sacado otra baraja.',
-  "Tiempo. Toni, el infiltrado, ya ha vuelto al Vallès Oriental.", "Tiempo agotado: David ya ha hecho el cartel con la IA anunciando el fallo.", "Tiempo. Hasta el Sr. Piña ha terminado el chiste y ha vuelto a empezar.");
+  "Tiempo. Toni, el infiltrado, ya ha vuelto al Vallès Oriental.", "Tiempo agotado: David ya está sacando la baraja para enseñarte cómo se hacía.", "Tiempo. Hasta el Sr. Piña ha terminado el chiste y ha vuelto a empezar.");
 
 /* ---- Curiosidades nuevas de cartomagia (con fuente) ---- */
 FACTS.push(
@@ -3454,9 +3473,9 @@ setPool(CANA, [
   H("Màgic Andreu les dice a sus alumnos que no digan «truco». Aplicado a la Mnemónica: no es «chuleta», es «sistema». Aunque la chuleta siga en el bolsillo.", "El Màgic Andreu els diu als alumnes que no diguin «truc». Aplicat a la Mnemònica: no és «xuleta», és «sistema». Encara que la xuleta continuï a la butxaca."),
   H("Al estilo Raúl Cimas, surrealismo de andar por casa: la 9♠ pregunta si puede quedarse a vivir en la posición 17. Nadie contesta. La posición 17 tampoco.", "A l'estil Raúl Cimas, surrealisme de quedar per casa: el 9♠ pregunta si pot quedar-se a viure a la posició 17. Ningú contesta. La posició 17 tampoc."),
   H("La 5♣ salió a por tabaco hace tres semanas y no ha vuelto. Nadie la ha nombrado desde entonces. Es el absurdo, pero con baraja.", "El 5♣ va sortir a comprar tabac fa tres setmanes i no ha tornat. Ningú l'ha nomenat des d'aleshores. És l'absurd, però amb baralla."),
-  H("Ernesto Sevilla arranca sus monólogos prometiendo partirse el culo. Tú arrancas el tuyo prometiendo que esta vez sí te sabes la 44.", "Ernesto Sevilla arrenca els monòlegs prometent que ens partirem de riure. Tu arrenques el teu prometent que aquesta vegada sí que et saps la 44.", "Ernesto Sevilla arranca sus monólogos prometiendo partirse el culo. Vos arrancás el tuyo prometiendo que esta vez sí te sabés la 44."),
+  H("Hay monólogos que arrancan prometiendo carcajadas, como en El Club de la Comedia. Tú arrancas el tuyo prometiendo que esta vez sí te sabes la 44.", "Hi ha monòlegs que arrenquen prometent riallades, com a El Club de la Comedia. Tu arrenques el teu prometent que aquesta vegada sí que et saps la 44.", "Hay monólogos que arrancan prometiendo carcajadas, como en El Club de la Comedia. Vos arrancás el tuyo prometiendo que esta vez sí te sabés la 44."),
   H("«Nadie sabe nada» se llama el programa de Buenafuente y Berto Romero. Tú ya sabes las 26 primeras, así que técnicamente eres el que más sabe de la mesa.", "«Nadie sabe nada» es diu el programa de Buenafuente i Berto Romero. Tu ja saps les 26 primeres, així que tècnicament ets el que més en sap de la taula.", "«Nadie sabe nada» se llama el programa de Buenafuente y Berto Romero. Vos ya sabés las 26 primeras, así que técnicamente sos el que más sabe de la mesa."),
-  H("Buenafuente dice que lo que se hace dos veces ya es tradición. Entonces la pizza de los jueves en AMIT es patrimonio de la humanidad.", "Buenafuente diu que el que es fa dues vegades ja és tradició. Doncs la pizza dels dijous a AMIT és patrimoni de la humanitat."),
+  H("Dicen que lo que se hace dos veces ya es tradición. Entonces la pizza de los jueves en AMIT es patrimonio de la humanidad.", "Diuen que el que es fa dues vegades ja és tradició. Doncs la pizza dels dijous a AMIT és patrimoni de la humanitat."),
   H("Aciertas la 18 sin dudar y se te escapa un «¡qué pasa, neng!». Buenafuente lo hizo famoso; tú, por una noche, lo haces verdad.", "Encertes la 18 sense dubtar i se t'escapa un «qué pasa, neng!». Buenafuente el va fer famós; tu, per una nit, el fas veritat.", "Acertás la 18 sin dudar y se te escapa un «¡qué pasa, neng!». Buenafuente lo hizo famoso; vos, por una noche, lo hacés verdad."),
   H("En el APM? de TV3 esto sería un zapping de tres minutos titulado «Cuando te dicen que la Mnemónica es fácil». Alguna pregunta més?", "A l'APM? això seria un zàping de tres minuts titulat «Quan et diuen que la Mnemònica és fàcil». Alguna pregunta més?"),
   H("Si el APM? pasara una tarde por AMIT, tendría material para una temporada entera: cuñados, pizzas y alguien diciendo «esto lo he visto yo en YouTube».", "Si l'APM? passés una tarda per AMIT, tindria material per a una temporada sencera: cunyats, pizzes i algú dient «això ho he vist jo a YouTube».", "Si el APM? pasara una tarde por AMIT, tendría material para una temporada entera: cuñados, pizzas y alguien diciendo «esto lo vi yo en YouTube»."),
@@ -3531,8 +3550,8 @@ const CANA_SRC = [
 ];
 
 function canaCredit() {
-  return `<details class="basic mt2"><summary><span class="fi">📺</span><span><b>${L('Guiños de cultura popular', 'Picades d\'ull de cultura popular')}</b><span class="tiny mut" style="display:block">${L('Chiquito, Rubianes, Leo Harlem, Màgic Andreu, La hora chanante, Buenafuente, Berto Romero y el APM? de TV3', 'Chiquito, Rubianes, Leo Harlem, Màgic Andreu, La hora chanante, Buenafuente, Berto Romero i l\'APM? de TV3')}</span></span></summary><div class="bx">
-    <p class="small">${L('Los chistes son originales de la app. Las referencias son homenajes a material público: solo se citan muletillas muy conocidas y datos que he podido contrastar, y a nadie se le atribuye lo que no haya dicho. «Y voló y yo volé» y «se ha matao Paco» circulan como memes y no he encontrado una fuente fiable de su origen: se usan solo como muletillas.', 'Els acudits són originals de l\'app. Les referències són homenatges a material públic: només es citen muletilles molt conegudes i dades que he pogut contrastar, i a ningú no s\'atribueix el que no hagi dit. «Y voló y yo volé» i «se ha matao Paco» circulen com a memes i no he trobat una font fiable de l\'origen: només s\'usen com a muletilles.')}</p>
+  return `<details class="basic mt2"><summary><span class="fi">📺</span><span><b>${L('Guiños de cultura popular', 'Picades d\'ull de cultura popular')}</b><span class="tiny mut" style="display:block">${L('Chiquito, Gila, Eugenio, Rubianes, Tricicle, Pepe Carrol, Leo Harlem, Màgic Andreu, La hora chanante, Buenafuente, Berto Romero, Mago Pop y el APM? de TV3', 'Chiquito, Gila, Eugenio, Rubianes, Tricicle, Pepe Carrol, Leo Harlem, Màgic Andreu, La hora chanante, Buenafuente, Berto Romero, Mago Pop i l\'APM? de TV3')}</span></span></summary><div class="bx">
+    <p class="small">${L('Los chistes son originales de la app. Las referencias son homenajes a material público: solo se citan muletillas muy conocidas y datos que he podido contrastar, y a nadie se le atribuye lo que no haya dicho. «Que se ponga» (Gila), «Saben aquel que diu» (Eugenio) y la fórmula de cierre de Pepe Carrol («si el truco sale, soy Pepe Carrol; si no, Andrés Pérez») están documentadas. «Y voló y yo volé» y «se ha matao Paco» circulan como memes y no he encontrado una fuente fiable de su origen: se usan solo como muletillas.', 'Els acudits són originals de l\'app. Les referències són homenatges a material públic: només es citen muletilles molt conegudes i dades que he pogut contrastar, i a ningú no s\'atribueix el que no hagi dit. «Que se ponga» (Gila), «Saben aquel que diu» (Eugenio) i la fórmula de tancament del Pepe Carrol («si el truc surt, soc el Pepe Carrol; si no, l\'Andrés Pérez») estan documentades. «Y voló y yo volé» i «se ha matao Paco» circulen com a memes i no he trobat una font fiable de l\'origen: només s\'usen com a muletilles.')}</p>
     <ul class="small vs-l">${CANA_SRC.map(s => `<li><a href="${esc(s[1])}" target="_blank" rel="noopener noreferrer">${L(s[0], s[2] || s[0])}</a></li>`).join('')}</ul></div></details>`;
 }
 
@@ -3583,7 +3602,7 @@ CANA.push(
   H('La Mnemónica es como el Wordle: si no la pillas a la sexta, se lo cuentas a todo el grupo igual. Pero la de hoy es la 31.', 'La Mnemònica és com el Wordle: si no l\'enganxes a la sisena, ho expliques a tot el grup igualment. Però la d\'avui és la 31.'),
   H('Hay quien se aprende 52 cartas y hay quien las pasa a un Excel «por si acaso». Spoiler: el Excel tampoco sale al escenario.', 'Hi ha qui s\'aprèn 52 cartes i hi ha qui les passa a un Excel «per si de cas». Spoiler: l\'Excel tampoc no surt a l\'escenari.'),
   H('—Alexa, ¿qué carta es la 27? —Lo siento, no te he entendido. Exactamente lo mismo que dice tu memoria.', '—Alexa, quina carta és la 27? —Ho sento, no t\'he entès. Exactament el mateix que diu la teva memòria.'),
-  H('La IA te hace un cartel en cuatro segundos, con seis dedos por mano. La Mnemónica te cuesta dos meses, pero con los cinco de siempre. Elige tu aventura.', 'La IA et fa un cartell en quatre segons, amb sis dits per mà. La Mnemònica et costa dos mesos, però amb els cinc de sempre. Tria la teva aventura.'),
+  H('Aprender la Mnemónica cuesta dos meses. Opinar que tú lo harías mejor, dos segundos. Elige tu aventura.', 'Aprendre la Mnemònica costa dos mesos. Opinar que tu ho faries millor, dos segons. Tria la teva aventura.'),
   H('Esta noche, en la Academia de la Mnemónica: gala siete. Nominada, la 44. El profesorado dice que «le falta actitud».', 'Aquesta nit, a l\'Acadèmia de la Mnemònica: gala set. Nominada, la 44. El professorat diu que «li falta actitud».'),
   H('Concurso de cocina, versión baraja: tu carta 12 llega cruda, sin técnica y con una presentación discutible.', 'Concurs de cuina, versió baralla: la teva carta 12 arriba crua, sense tècnica i amb una presentació discutible.'),
   H('Gran Hermano, edición AMIT: encerrados con una baraja ordenada. A la tercera semana, nominados: todos.', 'Gran Germà, edició AMIT: tancats amb una baralla ordenada. A la tercera setmana, nominats: tots.'),
@@ -3633,7 +3652,7 @@ VIDA.push(
 DUELO.push(
   ['Eso es fácil, lo vi en un tutorial de YouTube.', 'Claro. Y yo sé operar de apendicitis porque vi un episodio de una serie de médicos.'],
   ['¿Eso tiene truco o es magia de verdad?', 'Tiene truco, magia y público. Solo falta que uno de los tres se calle.'],
-  ['Yo con la IA hago eso en un momento.', 'Con la IA haces carteles con seis dedos. Con esto, la gente se queda boquiabierta.'],
+  ['Eso lo hace cualquiera con un poco de práctica.', 'Exacto: un poco de práctica y mucho de disimulo. Anda, coge una carta.'],
   ['Tú lo que tienes es un compinche entre el público, como los de la tele.', 'Mi único compinche eres tú, y llevas diez minutos hablando de tu coche.'],
   ['Eso lo hacía mi tío con las cerillas y no le salía tan largo.', 'Tu tío haría el truco de las cerillas… y el de desaparecer a la hora de recoger.']
 );
@@ -3641,8 +3660,8 @@ HX.ca['¿Eso tiene truco o es magia de verdad?'] = 'Això té truc o és màgia 
 HX.ca['Tiene truco, magia y público. Solo falta que uno de los tres se calle.'] = 'Té truc, màgia i públic. Només falta que un dels tres calli.';
 HX.ca['Eso es fácil, lo vi en un tutorial de YouTube.'] = 'Això és fàcil, ho vaig veure en un tutorial de YouTube.';
 HX.ca['Claro. Y yo sé operar de apendicitis porque vi un episodio de una serie de médicos.'] = 'És clar. I jo sé operar d\'apendicitis perquè vaig veure un episodi d\'una sèrie de metges.';
-HX.ca['Yo con la IA hago eso en un momento.'] = 'Jo amb la IA faig això en un moment.';
-HX.ca['Con la IA haces carteles con seis dedos. Con esto, la gente se queda boquiabierta.'] = 'Amb la IA fas cartells amb sis dits. Amb això, la gent es queda bocabadada.';
+HX.ca['Eso lo hace cualquiera con un poco de práctica.'] = 'Això ho pot fer qualsevol amb una mica de pràctica.';
+HX.ca['Exacto: un poco de práctica y mucho de disimulo. Anda, coge una carta.'] = 'Exacte: una mica de pràctica i molt de dissimul. Vinga, agafa una carta.';
 HX.ca['Tú lo que tienes es un compinche entre el público, como los de la tele.'] = 'El que tu tens és un còmplice entre el públic, com els de la tele.';
 HX.ca['Mi único compinche eres tú, y llevas diez minutos hablando de tu coche.'] = 'El meu únic còmplice ets tu, i fa deu minuts que parles del teu cotxe.';
 HX.ca['Eso lo hacía mi tío con las cerillas y no le salía tan largo.'] = 'Això ho feia el meu oncle amb els llumins i no li sortia tan llarg.';
@@ -3697,7 +3716,7 @@ excAdd('he confundido la 14 con la 41, que es como confundir a Chiquito con Rubi
 /* ---------- La peña: líneas nuevas (solo salen con los nombres activados) ---------- */
 const socioAdd = (n, es, ca) => { const s = SOCIOS.find(x => x.n === n); if (s) s.gen.push(H(es, ca)); };
 socioAdd('Mag Ger', 'Pídele a Mag Ger que escoja una carta y descubrirás un efecto que ni el mago controla: el «efecto Mag Ger».', 'Demana al Mag Ger que esculli una carta i descobriràs un efecte que ni el mag controla: l\'«efecte Mag Ger».');
-socioAdd('David', 'David hizo un cartel con la IA y el cartel hizo a David con seis dedos. Aun así, tiene magia.', 'En David va fer un cartell amb la IA i el cartell va fer en David amb sis dits. Tot i així, té màgia.');
+socioAdd('David', 'David explica la Mnemónica con tanta paciencia que, a la tercera vez, hasta la baraja ha tomado apuntes.', 'En David explica la Mnemònica amb tanta paciència que, a la tercera vegada, fins i tot la baralla ha pres apunts.');
 socioAdd('Harvi', 'Harvi puede desenredar cualquier asunto de una asamblea… pero sus cuerdas, ya es otro cantar.', 'En Harvi pot desembolicar qualsevol afer d\'una assemblea… però les seves cordes, ja és una altra cançó.');
 socioAdd('Toni', 'Toni viene del Vallès Oriental: la distancia es corta, pero el tatuaje de Leia llega siempre antes.', 'En Toni ve del Vallès Oriental: la distància és curta, però el tatuatge de la Leia sempre arriba abans.');
 socioAdd('Melanie', 'Mientras otros sacan una moneda de la oreja, Melanie saca un elefante. La ambición es una virtud.', 'Mentre uns altres treuen una moneda de l\'orella, la Melanie treu un elefant. L\'ambició és una virtut.');
@@ -3731,6 +3750,167 @@ HX.ca['💬 Sugerencias'] = '💬 Suggeriments';
   T("Ocho seguidas: ya puedes salir en el cartel.", "Vuit seguides: ja pots sortir al cartell.");
   T("Carlos, el canario", "En Carlos, el canari");
 }
+
+/* ===================== HUMOR 6 · guiños para todas las edades (15–75) =====================
+   Los chistes son originales de la app. De cada humorista, programa o serie solo se usan datos públicos contrastados
+   (títulos, fechas, muletillas documentadas: «Que se ponga», «Saben aquel que diu», la fórmula de Pepe Carrol de
+   «si el truco sale soy Pepe Carrol; si no, Andrés Pérez»). Nada se pone en boca de nadie ni se imita a personas reales.
+   Regla de la casa: se ríe de situaciones y manías con cariño; nunca de personas concretas ni de asuntos serios.
+   Cada entrada: H(es, ca, ar?). El boludo sale de la regla automática salvo retoque.
+   Generaciones: clásicos (Gila, Eugenio, Un, dos, tres), 40–60 (Rubianes, Tricicle, Club de la Comedia),
+   30–45 (Buenafuente, Berto Romero) y 15–25 (Mago Pop, TikTok, Among Us, Pokédex, Duolingo). */
+
+/* ---------- Con más caña: guiños de cultura popular ---------- */
+CANA.push(
+  /* Clásicos */
+  H("—¿Es la carta 31? Que se ponga. —No está, ha salido. —¿Y la 32? —Tampoco. —Pues que se pongan las dos, que me estoy jugando la racha. Homenaje a Gila y su teléfono.",
+    "—És la carta 31? Que se ponga. —No hi és, ha sortit. —I la 32? —Tampoc. —Pues que se pongan las dos, que em jugo la ratxa. Homenatge a Gila i el seu telèfon."),
+  H("Gila pactaba con el enemigo los horarios de la guerra para no madrugar. Tú pactas con la baraja una tregua hasta después del café.",
+    "Gila pactava amb l'enemic els horaris de la guerra per no matinar. Tu pactes amb la baralla una treva fins després del cafè."),
+  H("Saben aquel que diu: que un socio se aprende las 52 cartas y, a la hora de la verdad, se acuerda del chiste pero no de la 17. Eugenio lo contaba sin sonreír; tú, en la 17, tampoco.",
+    "Saben aquel que diu: que un soci s'aprèn les 52 cartes i, a l'hora de la veritat, recorda l'acudit però no el 17. L'Eugenio ho explicava sense somriure; tu, al 17, tampoc.",
+    "Saben aquel que diu: que un socio se aprende las 52 cartas y, a la hora de la verdad, se acuerda del chiste pero no de la 17. Eugenio lo contaba sin sonreír; vos, en la 17, tampoco."),
+  H("«Saben aquell», la película sobre Eugenio, fue nominada a once premios Goya. La Mnemónica, de momento, solo va a los jueves de la peña. Todo se andará.",
+    "«Saben aquell», la pel·lícula sobre l'Eugenio, va ser nominada a onze premis Goya. La Mnemònica, de moment, només va als dijous de la penya. Tot s'anirà fent."),
+  H("Pepe Carrol cerraba sus números con una fórmula inmortal: si el truco sale, soy Pepe Carrol; si no, Andrés Pérez. Hoy, con la 31, eres Pepe Carrol. Con la 32, ya veremos.",
+    "El Pepe Carrol tancava els números amb una fórmula immortal: si el truc surt, soc el Pepe Carrol; si no, l'Andrés Pérez. Avui, amb la 31, ets el Pepe Carrol. Amb la 32, ja ho veurem."),
+  H("En el «Un, dos, tres… responda otra vez» siempre había otra oportunidad. En la Mnemónica también, y se llama repaso. Por ese plató pasó Pepe Carrol, ya que hablamos de magia.",
+    "Al «Un, dos, tres… responda otra vez» sempre hi havia una altra oportunitat. A la Mnemònica també, i es diu repàs. Per aquell plató va passar el Pepe Carrol, ja que parlem de màgia."),
+  H("Vernon engañó a Houdini con la carta ambiciosa. A ti, la 44 te engaña todos los martes.",
+    "Vernon va enganyar Houdini amb la carta ambiciosa. A tu, la 44 t'enganya cada dimarts."),
+  /* 40–60 años */
+  H("Tricicle pasaron cuarenta años sobre los escenarios sin hablar y se entendían de maravilla. Tú, ante la 44, llevas cuarenta segundos sin hablar y no se entiende nada.",
+    "Tricicle van passar quaranta anys als escenaris sense parlar i s'entenien a la perfecció. Tu, davant la 44, portes quaranta segons sense parlar i no s'entén res."),
+  H("Rubianes pasó diez años en cartel en el Capitol de Barcelona. Tú llevas diez minutos con la 25 y ya hay cola, de gente que quiere irse.",
+    "El Rubianes va passar deu anys en cartell al Capitol de Barcelona. Tu portes deu minuts amb la 25 i ja hi ha cua, de gent que vol marxar."),
+  H("Si el fallo de la 40 tuviera título de teatro, sería «Por el amor de Dios», que es justo el de un espectáculo de Rubianes de 1991. Y tampoco me lo he inventado.",
+    "Si l'error de la 40 tingués títol de teatre, seria «Por el amor de Dios», que és just el d'un espectacle del Rubianes de 1991. I tampoc no me l'he inventat."),
+  H("«Rubianes, solamente». «Mnemónica, solamente». Para llenar un teatro, lo segundo aún necesita unos retoques.",
+    "«Rubianes, solamente». «Mnemònica, solamente». Per omplir un teatre, el segon encara necessita alguns retocs."),
+  H("El Club de la Comedia enseñó que se puede vivir de contar la vida. La Mnemónica enseña que se puede vivir sin la lista en el móvil. Menos rentable, pero más fresca.",
+    "El Club de la Comedia va ensenyar que es pot viure d'explicar la vida. La Mnemònica ensenya que es pot viure sense la llista al mòbil. Menys rendible, però més fresca."),
+  H("Junta de vecinos en versión baraja: todos hablan a la vez, nadie escucha y el acta se firma con la carta equivocada.",
+    "Junta de veïns en versió baralla: tothom parla alhora, ningú no escolta i l'acta es signa amb la carta equivocada."),
+  /* 30–45 años */
+  H("Cada noche, Late Motiv abría con un monólogo. Tu cuñado abre cada cena con el suyo: «eso tiene truco». Los dos tienen público cautivo; solo uno tiene guionistas.",
+    "Cada nit, Late Motiv obria amb un monòleg. El teu cunyat obre cada sopar amb el seu: «això té truc». Tots dos tenen públic captiu; només un té guionistes."),
+  H("«Nadie sabe nada» se define como un programa a priori de humor. La Mnemónica es un juego a priori fácil. Misma letra pequeña.",
+    "«Nadie sabe nada» es defineix com un programa a priori d'humor. La Mnemònica és un joc a priori fàcil. La mateixa lletra petita."),
+  H("Buenafuente y Berto Romero llevan desde 2013 hablando de nada con éxito. Tú llevas dos meses con la baraja y ya te pesa. Tranquilo: el secreto es la constancia.",
+    "Buenafuente i Berto Romero fa des del 2013 que parlen de res amb èxit. Tu portes dos mesos amb la baralla i ja et pesa. Tranquil: el secret és la constància.",
+    "Buenafuente y Berto Romero llevan desde 2013 hablando de nada con éxito. Vos llevás dos meses con la baraja y ya te pesa. Tranquilo: el secreto es la constancia."),
+  H("«Mira lo que has hecho», versión AMIT: el que acaba de entrar ha puesto la 3♥ en el sitio de la 5♥, la baraja ha entrado en crisis y todos fingen que no pasa nada. Comedia costumbrista de padres agobiados, pero con naipes.",
+    "«Mira lo que has hecho», versió AMIT: el que acaba d'entrar ha posat el 3♥ al lloc del 5♥, la baralla ha entrat en crisi i tothom fa veure que no passa res. Comèdia costumista de pares atabalats, però amb naips."),
+  H("En «El otro lado» se investigan fenómenos paranormales. La Mnemónica los produce: cartas que desaparecen de tu cabeza sin dejar rastro.",
+    "A «El otro lado» s'investiguen fenòmens paranormals. La Mnemònica els produeix: cartes que desapareixen del teu cap sense deixar rastre."),
+  H("Un diez por ciento de talento, un treinta de práctica y un sesenta de repetir el monólogo del repaso en la ducha. Nadie te lo agradece, pero la 44 sí.",
+    "Un deu per cent de talent, un trenta de pràctica i un seixanta de repetir el monòleg del repàs a la dutxa. Ningú t'ho agraeix, però la 44 sí."),
+  /* 15–25 años */
+  H("El Mago Pop llena teatros; tú llenas la mesa de cartas boca arriba. Misma ilusión, distinto aforo.",
+    "El Mago Pop omple teatres; tu omples la taula de cartes cap amunt. La mateixa il·lusió, un altre aforament."),
+  H("La 9♠ es sospechosa: cada vez que dices su número, alguien grita «¡impostor!». Es la carta, no tú.",
+    "El 9♠ és sospitós: cada vegada que en dius el número, algú crida «impostor!». És la carta, no tu."),
+  H("Una baraja es una Pokédex con 52 entradas y todavía te faltan las raras. ¡Hazte con todas!",
+    "Una baralla és una Pokédex amb 52 entrades i encara et falten les rares. Fes-te amb totes!"),
+  H("Racha de siete días con la Mnemónica: el búho de Duolingo te felicita. Racha de cero: el búho ya sabe dónde vives.",
+    "Ratxa de set dies amb la Mnemònica: el mussol de Duolingo et felicita. Ratxa de zero: el mussol ja sap on vius."),
+  H("Tutorial de treinta segundos, «aprende la baraja en un minuto»: tres millones de vistas. Aprender la baraja de verdad: tres espectadores y tu cuñado.",
+    "Tutorial de trenta segons, «aprèn la baralla en un minut»: tres milions de visualitzacions. Aprendre la baralla de debò: tres espectadors i el teu cunyat.",
+    "Tutorial de treinta segundos, «aprendé la baraja en un minuto»: tres millones de vistas. Aprender la baraja de verdad: tres espectadores y tu cuñado."),
+  H("Si retransmitieras tu repaso por Twitch, tendrías tres espectadores: tu madre, tu cuñado y un bot.",
+    "Si retransmetessis el teu repàs per Twitch, tindries tres espectadors: la teva mare, el teu cunyat i un bot."),
+  H("POV: eres la carta 44 y nadie se acuerda de ti.",
+    "POV: ets la carta 44 i ningú no es recorda de tu."),
+  /* Para todos */
+  H("En «Penn & Teller: Fool Us», los magos intentan engañar a dos magos veteranos. En la peña, a toda la peña. Y al cuñado, que se cree que lo ve todo.",
+    "A «Penn & Teller: Fool Us», els mags intenten enganyar dos mags veterans. A la penya, a tota la penya. I al cunyat, que es creu que ho veu tot."),
+  H("Teller casi nunca habla en escena. Tú, ante la 44, tampoco. Hay oficios que se parecen más de lo que parece.",
+    "El Teller gairebé mai no parla a l'escenari. Tu, davant la 44, tampoc. Hi ha oficis que s'assemblen més del que sembla.",
+    "Teller casi nunca habla en escena. Vos, ante la 44, tampoco. Hay oficios que se parecen más de lo que parece."),
+  H("Tu abuela se sabe de memoria todos los santos del calendario. Tú, 52 cartas. Y ella no usa Excel.",
+    "La teva àvia se sap de memòria tots els sants del calendari. Tu, 52 cartes. I ella no fa servir Excel.",
+    "Tu abuela se sabe de memoria todos los santos del calendario. Vos, 52 cartas. Y ella no usa Excel."),
+  H("Los de 15 años la aprenden con un vídeo, los de 75 con una libreta y los de 45 en el coche, de camino al trabajo. Todos llegan a la 52 con la misma cara.",
+    "Els de 15 anys l'aprenen amb un vídeo, els de 75 amb una llibreta i els de 45 al cotxe, camí de la feina. Tots arriben a la 52 amb la mateixa cara."),
+  H("Tu padre se acuerda todavía de las alineaciones de su equipo del 82. Tú te sabes las 52 cartas: más difícil, aunque con menos póster.",
+    "El teu pare es recorda encara de les alineacions del seu equip del 82. Tu te saps les 52 cartes: més difícil, encara que amb menys pòster.",
+    "Tu viejo se acuerda todavía de las alineaciones de su equipo del 82. Vos te sabés las 52 cartas: más difícil, aunque con menos póster."),
+  H("Décadas de magia en la tele, y lo que más ha cambiado es el cuñado: antes decía «eso tiene truco»; ahora lo busca en el móvil mientras tú lo haces.",
+    "Dècades de màgia a la tele, i el que més ha canviat és el cunyat: abans deia «això té truc»; ara ho busca al mòbil mentre tu ho fas.")
+);
+
+/* ---------- Mensajes al acertar, al fallar y al agotar el tiempo (sin nombres de socios) ---------- */
+OK_MSGS.push(
+  H("Saben aquel que diu… que has acertado.", "Saben aquel que diu… que has encertat."),
+  H("Si el truco sale, eres Pepe Carrol. Hoy, sale.", "Si el truc surt, ets el Pepe Carrol. Avui, surt."),
+  H("¿Es la carta correcta? Que se ponga. Y se ha puesto.", "És la carta correcta? Que se ponga. I s'ha posat."),
+  H("Esto le saca una palabra a Teller.", "Això li treu una paraula al Teller."),
+  H("Aforo completo, como el Mago Pop.", "Aforament complet, com el Mago Pop."),
+  H("Vernon lo aprobaría. Houdini se quedaría mirando.", "Vernon ho aprovaria. Houdini es quedaria mirant."),
+  H("Esto lo cuentan en «Nadie sabe nada» y no se lo cree nadie.", "Això ho expliquen a «Nadie sabe nada» i no s'ho creu ningú."),
+  H("Bis de Club de la Comedia: carcajada y aplauso.", "Bis de Club de la Comedia: riallada i aplaudiment.")
+);
+KO_MSGS.push(
+  H("Si el truco falla, eres Andrés Pérez.", "Si el truc falla, ets l'Andrés Pérez."),
+  H("¿Es la carta? Que se ponga. No se ha puesto.", "És la carta? Que se ponga. No s'ha posat."),
+  H("Mira lo que has hecho… con la 17.", "Mira lo que has hecho… amb el 17."),
+  H("«¡Por el amor de Dios!»: la 40 no era esa.", "«Por el amor de Dios»: la 40 no era aquesta."),
+  H("Impostor detectado: esa carta no era la tuya.", "Impostor detectat: aquesta carta no era la teva."),
+  H("Esa respuesta engañaría a Penn & Teller. A ti también.", "Aquesta resposta enganyaria Penn & Teller. A tu també."),
+  H("La racha cae. El búho de Duolingo ya sabe dónde vives.", "La ratxa cau. El mussol de Duolingo ja sap on vius."),
+  H("Saben aquel que diu… que no era esa.", "Saben aquel que diu… que no era aquesta.")
+);
+TO_MSGS.push(
+  H("Tiempo. Hasta Tricicle habría dicho algo.", "Temps. Fins i tot Tricicle hauria dit alguna cosa."),
+  H("Silencio de Teller: elocuente, pero no suma puntos.", "Silenci del Teller: eloqüent, però no suma punts."),
+  H("Tiempo agotado: Late Motiv ya ha cerrado el monólogo.", "Temps esgotat: Late Motiv ja ha tancat el monòleg."),
+  H("Se acabó el tiempo. El búho de Duolingo ya te está escribiendo.", "Es va acabar el temps. El mussol de Duolingo ja t'està escrivint.")
+);
+
+/* ---------- De camerino ---------- */
+QUIPS.push(
+  H("Un mago de 15 años lo aprende en un tutorial; uno de 75, en un libro. Los dos acaban preguntando lo mismo: «¿dónde está la tres de tréboles?».",
+    "Un mag de 15 anys ho aprèn en un tutorial; un de 75, en un llibre. Tots dos acaben preguntant el mateix: «on és el tres de trèvols?»."),
+  H("La memoria es como un late night: abre fuerte con el monólogo y se desinfla con los invitados.",
+    "La memòria és com un late night: obre fort amb el monòleg i es desinfla amb els convidats."),
+  H("Teller no habla en escena; el mago de barra no calla en la barra. Cada oficio tiene su estilo.",
+    "El Teller no parla a l'escenari; el mag de barra no calla a la barra. Cada ofici té el seu estil."),
+  H("Saben aquel que diu… que el público espera el chiste y recibe la carta.",
+    "Saben aquel que diu… que el públic espera l'acudit i rep la carta.")
+);
+
+/* ---------- Duelo con el cuñado ---------- */
+DUELO.push(
+  ['Eso es de Mago Pop.', 'Mago Pop llena teatros. Yo, de momento, me conformo con que te calles.'],
+  ['Yo tengo una app que hace eso.', 'Genial. Pídele que, además, te aplauda.'],
+  ['Mi abuelo hacía un truco de cartas mejor.', 'Entonces tu abuelo merece un aplauso. Tú, sentarte y mirar.'],
+  ['¿Eso lo has aprendido en la peña?', 'Lo aprendí en la peña y lo ensayé en el pasillo. Lo único que no ensayé fue aguantarte.']
+);
+HX.ca['Eso es de Mago Pop.'] = 'Això és del Mago Pop.';
+HX.ca['Mago Pop llena teatros. Yo, de momento, me conformo con que te calles.'] = 'El Mago Pop omple teatres. Jo, de moment, em conformo que callis.';
+HX.ca['Yo tengo una app que hace eso.'] = 'Jo tinc una app que fa això.';
+HX.ca['Genial. Pídele que, además, te aplauda.'] = 'Genial. Demana-li que, a més, t\'aplaudeixi.';
+HX.ca['Mi abuelo hacía un truco de cartas mejor.'] = 'El meu avi feia un truc de cartes millor.';
+HX.ca['Entonces tu abuelo merece un aplauso. Tú, sentarte y mirar.'] = 'Doncs el teu avi es mereix un aplaudiment. Tu, seure i mirar.';
+HX.ca['¿Eso lo has aprendido en la peña?'] = 'Això ho has après a la penya?';
+HX.ca['Lo aprendí en la peña y lo ensayé en el pasillo. Lo único que no ensayé fue aguantarte.'] = 'Ho vaig aprendre a la penya i ho vaig assajar al passadís. L\'únic que no vaig assajar va ser aguantar-te.';
+
+/* ---------- Fuentes y crédito (se suman a las de humor3) ---------- */
+CANA_SRC.push(
+  ["Time Out: gags de Gila (el teléfono y la guerra)", "https://www.timeout.es/barcelona/es/blog/4-gags-de-gila-que-nos-hacen-saltar-las-lagrimas-071316", "Time Out: gags de Gila (el telèfon i la guerra)"],
+  ["Enciclopèdia Catalana: Eugeni Jofra, «Saben aquel que diu»", "https://www.enciclopedia.cat/gran-enciclopedia-catalana/eugeni-jofra-i-bafalluy", "Enciclopèdia Catalana: Eugeni Jofra, «Saben aquel que diu»"],
+  ["El Español: «Saben aquell», once nominaciones a los Goya", "https://elespanol.com/corazon/famosos/20240122/hijo-eugenio-parece-padre-nunca-supero-quedarse-viudo-anos/825917805_0.amp.html", "El Español: «Saben aquell», onze nominacions als Goya"],
+  ["Pepe Carrol · Wikipedia", "https://en.wikipedia.org/wiki/Pepe_Carrol"],
+  ["Pepe Carrol · IMDb (su fórmula de cierre)", "https://www.imdb.com/name/nm1408454/bio/", "Pepe Carrol · IMDb (la seva fórmula de tancament)"],
+  ["Dai Vernon · Britannica", "https://www.britannica.com/biography/Dai-Vernon"],
+  ["Ara: Carles Sans y Tricicle (40 años sin hablar)", "https://es.ara.cat/cultura/hora-broma-ahora-gente-repensar-carles-sans_128_4171066.html", "Ara: Carles Sans i Tricicle (40 anys sense parlar)"],
+  ["Pepe Rubianes · Wikipedia (espectáculos y años)", "https://en.wikipedia.org/wiki/Pepe_Rubianes", "Pepe Rubianes · Wikipedia (espectacles i anys)"],
+  ["Late Motiv · Wikipedia", "https://es.wikipedia.org/wiki/Late_motiv"],
+  ["Berto Romero · Wikipedia («Nadie sabe nada», desde 2013)", "https://en.wikipedia.org/wiki/Berto_Romero", "Berto Romero · Wikipedia («Nadie sabe nada», des del 2013)"],
+  ["«Mira lo que has hecho» · Wikipedia", "https://en.wikipedia.org/wiki/Mira_lo_que_has_hecho", "«Mira lo que has hecho» · Wikipedia"],
+  ["Ara: «El otro lado», la serie de Berto Romero", "https://es.ara.cat/media/series/pensar-peor-persona_128_4863831.amp.html", "Ara: «El otro lado», la sèrie de Berto Romero"],
+  ["Guía de Barcelona: espectáculo «El Mago Pop»", "https://guia.barcelona.cat/en/detall/espectacle-el-mago-pop_99400676015.html", "Guia de Barcelona: espectacle «El Mago Pop»"]
+);
 
 /* ===================== CULTURA MÁGICA 2 · PRESENTAR CON BARAJA ORDENADA =====================
    Ampliación del Rincón: curiosidades con fuente, una guía de presentación («momentos wow» y doce ideas), más chistes de
@@ -4008,6 +4188,400 @@ TIPS.push(
   H(`Saber la teoría no es saber hacerlo: el cuerpo memoriza el tacto y el ritmo. Repite en voz alta, no solo en la cabeza.`, `Saber la teoria no és saber-ho fer: el cos memoritza el tacte i el ritme. Repeteix en veu alta, no només al cap.`),
   H(`Un juego nuevo solo cuando el anterior ya sale: era el trato del peluquero de Kaps. Aplícalo a tus estrofas.`, `Un joc nou només quan l'anterior ja surt: era el tracte del perruquer de Kaps. Aplica-ho a les teves estrofes.`)
 );
+
+/* ===================== CULTURA MÁGICA 4 · SALAS, BUSCADOR, EFEMÉRIDES Y «QUIÉN FUE QUIÉN» =====================
+   Reorganiza el apartado «Cultura mágica» sin perder nada: las curiosidades existentes se reparten por salas temáticas
+   (cada una conserva su texto y su fuente) y se suman un buscador, un calendario de efemérides, un glosario sin secretos,
+   fichas de personajes, una cronología y curiosidades nuevas con fuente.
+   Todo el texto es de la app y está escrito con palabras propias; las ideas de los libros y la prensa se resumen y se atribuyen.
+   Fuentes de las fechas: Britannica, Wikipedia, Lybrary, Magicana, FISM, Genii (Magicpedia), Díaz y Vinuesa «Recordando a
+   Arturo» (2018), prensa de agosto de 2026 (El Debate, Ara, Euronews, elDiario.es), Compàs d'Amalgama (UB), Las Vegas Weekly,
+   R. Jiménez («Pinceladas históricas», El Manuscrito, número especial Riobóo) y «La magia de Ascanio».
+   Dónde hay dos fechas distintas según la fuente, la ficha lo dice. No se guarda ningún dato nuevo en el dispositivo. */
+
+/* ---------- 1) Salas ---------- */
+const RC_ROOMS = [
+  { k: 'basico', ic: '🎓', t: H('Lo básico y vocabulario', 'Allò bàsic i vocabulari'), d: H('Qué es una baraja ordenada, tres cartas de explicación y un glosario sin secretos.', 'Què és una baralla ordenada, tres cartes d\'explicació i un glossari sense secrets.') },
+  { k: 'naipes', ic: '🃏', t: H('La baraja y su historia', 'La baralla i la seva història'), d: H('De China a Vitoria: palos, reyes, impuestos y calendarios.', 'De la Xina a Vitòria: pals, reis, impostos i calendaris.') },
+  { k: 'barajas', ic: '🔢', t: H('Barajas ordenadas', 'Baralles ordenades'), d: H('Quién ordenó qué y cuándo, de Galasso a Joshua Jay.', 'Qui va ordenar què i quan, de Galasso a Joshua Jay.') },
+  { k: 'memoria', ic: '🧠', t: H('Memorizar, mezclar, calcular', 'Memoritzar, barrejar, calcular'), d: H('Métodos para aprender las 52, el faro y las matemáticas del orden.', 'Mètodes per aprendre les 52, el faro i les matemàtiques de l\'ordre.') },
+  { k: 'historia', ic: '🏛️', t: H('Historia de la magia', 'Història de la màgia'), d: H('De San Agustín a Mago Pop, con una línea del tiempo.', 'De Sant Agustí a Mago Pop, amb una línia del temps.') },
+  { k: 'quien', ic: '👤', t: H('Quién fue quién', 'Qui va ser qui'), d: H('Los nombres que salen en la app, de Robert-Houdin a Mago Pop.', 'Els noms que surten a l\'app, de Robert-Houdin a Mago Pop.') },
+  { k: 'escuela', ic: '🇪🇸', t: H('Magia española y catalana', 'Màgia espanyola i catalana'), d: H('Ascanio, Tamariz, Pareras, Mago Pop y la peña AMIT.', 'Ascanio, Tamariz, Pareras, Mago Pop i la penya AMIT.') },
+  { k: 'oficio', ic: '🎯', t: H('Teoría y oficio', 'Teoria i ofici'), d: H('Misdirection, psicología del espectador y principios de los maestros.', 'Misdirection, psicologia de l\'espectador i principis dels mestres.') },
+  { k: 'anecdotas', ic: '🎭', t: H('Anécdotas de maestros', 'Anècdotes de mestres'), d: H('Kaps, Vernon, Slydini, Houdini y otras historias para la sobremesa.', 'Kaps, Vernon, Slydini, Houdini i altres històries per a la sobretaula.') }
+];
+const RC_CAL = { k: 'calendario', ic: '📅', t: H('Calendario mágico', 'Calendari màgic'), d: H('Nacimientos, fallecimientos y fundaciones señaladas, ordenados por fecha del año.', 'Naixements, defuncions i fundacions assenyalades, ordenats per data de l\'any.') };
+const RC_ALL = {}; RC_ROOMS.concat([RC_CAL]).forEach(r => { RC_ALL[r.k] = r; });
+
+// Reparto de las curiosidades que ya existían (por posición): ninguna se pierde.
+const RC_MAP = {
+  naipes: [20, 21, 22, 23, 24, 25, 38, 39, 40],
+  barajas: [6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 43, 44, 55],
+  memoria: [0, 1, 2, 3, 4, 5, 26, 35, 36, 41, 42, 45, 46, 56, 81, 82],
+  historia: [27, 28, 29, 37, 72, 73, 76, 77, 78],
+  escuela: [31, 32, 33, 34, 47, 48, 52, 59],
+  oficio: [50, 51, 53, 54, 57, 58, 83],
+  anecdotas: [30, 49, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 74, 75, 79, 80]
+};
+FACTS.forEach((f, i) => {
+  if (f.r) return;
+  const k = Object.keys(RC_MAP).find(x => RC_MAP[x].includes(i));
+  f.r = k || ({ stack: 'barajas', cartas: 'naipes', magia: 'historia' })[f.c] || 'anecdotas';
+});
+
+/* ---------- 2) Curiosidades nuevas ---------- */
+FACTS.push(
+  { r: 'escuela', c: 'magia', i: '⚖️', t: H('Ascanio: abogado de día, maestro de cartas', 'Ascanio: advocat de dia, mestre de cartes'),
+    x: H('Arturo de Ascanio nació el 22 de marzo de 1929 en La Laguna (Tenerife). Estudió Derecho, ejerció de abogado y nunca fue mago profesional, aunque ganó el primer premio de cartomagia en el campeonato mundial de la FISM de 1970, en Ámsterdam. Murió en Madrid el 6 de abril de 1997.', 'Arturo de Ascanio va néixer el 22 de març de 1929 a La Laguna (Tenerife). Va estudiar Dret, va exercir d\'advocat i mai no va ser mag professional, tot i que va guanyar el primer premi de cartomàgia al campionat mundial de la FISM del 1970, a Amsterdam. Va morir a Madrid el 6 d\'abril del 1997.'),
+    s: 'Recordando a Arturo (Díaz y Vinuesa) · Wikipedia' },
+  { r: 'escuela', c: 'magia', i: '📰', t: H('La revista que cambió a Ascanio', 'La revista que va canviar Ascanio'),
+    x: H('Según una semblanza de la época que recoge «Recordando a Arturo», el período formativo de Ascanio empezó con el número de junio de 1950 de The Linking Ring, la revista de la IBM, que explicaba manipulaciones con naipes de un joven mago estadounidense, Ned Rutledge. Durante cuatro años practicó a solas, sin actuar; después trató con Glen Pope, Fred Kaps y Jean Carles. El texto concluye que ya lo llamaban «el Dai Vernon español».', 'Segons una semblança de l\'època que recull «Recordando a Arturo», el període formatiu d\'Ascanio va començar amb el número de juny del 1950 de The Linking Ring, la revista de la IBM, que explicava manipulacions amb naips d\'un jove mag nord-americà, Ned Rutledge. Durant quatre anys va practicar a soles, sense actuar; després va tractar Glen Pope, Fred Kaps i Jean Carles. El text conclou que ja l\'anomenaven «el Dai Vernon espanyol».'),
+    s: 'Recordando a Arturo (Díaz y Vinuesa, 2018)' },
+  { r: 'oficio', c: 'magia', i: '🏊', t: H('Ascanio, la piscina y la ejecución lenta', 'Ascanio, la piscina i l\'execució lenta'),
+    x: H('Ascanio explica su principio de la «susceptibilidad de ejecución lenta» con una imagen que le decía su hermana al aprender a nadar: quien sabe nadar apenas se mueve y cruza la piscina; quien no, levanta espuma y no avanza. En magia, dice, una ejecución lenta deja al público ver cada paso, creer que tiene todos los datos y desconcertarse después; además reparte las dificultades en lugar de dejarlas para el final.', 'Ascanio explica el seu principi de la «susceptibilitat d\'execució lenta» amb una imatge que li deia la seva germana quan aprenien a nedar: qui sap nedar gairebé no es mou i creua la piscina; qui no, aixeca escuma i no avança. En màgia, diu, una execució lenta deixa que el públic vegi cada pas, cregui que té totes les dades i es desconcerti després; a més, reparteix les dificultats en lloc de deixar-les per al final.'),
+    s: 'La magia de Ascanio (vol. 1)' },
+  { r: 'escuela', c: 'magia', i: '🤝', t: H('Los mancos: dos magos, una mano cada uno', 'Els mancs: dos mags, una mà cadascun'),
+    x: H('Tras formarse con Ascanio, Tamariz conoció a Juan Antón y juntos montaron «Los mancos», un número en el que cada uno actuaba usando una sola mano. Décadas después llegaron la Mandrake de Oro de París (1991) y la Medalla de Oro de la ciudad de Madrid (2019).', 'Després de formar-se amb Ascanio, Tamariz va conèixer Juan Antón i junts van muntar «Los mancos», un número en què cadascun actuava fent servir una sola mà. Dècades després van arribar la Mandrake d\'Or de París (1991) i la Medalla d\'Or de la ciutat de Madrid (2019).'),
+    s: 'El Debate · Diari de Tarragona · Diario de Madrid' },
+  { r: 'escuela', c: 'magia', i: '🌟', t: H('Gabi Pareras, la fuerza del ejemplo', 'Gabi Pareras, la força de l\'exemple'),
+    x: H('Gabriel Pareras Fusté nació en Barcelona el 23 de junio de 1965 y murió allí el 26 de agosto de 2020, a los 55 años. Poco conocido por el gran público, un artículo de la Universitat de Barcelona lo recuerda como una de las grandes referencias del ilusionismo, para quien la magia era una forma de expresión artística y una vía para vivir el misterio. Colaboró en la revista El Manuscrito.', 'Gabriel Pareras Fusté va néixer a Barcelona el 23 de juny del 1965 i va morir-hi el 26 d\'agost del 2020, als 55 anys. Poc conegut pel gran públic, un article de la Universitat de Barcelona el recorda com una de les grans referències de l\'il·lusionisme, per a qui la màgia era una forma d\'expressió artística i una via per viure el misteri. Va col·laborar a la revista El Manuscrito.'),
+    s: 'Èric Ortega González, Compàs d\'Amalgama (UB)' },
+  { r: 'escuela', c: 'magia', i: '✨', t: H('Mago Pop: de Badia del Vallès a Broadway', 'Mago Pop: de Badia del Vallès a Broadway'),
+    x: H('Antonio Díaz Cascajosa nació en 1986 en Badia del Vallès (Barcelona) y se formó en Arte Dramático en el Institut del Teatre. Estuvo en el Teatro Calderón de Madrid entre 2015 y 2016, abrió su propio teatro en el Paral·lel de Barcelona en 2016 y en 2023 llevó «Nada es imposible» a Broadway.', 'Antonio Díaz Cascajosa va néixer el 1986 a Badia del Vallès (Barcelona) i es va formar en Art Dramàtic a l\'Institut del Teatre. Va estar al Teatro Calderón de Madrid entre el 2015 i el 2016, va obrir el seu propi teatre al Paral·lel de Barcelona el 2016 i el 2023 va portar «Nada es imposible» a Broadway.'),
+    s: 'Wikipedia · elmagopop.com · Ara · elDiario.es' },
+  { r: 'historia', c: 'magia', i: '🗂️', t: H('Hofzinser: funcionario de día, mago de salón', 'Hofzinser: funcionari de dia, mag de saló'),
+    x: H('Johann Nepomuk Hofzinser (Viena, 1806–1875) trabajó en la administración financiera del imperio austríaco y no se dedicó del todo a la magia hasta que se retiró, en 1865. Actuaba en su salón de Viena ante la alta sociedad y aparece como personaje en la película «El ilusionista» (2006).', 'Johann Nepomuk Hofzinser (Viena, 1806–1875) va treballar a l\'administració financera de l\'imperi austríac i no es va dedicar del tot a la màgia fins que es va retirar, el 1865. Actuava al seu saló de Viena davant de l\'alta societat i apareix com a personatge a la pel·lícula «L\'il·lusionista» (2006).'),
+    s: 'Britannica · Lybrary · Wikipedia' },
+  { r: 'historia', c: 'magia', i: '🌍', t: H('La FISM, las olimpiadas de la magia', 'La FISM, les olimpíades de la màgia'),
+    x: H('La Federación Internacional de Sociedades Mágicas se fundó el 5 de septiembre de 1948. Cada tres años organiza el campeonato mundial, al que se llama «olimpiada de la magia». Fred Kaps es el único con tres Grandes Premios (1950, 1955 y 1961); Ascanio ganó en cartomagia en 1970 y Tamariz en 1973.', 'La Federació Internacional de Societats Màgiques es va fundar el 5 de setembre del 1948. Cada tres anys organitza el campionat mundial, que s\'anomena «olimpíada de la màgia». Fred Kaps és l\'únic amb tres Grans Premis (1950, 1955 i 1961); Ascanio va guanyar en cartomàgia el 1970 i Tamariz el 1973.'),
+    s: 'FISM · Wikipedia · Guinness World Records' },
+  { r: 'anecdotas', c: 'magia', i: '📦', t: H('Quería un libro de relojes y le llegó uno de magia', 'Volia un llibre de rellotges i li va arribar un de màgia'),
+    x: H('Según la historia habitual, el joven relojero Jean-Eugène Robert encargó un tratado de relojería y recibió por error una obra de diversiones científicas con juegos de magia. En vez de devolverla, se puso a practicar. Más tarde añadió «Houdin», el apellido de su mujer, y legalizó el nombre en 1856.', 'Segons la història habitual, el jove rellotger Jean-Eugène Robert va encarregar un tractat de rellotgeria i va rebre per error una obra de diversions científiques amb jocs de màgia. En lloc de tornar-la, es va posar a practicar. Més tard va afegir «Houdin», el cognom de la seva dona, i va legalitzar el nom el 1856.'),
+    s: 'Wikipedia · Lybrary · Britannica' },
+  { r: 'anecdotas', c: 'magia', i: '🧳', t: H('Erik Weisz, alias Harry Houdini', 'Erik Weisz, àlies Harry Houdini'),
+    x: H('Nació en Budapest como Erik Weisz, en 1874, y se crió en Appleton (Wisconsin), donde decía haber nacido. Eligió Harry en homenaje al mago Harry Kellar y, según la tradición, el resto de su nombre artístico en homenaje a Robert-Houdin.', 'Va néixer a Budapest com Erik Weisz, el 1874, i es va criar a Appleton (Wisconsin), on deia haver nascut. Va triar Harry en homenatge al mag Harry Kellar i, segons la tradició, la resta del seu nom artístic en homenatge a Robert-Houdin.'),
+    s: 'National Geographic · Biography.com · Britannica' },
+  { r: 'anecdotas', c: 'magia', i: '📚', t: H('Houdini, enciclopedista', 'Houdini, enciclopedista'),
+    x: H('Houdini escribió el artículo sobre magia (conjuring) de la Enciclopedia Británica en su 13.ª edición; la propia Británica recuerda su ensayo de 1926, el año de su muerte.', 'Houdini va escriure l\'article sobre màgia (conjuring) de l\'Enciclopèdia Britànica en la 13a edició; la mateixa Britànica recorda el seu assaig del 1926, l\'any de la seva mort.'),
+    s: 'Britannica' },
+  { r: 'anecdotas', c: 'magia', i: '🎃', t: H('Halloween de 1926', 'Halloween del 1926'),
+    x: H('Houdini murió el 31 de octubre de 1926 en Detroit, a los 52 años, de peritonitis por un apéndice roto. Unos días antes, en Montreal, un estudiante le había golpeado el estómago antes de que se preparase, y la leyenda popular une los dos hechos.', 'Houdini va morir el 31 d\'octubre del 1926 a Detroit, als 52 anys, de peritonitis per un apèndix trencat. Uns dies abans, a Montreal, un estudiant li havia pegat a l\'estómac abans que es preparés, i la llegenda popular uneix els dos fets.'),
+    s: 'Britannica · CBS Detroit · National Geographic' },
+  { r: 'anecdotas', c: 'magia', i: '🏷️', t: H('De Tony Foolem a Slydini', 'De Tony Foolem a Slydini'),
+    x: H('Quintino Marucci nació en Foggia (Italia), de joven vivió con su tío en Buenos Aires y desde 1930 se instaló en Nueva York. En una función lo anunciaron como «Tony Foolem»; otros artistas del cartel le dijeron que el nombre era malo y entre todos dieron con «Slydini»: sly, «astuto», más la terminación «-dini», de moda tras Houdini.', 'Quintino Marucci va néixer a Foggia (Itàlia), de jove va viure amb el seu oncle a Buenos Aires i des del 1930 es va instal·lar a Nova York. En una funció el van anunciar com «Tony Foolem»; altres artistes del cartell li van dir que el nom era dolent i entre tots van trobar «Slydini»: sly, «astut», més la terminació «-dini», de moda després de Houdini.'),
+    s: 'Wikipedia (Tony Slydini)' },
+  { r: 'anecdotas', c: 'magia', i: '⏳', t: H('Los seis años que Vernon dio por perdidos', 'Els sis anys que Vernon va donar per perduts'),
+    x: H('Dai Vernon contaba que su padre le enseñó su primer juego a los siete años y añadía, con ironía, que había desperdiciado los seis anteriores. Tuvo discípulos como Ricky Jay, Persi Diaconis y Doug Henning, y se retiró oficialmente de los escenarios en 1990, con 96 años.', 'Dai Vernon explicava que el seu pare li va ensenyar el primer joc als set anys i afegia, amb ironia, que havia malgastat els sis anteriors. Va tenir deixebles com Ricky Jay, Persi Diaconis i Doug Henning, i es va retirar oficialment dels escenaris el 1990, amb 96 anys.'),
+    s: 'Wikipedia · Britannica' },
+  { r: 'anecdotas', c: 'magia', i: '🎪', t: H('Penn & Teller: 25 años en el mismo hotel', 'Penn & Teller: 25 anys al mateix hotel'),
+    x: H('Penn Jillette y Teller llevan juntos desde 1975. Su residencia en el Rio de Las Vegas empezó el 5 de enero de 2001 y es la más larga de un cabeza de cartel en un mismo hotel de la ciudad. Penn habla; Teller, casi siempre, no.', 'Penn Jillette i Teller porten junts des del 1975. La seva residència al Rio de Las Vegas va començar el 5 de gener del 2001 i és la més llarga d\'un cap de cartell en un mateix hotel de la ciutat. Penn parla; Teller, gairebé sempre, no.'),
+    s: 'Las Vegas Weekly · Las Vegas Review-Journal · Wikipedia' },
+  { r: 'oficio', c: 'magia', i: '📜', t: H('La historia también es una presentación', 'La història també és una presentació'),
+    x: H('El mago Raúl Jiménez cuenta que estudiar historia de la magia le dio ideas de presentación: unas anillas que giran una junto a la otra, que ya describe San Agustín en «La ciudad de Dios»; el pañuelo con el que desaparece un billete, que ya cita Reginald Scot; o la carta en el techo, que Charles Sorel describió en 1603. Saber de dónde viene un juego, dice, cambia cómo se hace.', 'El mag Raúl Jiménez explica que estudiar història de la màgia li va donar idees de presentació: unes anelles que giren una al costat de l\'altra, que ja descriu Sant Agustí a «La ciutat de Déu»; el mocador amb què desapareix un bitllet, que ja cita Reginald Scot; o la carta al sostre, que Charles Sorel va descriure el 1603. Saber d\'on ve un joc, diu, canvia com es fa.'),
+    s: 'El Manuscrito (número especial Riobóo) · Raúl Jiménez' }
+);
+
+/* ---------- 3) Glosario (sin secretos) ---------- */
+const RC_GLOS = [
+  { t: H('Baraja francesa', 'Baralla francesa'), d: H('La de 52 cartas: cuatro palos (tréboles, rombos, corazones y picas) y trece valores. Es la del póker, la de la cartomagia y la de la Mnemónica.', 'La de 52 cartes: quatre pals (trèvols, rombes, cors i piques) i tretze valors. És la del pòquer, la de la cartomàgia i la de la Mnemònica.') },
+  { t: H('Baraja española', 'Baralla espanyola'), d: H('La de 40 cartas (48 si se añaden ochos y nueves): oros, copas, espadas y bastos. Es la de las partidas de mus, tute y brisca.', 'La de 40 cartes (48 si s\'afegeixen vuits i nous): ors, copes, espases i bastos. És la de les partides de mus, tute i brisca.') },
+  { t: H('Cartomagia', 'Cartomàgia'), d: H('Magia hecha con cartas. Es la especialidad de Tamariz y de Ascanio, y la razón de que esta app exista.', 'Màgia feta amb cartes. És l\'especialitat de Tamariz i d\'Ascanio, i la raó que aquesta app existeixi.') },
+  { t: H('Magia de cerca', 'Màgia de prop'), d: H('Se hace a un metro del público, con objetos de uso diario y sin escenario: cartas, monedas, anillas. Los ingleses la llaman close-up.', 'Es fa a un metre del públic, amb objectes d\'ús diari i sense escenari: cartes, monedes, anelles. Els anglesos l\'anomenen close-up.') },
+  { t: H('Magia de salón', 'Màgia de saló'), d: H('El formato intermedio: una sala pequeña o mediana, el público sentado y el mago a unos pasos. Hofzinser la practicaba en su salón de Viena.', 'El format intermedi: una sala petita o mitjana, el públic assegut i el mag a uns passos. Hofzinser la practicava al seu saló de Viena.') },
+  { t: H('Ilusionismo', 'Il·lusionisme'), d: H('El nombre habitual en España para el arte de la magia en escena. Mago e ilusionista se usan casi como sinónimos.', 'El nom habitual a Espanya per a l\'art de la màgia a escena. Mag i il·lusionista s\'usen gairebé com a sinònims.') },
+  { t: H('Efecto, método y presentación', 'Efecte, mètode i presentació'), d: H('Los tres pisos de un juego. Efecto: lo que ve el público. Método: lo que hace el mago. Presentación: el motivo por el que merece la pena mirarlo.', 'Els tres pisos d\'un joc. Efecte: el que veu el públic. Mètode: el que fa el mag. Presentació: el motiu pel qual val la pena mirar-lo.') },
+  { t: H('Misdirection (desvío de la atención)', 'Misdirection (desviament de l\'atenció)'), d: H('Dirigir la atención del público adonde conviene sin que nadie lo note. Ascanio, Slydini y Tamariz la estudiaron como una disciplina propia.', 'Dirigir l\'atenció del públic allà on convé sense que ningú ho noti. Ascanio, Slydini i Tamariz la van estudiar com una disciplina pròpia.') },
+  { t: H('Forzar', 'Forçar'), d: H('Conseguir que el espectador «elija libremente» la carta que el mago ya tenía prevista. Hay decenas de maneras; esta app no cuenta ninguna.', 'Aconseguir que l\'espectador «triï lliurement» la carta que el mag ja tenia prevista. Hi ha desenes de maneres; aquesta app no en conta cap.') },
+  { t: H('Control', 'Control'), d: H('Llevar la carta elegida a un lugar que el mago conoce, para encontrarla después con aire de casualidad.', 'Portar la carta triada a un lloc que el mag coneix, per trobar-la després amb aire de casualitat.') },
+  { t: H('Doble lift', 'Doble lift'), d: H('Levantar dos cartas como si fueran una. El mago sabe que son dos; el público, por lo visto, no.', 'Aixecar dues cartes com si fossin una. El mag sap que són dues; el públic, pel que sembla, no.') },
+  { t: H('Faro', 'Faro'), d: H('Mezcla en la que las dos mitades se entrelazan carta a carta, una de cada lado. Bien hecha y repetida ocho veces, devuelve la baraja a su orden original.', 'Barreja en què les dues meitats s\'entrellacen carta a carta, una de cada banda. Ben feta i repetida vuit vegades, torna la baralla al seu ordre original.') },
+  { t: H('Baraja ordenada (stack)', 'Baralla ordenada (stack)'), d: H('Una baraja con un orden fijo que el mago conoce y que parece al azar. La Mnemónica Tamariz es una de las más conocidas en español.', 'Una baralla amb un ordre fix que el mag coneix i que sembla a l\'atzar. La Mnemònica Tamariz és una de les més conegudes en espanyol.') },
+  { t: H('Stack y sistema', 'Stack i sistema'), d: H('Para Martin Joyal, un stack es la colocación de las cartas; un sistema añade un proceso, matemático o mnemotécnico, para deducir qué carta ocupa cada posición.', 'Per a Martin Joyal, un stack és la col·locació de les cartes; un sistema hi afegeix un procés, matemàtic o mnemotècnic, per deduir quina carta ocupa cada posició.') },
+  { t: H('Mnemónica', 'Mnemònica'), d: H('Aquí, la baraja ordenada de Tamariz (1980). En general, el arte de recordar con trucos de la memoria: imágenes, lugares, palabras-percha.', 'Aquí, la baralla ordenada de Tamariz (1980). En general, l\'art de recordar amb trucs de la memòria: imatges, llocs, paraules-penjador.') },
+  { t: H('Parloteo (patter)', 'Xerrameca (patter)'), d: H('Lo que dice el mago mientras actúa. Bien usado, es parte del truco; mal usado, es una conferencia que nadie ha pedido.', 'Allò que diu el mag mentre actua. Ben fet, forma part del truc; mal fet, és una conferència que ningú no ha demanat.') },
+  { t: H('Mentalismo', 'Mentalisme'), d: H('La magia que simula leer la mente, adivinar o predecir. Muchos juegos de cartas se presentan así.', 'La màgia que simula llegir la ment, endevinar o predir. Molts jocs de cartes es presenten així.') },
+  { t: H('Escapismo', 'Escapisme'), d: H('Las fugas: cadenas, esposas, cajas, agua. El terreno de Houdini.', 'Les fugides: cadenes, manilles, caixes, aigua. El terreny de Houdini.') },
+  { t: H('FISM', 'FISM'), d: H('Fédération Internationale des Sociétés Magiques, fundada el 5 de septiembre de 1948. Cada tres años organiza el campeonato mundial, la «olimpiada de la magia».', 'Fédération Internationale des Sociétés Magiques, fundada el 5 de setembre del 1948. Cada tres anys organitza el campionat mundial, l\'«olimpíada de la màgia».') },
+  { t: H('Cuñado', 'Cunyat'), d: H('Espectador que sabe cómo se hace, aunque nadie se lo haya preguntado. Especie abundante en bodas y comuniones.', 'Espectador que sap com es fa, encara que ningú no li ho hagi preguntat. Espècie abundant en casaments i comunions.') },
+  { t: H('Peña', 'Penya'), d: H('Grupo de aficionados que se reúne a practicar, enseñarse juegos y tomar café. AMIT Terrassa es una.', 'Grup d\'aficionats que es reuneix per practicar, ensenyar-se jocs i prendre cafè. AMIT Terrassa n\'és una.') }
+];
+
+/* ---------- 4) Quién fue quién ---------- */
+const RC_PEOPLE = [
+  { n: 'Jean-Eugène Robert-Houdin', y: '1805–1871', ic: '🎩', q: 'Robert-Houdin', s: 'Britannica · Wikipedia · Lybrary',
+    t: H('Relojero de Blois y mago. Abrió un teatro en París en 1845 y sacó la magia de la feria para llevarla al salón, en traje de noche. Se le considera el padre de la magia moderna.', 'Rellotger de Blois i mag. Va obrir un teatre a París el 1845 i va treure la màgia de la fira per portar-la al saló, en vestit de nit. Se\'l considera el pare de la màgia moderna.') },
+  { n: 'Johann Nepomuk Hofzinser', y: '1806–1875', ic: '🃏', q: 'Hofzinser', s: 'Britannica · Wikipedia',
+    t: H('Funcionario en Viena y artista de salón. Actuó en su casa ante la alta sociedad, mezclando magia y sátira social, y está considerado uno de los grandes inventores de la cartomagia.', 'Funcionari a Viena i artista de saló. Va actuar a casa seva davant de l\'alta societat, barrejant màgia i sàtira social, i està considerat un dels grans inventors de la cartomàgia.') },
+  { n: 'Harry Houdini', y: '1874–1926', ic: '⛓️', q: 'Houdini', s: 'Britannica · Biography.com',
+    t: H('Nacido Erik Weisz en Budapest y criado en Wisconsin. Se hizo mundialmente famoso como escapista: esposas, cajas, cuerdas, agua. Escribió el artículo sobre magia de la Enciclopedia Británica.', 'Nascut Erik Weisz a Budapest i criat a Wisconsin. Es va fer mundialment famós com a escapista: manilles, caixes, cordes, aigua. Va escriure l\'article sobre màgia de l\'Enciclopèdia Britànica.') },
+  { n: 'Dai Vernon', y: '1894–1992', ic: '👨‍🏫', q: 'Vernon', s: 'Britannica · Wikipedia',
+    t: H('Canadiense, «El Profesor». Se anunció como «el hombre que engañó a Houdini» y fue maestro de generaciones. Vivió sus últimas décadas en el Magic Castle de Hollywood y se retiró de los escenarios a los 96 años.', 'Canadenc, «El Professor». Es va anunciar com «l\'home que va enganyar Houdini» i va ser mestre de generacions. Va viure les seves últimes dècades al Magic Castle de Hollywood i es va retirar dels escenaris als 96 anys.') },
+  { n: 'Tony Slydini', y: '1900–1991', ic: '🎭', q: 'Slydini', s: 'Wikipedia (Tony Slydini)',
+    t: H('Nacido en Foggia (Italia), pasó su juventud en Buenos Aires y desde 1930 vivió en Nueva York. Maestro de la misdirection en la magia de cerca. Algunas fuentes dan 1901 como año de nacimiento.', 'Nascut a Foggia (Itàlia), va passar la joventut a Buenos Aires i des del 1930 va viure a Nova York. Mestre de la misdirection en la màgia de prop. Algunes fonts donen el 1901 com a any de naixement.') },
+  { n: 'Fred Kaps', y: '1926–1980', ic: '🏆', q: 'Kaps', s: 'Wikipedia · Genii · El Manuscrito n.º 4',
+    t: H('Bram Bongers, de Rotterdam. Único mago con tres Grandes Premios de la FISM (1950, 1955 y 1961). Empezó con el nombre artístico de Mystica.', 'Bram Bongers, de Rotterdam. Únic mag amb tres Grans Premis de la FISM (1950, 1955 i 1961). Va començar amb el nom artístic de Mystica.') },
+  { n: 'Arturo de Ascanio', y: '1929–1997', ic: '📐', q: 'Ascanio', s: 'Recordando a Arturo · Wikipedia',
+    t: H('Canario de La Laguna, abogado de profesión y mago por vocación. Maestro de Tamariz, considerado el padre de la cartomagia española y teórico de la misdirection.', 'Canari de La Laguna, advocat de professió i mag per vocació. Mestre de Tamariz, considerat el pare de la cartomàgia espanyola i teòric de la misdirection.') },
+  { n: 'Persi Diaconis', y: '', ic: '🎓', q: 'Diaconis', s: 'Wikipedia · MacTutor',
+    t: H('A los 14 años se fue de casa para viajar con Dai Vernon. Después fue catedrático de Estadística y Matemáticas en Stanford y se hizo célebre por estudiar matemáticamente cómo se barajan las cartas.', 'Als 14 anys va marxar de casa per viatjar amb Dai Vernon. Després va ser catedràtic d\'Estadística i Matemàtiques a Stanford i es va fer cèlebre per estudiar matemàticament com es barregen les cartes.') },
+  { n: 'Juan Tamariz', y: '1942–2026', ic: '🇪🇸', q: 'Tamariz', s: 'Wikipedia · El Debate · Euronews',
+    t: H('Madrileño. Cartomago, teórico, escritor y uno de los rostros de la televisión de los años 80 y 90. Autor de la Mnemónica (1980). Falleció en Madrid el 18 de agosto de 2026.', 'Madrileny. Cartomag, teòric, escriptor i un dels rostres de la televisió dels anys 80 i 90. Autor de la Mnemònica (1980). Va morir a Madrid el 18 d\'agost del 2026.') },
+  { n: 'Penn & Teller', y: '1955 · 1948', ic: '🎪', q: 'Penn', s: 'Wikipedia · Las Vegas Weekly',
+    t: H('Penn Jillette (1955) y Teller (1948), juntos desde 1975. Penn habla; Teller, casi nunca. Actúan en el Rio de Las Vegas desde 2001 y protagonizan el concurso «Fool Us».', 'Penn Jillette (1955) i Teller (1948), junts des del 1975. Penn parla; Teller, gairebé mai. Actuen al Rio de Las Vegas des del 2001 i protagonitzen el concurs «Fool Us».') },
+  { n: 'Gabi Pareras', y: '1965–2020', ic: '🌟', q: 'Pareras', s: 'Compàs d\'Amalgama (UB)',
+    t: H('Barcelonés, referente del ilusionismo catalán. Su magisterio sigue vivo entre sus alumnos y colaboró en la revista El Manuscrito.', 'Barceloní, referent de l\'il·lusionisme català. El seu mestratge continua viu entre els seus alumnes i va col·laborar a la revista El Manuscrito.') },
+  { n: 'Mag Lari', y: '1973', ic: '🎬', q: 'Lari', s: 'Ara (2024)',
+    t: H('Josep Maria Lari, ilusionista catalán. De adolescente le regalaron un libro de Juan Tamariz y, según cuenta, ya no se desvinculó de la magia.', 'Josep Maria Lari, il·lusionista català. De jove li van regalar un llibre de Juan Tamariz i, segons explica, ja no es va desvincular de la màgia.') },
+  { n: 'Mago Pop', y: '1986', ic: '✨', q: 'Mago Pop', s: 'Wikipedia · elmagopop.com',
+    t: H('Antonio Díaz, de Badia del Vallès, formado en el Institut del Teatre. Su «Nada es imposible» llegó a Broadway en 2023.', 'Antonio Díaz, de Badia del Vallès, format a l\'Institut del Teatre. El seu «Nada es imposible» va arribar a Broadway el 2023.') }
+];
+
+/* ---------- 5) Cronología de la magia ---------- */
+const RC_TLM = [
+  { y: 's. V', t: H('San Agustín y las anillas', 'Sant Agustí i les anelles'), x: H('En «La ciudad de Dios» describe unas anillas que giran una junto a la otra y cuenta cómo se logra. Lo recuerda el mago Raúl Jiménez.', 'A «La ciutat de Déu» descriu unes anelles que giren una al costat de l\'altra i explica com s\'aconsegueix. Ho recorda el mag Raúl Jiménez.'), s: 'El Manuscrito · R. Jiménez' },
+  { y: '1584', t: H('Reginald Scot', 'Reginald Scot'), x: H('Publica «The Discoverie of Witchcraft»: para desmontar la caza de brujas explica juegos de manos con detalle, entre ellos el del pañuelo y la moneda.', 'Publica «The Discoverie of Witchcraft»: per desmuntar la cacera de bruixes explica jocs de mans amb detall, entre ells el del mocador i la moneda.'), s: 'Wikipedia · R. Jiménez' },
+  { y: '1603', t: H('Charles Sorel', 'Charles Sorel'), x: H('Describe la «carta en el techo», que entonces se hacía con resina de pino.', 'Descriu la «carta al sostre», que aleshores es feia amb resina de pi.'), s: 'R. Jiménez' },
+  { y: '1733', t: H('Minguet', 'Minguet'), x: H('«Engaños a ojos vistas», de Pablo Minguet, se considera el primer libro de magia en castellano.', '«Engaños a ojos vistas», de Pablo Minguet, es considera el primer llibre de màgia en castellà.'), s: 'Gibecière · Conjuring Arts' },
+  { y: '1845', t: H('Robert-Houdin abre su teatro', 'Robert-Houdin obre el seu teatre'), x: H('En París, y lleva la magia de la feria al salón. Actúa en traje de noche.', 'A París, i porta la màgia de la fira al saló. Actua en vestit de nit.'), s: 'Lybrary · Wikipedia' },
+  { y: '1865', t: H('Hofzinser, a tiempo completo', 'Hofzinser, a temps complet'), x: H('Deja su empleo de funcionario y se dedica a la magia en su salón de Viena.', 'Deixa la feina de funcionari i es dedica a la màgia al seu saló de Viena.'), s: 'Lybrary · Wikipedia' },
+  { y: '1926', t: H('Houdini', 'Houdini'), x: H('Escribe su ensayo sobre magia para la Británica y muere el 31 de octubre en Detroit.', 'Escriu el seu assaig sobre màgia per a la Britànica i mor el 31 d\'octubre a Detroit.'), s: 'Britannica' },
+  { y: '1946', t: H('Ámsterdam', 'Amsterdam'), x: H('Primer congreso internacional de magos tras la guerra. La idea venía de 1937 y la guerra la había frenado.', 'Primer congrés internacional de mags després de la guerra. La idea venia del 1937 i la guerra l\'havia frenat.'), s: 'Magicana' },
+  { y: '1948', t: H('Nace la FISM', 'Neix la FISM'), x: H('El 5 de septiembre se funda la federación que organizará los campeonatos mundiales.', 'El 5 de setembre es funda la federació que organitzarà els campionats mundials.'), s: 'FISM · Wikipedia' },
+  { y: '1950', t: H('Mystica gana en Barcelona', 'Mystica guanya a Barcelona'), x: H('Fred Kaps, aún con el nombre de Mystica, gana el Gran Premio de la FISM en Barcelona.', 'Fred Kaps, encara amb el nom de Mystica, guanya el Gran Premi de la FISM a Barcelona.'), s: 'Genii · Wikipedia' },
+  { y: '1963', t: H('Vernon y el Magic Castle', 'Vernon i el Magic Castle'), x: H('Dai Vernon se instala en el Magic Castle de Hollywood, donde vivirá sus últimas décadas.', 'Dai Vernon s\'instal·la al Magic Castle de Hollywood, on viurà les últimes dècades.'), s: 'Wikipedia' },
+  { y: '1970', t: H('Ascanio en Ámsterdam', 'Ascanio a Amsterdam'), x: H('Primer premio de cartomagia en el campeonato mundial de la FISM.', 'Primer premi de cartomàgia al campionat mundial de la FISM.'), s: 'Wikipedia · Genii' },
+  { y: '1971', t: H('Escuela Mágica de Madrid', 'Escola Màgica de Madrid'), x: H('Tamariz, Ascanio y otros maestros fundan la escuela.', 'Tamariz, Ascanio i altres mestres funden l\'escola.'), s: 'El Español' },
+  { y: '1973', t: H('Tamariz en París', 'Tamariz a París'), x: H('Primer premio de cartomagia de la FISM.', 'Primer premi de cartomàgia de la FISM.'), s: 'Wikipedia · El Debate' },
+  { y: '1980', t: H('La Mnemónica', 'La Mnemònica'), x: H('Tamariz empieza a comentar en la Circular de la Escuela Mágica de Madrid ideas que acabarán en su baraja.', 'Tamariz comença a comentar a la Circular de l\'Escola Màgica de Madrid idees que acabaran a la seva baralla.'), s: 'Tamariz, vol. I' },
+  { y: '2001', t: H('Penn & Teller en el Rio', 'Penn & Teller al Rio'), x: H('El 5 de enero empieza su residencia en Las Vegas.', 'El 5 de gener comença la seva residència a Las Vegas.'), s: 'Las Vegas Weekly' },
+  { y: '2020', t: H('AMIT Terrassa', 'AMIT Terrassa'), x: H('En septiembre nace la Associació de Màgia i Il·lusionisme de Terrassa.', 'Al setembre neix l\'Associació de Màgia i Il·lusionisme de Terrassa.'), s: 'AMIT' },
+  { y: '2023', t: H('Mago Pop en Broadway', 'Mago Pop a Broadway'), x: H('Antonio Díaz lleva «Nada es imposible» a Nueva York.', 'Antonio Díaz porta «Nada es imposible» a Nova York.'), s: 'esdiario · Diez Minutos' },
+  { y: '2026', t: H('Tamariz', 'Tamariz'), x: H('Fallece en Madrid el 18 de agosto, a los 83 años. Deja la Mnemónica y generaciones de alumnos.', 'Mor a Madrid el 18 d\'agost, als 83 anys. Deixa la Mnemònica i generacions d\'alumnes.'), s: 'Ara · El Debate · Euronews' }
+];
+
+/* ---------- 6) Efemérides (solo fechas contrastadas; si las fuentes difieren, la ficha lo dice) ---------- */
+const EFE = [
+  { m: 1, d: 5, y: 2001, t: H('Penn & Teller estrenan su residencia en el Rio de Las Vegas, hoy la más larga de la ciudad en un mismo hotel.', 'Penn & Teller estrenen la seva residència al Rio de Las Vegas, avui la més llarga de la ciutat en un mateix hotel.'), s: 'Las Vegas Weekly' },
+  { m: 1, d: 15, y: 1991, t: H('Muere en Orange (Nueva Jersey) Tony Slydini, maestro de la misdirection en la magia de cerca.', 'Mor a Orange (Nova Jersey) Tony Slydini, mestre de la misdirection en la màgia de prop.'), s: 'Wikipedia' },
+  { m: 2, d: 14, y: 1948, t: H('Nace en Filadelfia Teller, la mitad silenciosa de Penn & Teller.', 'Neix a Filadèlfia Teller, la meitat silenciosa de Penn & Teller.'), s: 'Wikipedia' },
+  { m: 3, d: 5, y: 1955, t: H('Nace en Greenfield (Massachusetts) Penn Jillette, la mitad parlanchina de Penn & Teller.', 'Neix a Greenfield (Massachusetts) Penn Jillette, la meitat xerraire de Penn & Teller.'), s: 'Wikipedia' },
+  { m: 3, d: 11, y: 1875, t: H('Muere en Viena Johann Nepomuk Hofzinser, el funcionario que se hizo leyenda de la cartomagia.', 'Mor a Viena Johann Nepomuk Hofzinser, el funcionari que es va fer llegenda de la cartomàgia.'), n: H('Alguna fuente da el 14 de marzo.', 'Alguna font dona el 14 de març.'), s: 'Britannica · The Magic Detective' },
+  { m: 3, d: 22, y: 1929, t: H('Nace en La Laguna (Tenerife) Arturo de Ascanio, el padre de la cartomagia española.', 'Neix a La Laguna (Tenerife) Arturo de Ascanio, el pare de la cartomàgia espanyola.'), s: 'Recordando a Arturo · Wikipedia' },
+  { m: 3, d: 24, y: 1874, t: H('Nace en Budapest Erik Weisz, el futuro Harry Houdini.', 'Neix a Budapest Erik Weisz, el futur Harry Houdini.'), s: 'Britannica' },
+  { m: 4, d: 6, y: 1997, t: H('Muere en Madrid Arturo de Ascanio, a los 68 años.', 'Mor a Madrid Arturo de Ascanio, als 68 anys.'), s: 'Wikipedia' },
+  { m: 6, d: 8, y: 1926, t: H('Nace en Rotterdam Bram Bongers, el futuro Fred Kaps.', 'Neix a Rotterdam Bram Bongers, el futur Fred Kaps.'), s: 'Wikipedia' },
+  { m: 6, d: 11, y: 1894, t: H('Nace en Ottawa David Verner, el futuro Dai Vernon, «El Profesor».', 'Neix a Ottawa David Verner, el futur Dai Vernon, «El Professor».'), s: 'Britannica' },
+  { m: 6, d: 13, y: 1871, t: H('Muere Jean-Eugène Robert-Houdin, el relojero que dio a la magia teatro y traje de noche.', 'Mor Jean-Eugène Robert-Houdin, el rellotger que va donar a la màgia teatre i vestit de nit.'), s: 'Britannica · Wikipedia' },
+  { m: 6, d: 19, y: 1806, t: H('Nace en Viena Johann Nepomuk Hofzinser.', 'Neix a Viena Johann Nepomuk Hofzinser.'), n: H('Una biografía antigua da el 19 de julio.', 'Una biografia antiga dona el 19 de juliol.'), s: 'Britannica · Wikipedia' },
+  { m: 6, d: 23, y: 1965, t: H('Nace en Barcelona Gabi Pareras, referente del ilusionismo catalán.', 'Neix a Barcelona Gabi Pareras, referent de l\'il·lusionisme català.'), s: 'Compàs d\'Amalgama (UB)' },
+  { m: 7, d: 23, y: 1980, t: H('Muere en Utrecht Fred Kaps, el único mago con tres Grandes Premios de la FISM.', 'Mor a Utrecht Fred Kaps, l\'únic mag amb tres Grans Premis de la FISM.'), n: H('Otras fuentes dan el 22 de julio.', 'Altres fonts donen el 22 de juliol.'), s: 'Wikipedia · Lybrary' },
+  { m: 8, d: 18, y: 2026, t: H('Fallece en Madrid Juan Tamariz, a los 83 años. Gracias, maestro.', 'Mor a Madrid Juan Tamariz, als 83 anys. Gràcies, mestre.'), s: 'Ara · El Debate · Euronews' },
+  { m: 8, d: 21, y: 1992, t: H('Muere en California Dai Vernon, a los 98 años.', 'Mor a Califòrnia Dai Vernon, als 98 anys.'), s: 'Britannica · Wikipedia' },
+  { m: 8, d: 26, y: 2020, t: H('Muere en Barcelona Gabi Pareras, a los 55 años. Su magisterio sigue vivo.', 'Mor a Barcelona Gabi Pareras, als 55 anys. El seu mestratge continua viu.'), s: 'Compàs d\'Amalgama (UB)' },
+  { m: 9, d: 1, y: 1900, t: H('Nace en Foggia (Italia) Quintino Marucci, el futuro Tony Slydini.', 'Neix a Foggia (Itàlia) Quintino Marucci, el futur Tony Slydini.'), n: H('Algunas fuentes dan 1901.', 'Algunes fonts donen el 1901.'), s: 'Wikipedia' },
+  { m: 9, d: 5, y: 1948, t: H('Se funda la FISM, la federación que organiza las «olimpiadas de la magia».', 'Es funda la FISM, la federació que organitza les «olimpíades de la màgia».'), s: 'FISM' },
+  { m: 10, d: 18, y: 1942, t: H('Nace en Madrid Juan Tamariz, el futuro autor de la Mnemónica.', 'Neix a Madrid Juan Tamariz, el futur autor de la Mnemònica.'), s: 'Wikipedia · El Debate' },
+  { m: 10, d: 31, y: 1926, t: H('Muere en Detroit Harry Houdini, a los 52 años: un Halloween.', 'Mor a Detroit Harry Houdini, als 52 anys: un Halloween.'), s: 'Britannica' },
+  { m: 12, d: 7, y: 1805, t: H('Nace en Blois Jean-Eugène Robert, que acabará siendo Robert-Houdin.', 'Neix a Blois Jean-Eugène Robert, que acabarà sent Robert-Houdin.'), n: H('Britannica y su autobiografía dan el 6 de diciembre.', 'Britannica i la seva autobiografia donen el 6 de desembre.'), s: 'Wikipedia · Britannica' }
+];
+
+/* ---------- 7) Verdadero o falso: preguntas nuevas ---------- */
+VF.push(
+  { s: H('Juan Tamariz nació en octubre de 1942.', 'Juan Tamariz va néixer a l\'octubre del 1942.'), v: true, w: H('El 18 de octubre de 1942, en Madrid.', 'El 18 d\'octubre del 1942, a Madrid.') },
+  { s: H('La FISM se fundó en 1948.', 'La FISM es va fundar el 1948.'), v: true, w: H('El 5 de septiembre de 1948. Hoy organiza el campeonato mundial cada tres años.', 'El 5 de setembre del 1948. Avui organitza el campionat mundial cada tres anys.') },
+  { s: H('Ascanio ganó el primer premio de cartomagia de la FISM en 1970.', 'Ascanio va guanyar el primer premi de cartomàgia de la FISM el 1970.'), v: true, w: H('En el campeonato de Ámsterdam. Tamariz lo ganó tres años después, en París.', 'Al campionat d\'Amsterdam. Tamariz el va guanyar tres anys després, a París.') },
+  { s: H('Arturo de Ascanio fue mago profesional toda su vida.', 'Arturo de Ascanio va ser mag professional tota la vida.'), v: false, w: H('Era abogado y nunca se hizo profesional de la magia, aunque fue uno de sus grandes maestros.', 'Era advocat i mai no es va fer professional de la màgia, tot i que va ser un dels seus grans mestres.') },
+  { s: H('Slydini nació en Argentina.', 'Slydini va néixer a l\'Argentina.'), v: false, w: H('Nació en Foggia (Italia). Vivió de joven en Buenos Aires y desde 1930 en Nueva York.', 'Va néixer a Foggia (Itàlia). Va viure de jove a Buenos Aires i des del 1930 a Nova York.') },
+  { s: H('Slydini llegó a anunciarse como «Tony Foolem».', 'Slydini va arribar a anunciar-se com «Tony Foolem».'), v: true, w: H('Fue un cartel anterior a su nombre definitivo. Otros artistas lo ayudaron a elegir Slydini.', 'Va ser un cartell anterior al seu nom definitiu. Altres artistes el van ajudar a triar Slydini.') },
+  { s: H('Dai Vernon contaba que había perdido los seis primeros años de su vida sin saber magia.', 'Dai Vernon explicava que havia perdut els sis primers anys de la seva vida sense saber màgia.'), v: true, w: H('Su padre le enseñó el primer juego a los siete años. Lo decía con ironía.', 'El seu pare li va ensenyar el primer joc als set anys. Ho deia amb ironia.') },
+  { s: H('Robert-Houdin compró un libro de magia y empezó a practicar.', 'Robert-Houdin va comprar un llibre de màgia i va començar a practicar.'), v: false, w: H('Según la historia habitual, había encargado un libro de relojería y le llegó uno de diversiones científicas por error.', 'Segons la història habitual, havia encarregat un llibre de rellotgeria i li va arribar un de diversions científiques per error.') },
+  { s: H('Houdini escribió el artículo sobre magia de la Enciclopedia Británica.', 'Houdini va escriure l\'article sobre màgia de l\'Enciclopèdia Britànica.'), v: true, w: H('Fue para su 13.ª edición; la Británica recuerda su ensayo de 1926.', 'Va ser per a la 13a edició; la Britànica recorda el seu assaig del 1926.') },
+  { s: H('Houdini murió en Nochebuena de 1926.', 'Houdini va morir a la Nit de Nadal del 1926.'), v: false, w: H('Murió el 31 de octubre, Halloween, en Detroit.', 'Va morir el 31 d\'octubre, Halloween, a Detroit.') },
+  { s: H('Hofzinser era funcionario y no se dedicó del todo a la magia hasta 1865.', 'Hofzinser era funcionari i no es va dedicar del tot a la màgia fins al 1865.'), v: true, w: H('Trabajó en la administración financiera de Viena y se retiró ese año.', 'Va treballar a l\'administració financera de Viena i es va retirar aquell any.') },
+  { s: H('Hofzinser aparece como personaje en la película «El ilusionista» (2006).', 'Hofzinser apareix com a personatge a la pel·lícula «L\'il·lusionista» (2006).'), v: true, w: H('Lo interpreta el actor Philip McGough.', 'El fa el paper l\'actor Philip McGough.') },
+  { s: H('Penn & Teller actúan en el mismo hotel de Las Vegas desde 2001.', 'Penn & Teller actuen al mateix hotel de Las Vegas des del 2001.'), v: true, w: H('En el Rio, desde el 5 de enero de 2001: la residencia más larga de un cabeza de cartel en un hotel de la ciudad.', 'Al Rio, des del 5 de gener del 2001: la residència més llarga d\'un cap de cartell en un hotel de la ciutat.') },
+  { s: H('El Mago Pop llevó su espectáculo a Broadway en 2023.', 'El Mago Pop va portar el seu espectacle a Broadway el 2023.'), v: true, w: H('«Nada es imposible», de Antonio Díaz, nacido en Badia del Vallès.', '«Nada es imposible», d\'Antonio Díaz, nascut a Badia del Vallès.') },
+  { s: H('Gabi Pareras nació en Madrid.', 'Gabi Pareras va néixer a Madrid.'), v: false, w: H('Nació y murió en Barcelona (1965–2020).', 'Va néixer i va morir a Barcelona (1965–2020).') },
+  { s: H('El primer congreso internacional de magos tras la guerra se celebró en Ámsterdam en 1946.', 'El primer congrés internacional de mags després de la guerra es va celebrar a Amsterdam el 1946.'), v: true, w: H('Dos años después se fundó la FISM.', 'Dos anys després es va fundar la FISM.') }
+);
+
+/* ---------- 8) Utilidades ---------- */
+const rcNorm = x => String(x).toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+const rcNow = () => (typeof window !== 'undefined' && window.__RC_NOW) ? new Date(window.__RC_NOW) : new Date();
+const RC_MES = {
+  es: ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'],
+  ca: ['gener', 'febrer', 'març', 'abril', 'maig', 'juny', 'juliol', 'agost', 'setembre', 'octubre', 'novembre', 'desembre']
+};
+const rcMes = m => RC_MES[LANG === 'ca' ? 'ca' : 'es'][m - 1];
+const rcDate = (d, m) => { const mn = rcMes(m); return LANG === 'ca' ? `${d} ${/^[aeiou]/.test(mn) ? 'd\'' : 'de '}${mn}` : `${d} de ${mn}`; };
+const rcAgo = y => { const n = rcNow().getFullYear() - y; return n > 0 ? L(`${n}.º aniversario`, `${n}è aniversari`) : ''; };
+const rcDay = e => (Date.UTC(2001, e.m - 1, e.d) - Date.UTC(2001, rcNow().getMonth(), rcNow().getDate())) / 864e5;
+function rcNext(n) {
+  return EFE.map(e => ({ e, dd: (rcDay(e) + 365) % 365 })).filter(x => x.dd > 0).sort((a, b) => a.dd - b.dd).slice(0, n).map(x => x.e);
+}
+const rcRoomName = k => (RC_ALL[k] || {}).t || '';
+
+/* ---------- 9) Piezas de HTML ---------- */
+const rcSrc = s => s ? `<div class="tiny mut">Fuente: ${esc(s)}</div>` : '';
+const rcChip = r => r ? `<div class="rc-in"><button class="btn sm ghost" data-a="rc-room" data-r="${r}"><span>${esc(L('Ir a la sala', 'Anar a la sala'))}</span> <span>«${esc(rcRoomName(r))}»</span></button></div>` : '';
+const rcFactHTML = (f, chip) => `<details class="fact"><summary><span class="fi">${f.i}</span><span>${esc(f.t)}</span></summary><p>${esc(f.x)}</p>${rcSrc(f.s)}${chip ? rcChip(f.r) : ''}</details>`;
+const rcEfeHTML = (e, chip) => `<div class="rc-efe"><div class="rc-efd" translate="no">${esc(rcDate(e.d, e.m))}<small>${e.y}${rcAgo(e.y) ? ' · ' + esc(rcAgo(e.y)) : ''}</small></div><div><div>${esc(e.t)}</div>${e.n ? `<div class="tiny mut">${esc(e.n)}</div>` : ''}${rcSrc(e.s)}${chip ? rcChip('calendario') : ''}</div></div>`;
+const rcGlosHTML = (g, chip) => `<details class="fact"><summary><span class="fi">📖</span><span>${esc(g.t)}</span></summary><p>${esc(g.d)}</p>${chip ? rcChip('basico') : ''}</details>`;
+const rcPersHTML = (p, chip) => `<details class="fact"><summary><span class="fi">${p.ic}</span><span class="rc-pn"><span translate="no">${esc(p.n)}</span>${p.y ? `<small translate="no">${esc(p.y)}</small>` : ''}</span></summary><p>${esc(p.t)}</p>${rcSrc(p.s)}<div class="rc-in"><button class="btn sm ghost" data-a="rc-find" data-q="${esc(p.q)}">🔎 <span>${esc(L('Ver sus curiosidades', 'Veure les seves curiositats'))}</span></button></div>${chip ? rcChip('quien') : ''}</details>`;
+const rcTlmHTML = list => `<ol class="tl">${list.map(t => `<li><span class="y" translate="no">${esc(t.y)}</span><div><b>${esc(t.t)}</b><div class="small">${esc(t.x)}</div>${rcSrc(t.s)}</div></li>`).join('')}</ol>`;
+const rcFactsOf = k => FACTS.filter(f => f.r === k);
+const rcFactList = k => `<div class="gap mt">${rcFactsOf(k).map(f => rcFactHTML(f)).join('')}</div>`;
+
+/* ---------- 10) Curiosidad del día ---------- */
+const rcDayIdx = () => {
+  const d = rcNow(), n = Math.floor((Date.UTC(d.getFullYear(), d.getMonth(), d.getDate()) - Date.UTC(d.getFullYear(), 0, 0)) / 864e5);
+  return (n * 7 + d.getFullYear()) % FACTS.length;
+};
+const rcDailyHTML = () => rcFactHTML(FACTS[RCS.dd != null ? RCS.dd : rcDayIdx()], true) + `<div class="row"><button class="btn sm ghost" data-a="rc-otra">🔀 <span>${esc(L('Otra curiosidad', 'Una altra curiositat'))}</span></button></div>`;
+
+/* ---------- 11) Hoy en la magia ---------- */
+function rcHoyHTML() {
+  const now = rcNow(), M = now.getMonth() + 1, D = now.getDate();
+  const hoy = EFE.filter(e => e.m === M && e.d === D);
+  const lista = hoy.length ? hoy : rcNext(2);
+  return `<div class="row" style="justify-content:space-between;align-items:baseline"><h3 style="margin:0">📅 ${esc(L('Hoy en la magia', 'Avui en la màgia'))}</h3><span class="small mut" translate="no">${esc(rcDate(D, M))}</span></div>
+    <p class="small mut" style="margin:8px 0 10px">${esc(hoy.length ? L('Una fecha señalada en el calendario de los magos.', 'Una data assenyalada al calendari dels mags.') : L('Hoy no hay ninguna fecha señalada. Las próximas:', 'Avui no hi ha cap data assenyalada. Les properes:'))}</p>
+    <div class="gap">${lista.map(e => rcEfeHTML(e)).join('')}</div>
+    <div class="row mt"><button class="btn sm ghost" data-a="rc-room" data-r="calendario">📅 <span>${esc(L('Calendario completo', 'Calendari complet'))}</span></button></div>`;
+}
+
+/* ---------- 12) Buscador ---------- */
+function rcEntries() {
+  const o = [];
+  FACTS.forEach(f => o.push({ k: 'fact', r: f.r, t: f.t, x: f.x, s: f.s, f }));
+  RC_GLOS.forEach(g => o.push({ k: 'glos', r: 'basico', t: g.t, x: g.d, s: '', g }));
+  RC_PEOPLE.forEach(p => o.push({ k: 'pers', r: 'quien', t: p.n, x: p.t, s: p.s, hx: p.y + ' ' + p.q, p }));
+  RC_TLM.forEach(t => o.push({ k: 'tlm', r: 'historia', t: t.t, x: t.x, s: t.s, hx: t.y, tl: t }));
+  TIMELINE.forEach(t => o.push({ k: 'hito', r: 'barajas', t: t.t, x: t.x, s: t.s, hx: t.y, tl: t }));
+  EFE.forEach(e => o.push({ k: 'efe', r: 'calendario', t: e.t, x: e.n || '', s: e.s, hx: e.y + ' ' + e.d + ' ' + RC_MES.es[e.m - 1] + ' ' + RC_MES.ca[e.m - 1], e }));
+  BASICS.forEach(b => o.push({ k: 'bas', r: 'basico', t: b.q, x: '', s: '', hx: b.a.replace(/<[^>]+>/g, ' '), b }));
+  return o;
+}
+let RC_HAYC = null;
+const rcTr = x => x ? T(x) : '';
+function rcHay() {
+  if (RC_HAYC && RC_HAYC.lang === LANG) return RC_HAYC.a;
+  const a = rcEntries().map(e => ({ e, ht: rcNorm(e.t + ' ' + rcTr(e.t) + ' ' + (e.k === 'pers' || e.k === 'tlm' || e.k === 'hito' ? e.hx : '')), h: rcNorm([e.t, rcTr(e.t), e.x, rcTr(e.x), e.s, e.hx || ''].join(' ')) }));
+  RC_HAYC = { lang: LANG, a }; return a;
+}
+function rcHitHTML(e) {
+  if (e.k === 'fact') return rcFactHTML(e.f, true);
+  if (e.k === 'glos') return rcGlosHTML(e.g, true);
+  if (e.k === 'pers') return rcPersHTML(e.p, true);
+  if (e.k === 'efe') return rcEfeHTML(e.e, true);
+  if (e.k === 'bas') return `<details class="fact"><summary><span class="fi">${e.b.ic}</span><span>${esc(e.b.q)}</span></summary>${rcChip('basico')}</details>`;
+  const t = e.tl; // hitos
+  return `<details class="fact"><summary><span class="fi">📅</span><span class="rc-pn"><span>${esc(t.t)}</span><small translate="no">${esc(t.y)}</small></span></summary><p>${esc(t.x)}</p>${rcSrc(t.s)}${rcChip(e.r)}</details>`;
+}
+function rcSearch(q) {
+  const words = rcNorm(q).trim().split(/\s+/).filter(Boolean);
+  const hits = rcHay().filter(h => words.every(w => h.h.includes(w)));
+  hits.sort((a, b) => words.every(w => b.ht.includes(w)) - words.every(w => a.ht.includes(w)));
+  const max = 40, shown = hits.slice(0, max);
+  const html = shown.length
+    ? `<div class="gap">${shown.map(h => rcHitHTML(h.e)).join('')}</div>` + (hits.length > max ? `<p class="small mut">${esc(L(`Hay ${hits.length} resultados; se muestran los ${max} primeros. Afina la búsqueda para ver el resto.`, `Hi ha ${hits.length} resultats; es mostren els ${max} primers. Afina la cerca per veure la resta.`))}</p>` : '')
+    : `<p class="mut">${esc(L('Nada con esa búsqueda. Prueba con un nombre (Houdini), un año (1980) o una palabra (faro).', 'Res amb aquesta cerca. Prova amb un nom (Houdini), un any (1980) o una paraula (faro).'))}</p>`;
+  return { n: hits.length, html };
+}
+const rcStatus = n => n === 0 ? L('Sin resultados', 'Sense resultats') : n === 1 ? L('1 resultado', '1 resultat') : L(`${n} resultados`, `${n} resultats`);
+const rcTotal = () => FACTS.length + RC_GLOS.length + RC_PEOPLE.length + RC_TLM.length + TIMELINE.length + EFE.length + BASICS.length;
+function rcApply(v) {
+  RCS.q = v;
+  const q = v.trim(), res = $('#rcRes'), hub = $('#rcHub'), st = $('#rcqn'), clr = $('#rcclr');
+  if (!res || !hub) return;
+  if (clr) clr.hidden = !v;
+  if (q.length < 2) {
+    res.hidden = true; res.innerHTML = ''; hub.hidden = false;
+    if (st) st.textContent = q ? L('Escribe al menos dos letras.', 'Escriu almenys dues lletres.') : L(`Busca entre ${rcTotal()} entradas`, `Cerca entre ${rcTotal()} entrades`);
+    return;
+  }
+  const r = rcSearch(q);
+  res.innerHTML = r.html; res.hidden = false; hub.hidden = true;
+  if (st) st.textContent = rcStatus(r.n);
+}
+document.addEventListener('input', e => { if (e.target && e.target.id === 'rcq') rcApply(e.target.value); });
+
+/* ---------- 13) Vistas ---------- */
+const rcBar = back => `<div class="row mt"><button class="ibtn" data-a="${back ? 'go-rincon' : 'back" data-tab="home'}" aria-label="${esc(L('Volver', 'Tornar'))}">‹</button><h2 style="margin:0">${esc(L('Cultura mágica', 'Cultura màgica'))}</h2></div>`;
+const rcRoomBtn = r => `<button class="mode mt2" data-a="rc-room" data-r="${r.k}"><span class="ic">${r.ic}</span><span><b>${esc(r.t)}</b><span>${esc(r.d)}</span></span><span class="mside"><span class="small mut" translate="no">${rcRoomCount(r.k)}</span></span></button>`;
+function rcRoomCount(k) {
+  if (k === 'basico') return RC_GLOS.length + BASICS.length;
+  if (k === 'barajas') return rcFactsOf(k).length + TIMELINE.length;
+  if (k === 'historia') return rcFactsOf(k).length + RC_TLM.length;
+  if (k === 'quien') return RC_PEOPLE.length;
+  if (k === 'calendario') return EFE.length;
+  return rcFactsOf(k).length;
+}
+function rcHubView() {
+  const q = RCS.q || '', ok = q.trim().length >= 2, r = ok ? rcSearch(q) : null;
+  return `${rcBar(false)}
+  <p class="mut">${esc(L('Un rato de cultura antes (o después) de entrenar. Busca un nombre, un año o una palabra, o entra en una sala.', 'Una estona de cultura abans (o després) d\'entrenar. Cerca un nom, un any o una paraula, o entra en una sala.'))}</p>
+  <div class="src-bar" role="search">
+    <input id="rcq" class="src-q" type="search" inputmode="search" autocomplete="off" value="${esc(q)}" placeholder="${esc(L('Buscar: Houdini, faro, Ascanio, 1980…', 'Cercar: Houdini, faro, Ascanio, 1980…'))}" aria-label="${esc(L('Buscar en Cultura mágica', 'Cercar a Cultura màgica'))}">
+    <div class="row wrap" style="align-items:center;justify-content:space-between"><span class="small mut" id="rcqn" role="status" aria-live="polite">${esc(ok ? rcStatus(r.n) : L(`Busca entre ${rcTotal()} entradas`, `Cerca entre ${rcTotal()} entrades`))}</span><button class="btn sm ghost" id="rcclr" data-a="rc-clear"${q ? '' : ' hidden'}>✕ <span>${esc(L('Borrar', 'Esborrar'))}</span></button></div>
+  </div>
+  <div id="rcRes" class="mt"${ok ? '' : ' hidden'}>${ok ? r.html : ''}</div>
+  <div id="rcHub"${ok ? ' hidden' : ''}>
+    <div class="panel tilt mt" id="rcHoy">${rcHoyHTML()}</div>
+    <div class="sec"><h3>${esc(L('Una curiosidad para hoy', 'Una curiositat per avui'))}</h3></div>
+    <div class="gap" id="rcDaily">${rcDailyHTML()}</div>
+    <div class="sec"><h3>${esc(L('Salas', 'Sales'))}</h3><span class="mut small" translate="no">${rcTotal()}</span></div>
+    ${RC_ROOMS.concat([RC_CAL]).map((r2, i) => rcRoomBtn(r2).replace(' mt2"', i ? ' mt"' : ' "')).join('')}
+    <div class="sec"><h3>${esc(L('Y para pasarlo bien', 'I per passar-ho bé'))}</h3></div>
+    <button class="mode" data-a="go-present"><span class="ic">🎬</span><span><b>${L('Presentar con baraja ordenada', 'Presentar amb baralla ordenada')}</b><span>${L('Momentos wow y doce ideas de presentación sacadas de la bibliografía.', 'Moments wow i dotze idees de presentació extretes de la bibliografia.')}</span></span></button>
+    <button class="mode mt" data-a="go-cachondeo"><span class="ic">🍺</span><span><b>Sala del cachondeo</b><span>${L('Chistes de magos, de barra, del cuñado y de la peña, y excusas de mago.', 'Acudits de mags, de barra, del cunyat i de la penya, i excuses de mag.')}</span></span></button>
+    <button class="mode mt" data-a="vf-start"><span class="ic">🎓</span><span><b>Verdadero o falso mágico</b><span>Diez afirmaciones sobre barajas, magos y la Mnemónica. ¿Cuántas te cuelan?</span></span></button>
+    <p class="credit">${L('Datos con fuente: el libro de Tamariz (vol. I), Kuhn, Weber, Kaplan, El Taumaturgo, El Manuscrito (CIM, Málaga), «Recordando a Arturo», Wikipedia, Britannica, Magicana, FISM, Conjuring Arts, Vanishing Inc., Gibecière y prensa de agosto de 2026. Donde las fuentes dan fechas distintas, la ficha lo indica.', 'Dades amb font: el llibre de Tamariz (vol. I), Kuhn, Weber, Kaplan, El Taumaturgo, El Manuscrito (CIM, Màlaga), «Recordando a Arturo», Wikipedia, Britannica, Magicana, FISM, Conjuring Arts, Vanishing Inc., Gibecière i premsa d\'agost del 2026. On les fonts donen dates diferents, la fitxa ho indica.')}</p>
+  </div>`;
+}
+function rcBody(k) {
+  if (k === 'basico') return `<div class="gap mt">${BASICS.map((b, i) => `<details class="basic"${i === 0 ? ' open' : ''}><summary><span class="fi">${b.ic}</span><span>${esc(b.q)}</span></summary><div class="bx">${b.a}</div></details>`).join('')}</div>
+    <div class="sec"><h3>${esc(L('Vocabulario mágico', 'Vocabulari màgic'))}</h3><span class="mut small" translate="no">${RC_GLOS.length}</span></div>
+    <div class="gap">${RC_GLOS.map(g => rcGlosHTML(g)).join('')}</div>`;
+  if (k === 'barajas') return `<div class="sec"><h3>${esc(L('Cómo han ordenado la baraja los magos', 'Com han ordenat la baralla els mags'))}</h3><span class="mut small" translate="no">${TIMELINE.length}</span></div>
+    <ol class="tl" aria-label="${esc(L('Línea del tiempo de las barajas ordenadas', 'Línia del temps de les baralles ordenades'))}">${TIMELINE.map(t => `<li><span class="y" translate="no">${esc(t.y)}</span><div><b>${esc(t.t)}</b><div class="small">${esc(t.x)}</div><div class="tiny mut">${esc(t.s)}</div></div></li>`).join('')}</ol>
+    <p class="small mut">${esc(L('Los hitos hasta 1980 siguen la historia que cuenta Tamariz en el capítulo 1 de su libro. Los posteriores, de las fuentes citadas en cada uno.', 'Les fites fins al 1980 segueixen la història que explica Tamariz al capítol 1 del seu llibre. Les posteriors, de les fonts citades a cadascuna.'))}</p>
+    <div class="sec"><h3>${esc(L('Curiosidades', 'Curiositats'))}</h3><span class="mut small" translate="no">${rcFactsOf(k).length}</span></div>${rcFactList(k).replace('gap mt', 'gap')}`;
+  if (k === 'historia') return `<div class="sec"><h3>${esc(L('Cronología', 'Cronologia'))}</h3><span class="mut small" translate="no">${RC_TLM.length}</span></div>${rcTlmHTML(RC_TLM)}
+    <div class="sec"><h3>${esc(L('Curiosidades', 'Curiositats'))}</h3><span class="mut small" translate="no">${rcFactsOf(k).length}</span></div>${rcFactList(k).replace('gap mt', 'gap')}`;
+  if (k === 'quien') return `<div class="gap mt">${RC_PEOPLE.map(p => rcPersHTML(p)).join('')}</div><p class="small mut">${esc(L('Fechas de nacimiento y muerte contrastadas con Britannica, Wikipedia y la prensa de cada momento. Donde hay dudas, la ficha lo dice.', 'Dates de naixement i mort contrastades amb Britannica, Wikipedia i la premsa de cada moment. On hi ha dubtes, la fitxa ho diu.'))}</p>`;
+  if (k === 'calendario') {
+    let h = '';
+    for (let m = 1; m <= 12; m++) {
+      const l = EFE.filter(e => e.m === m); if (!l.length) continue;
+      h += `<div class="sec"><h3 translate="no">${esc(rcMes(m).charAt(0).toUpperCase() + rcMes(m).slice(1))}</h3></div><div class="gap">${l.map(e => rcEfeHTML(e)).join('')}</div>`;
+    }
+    return h;
+  }
+  return rcFactList(k);
+}
+function rcRoomView(k) {
+  const r = RC_ALL[k], i = RC_ROOMS.findIndex(x => x.k === k), prev = RC_ROOMS[i - 1], next = RC_ROOMS[i + 1];
+  const nav = i < 0 ? '' : `<div class="rc-nav mt2">${prev ? `<button class="btn ghost" data-a="rc-room" data-r="${prev.k}">‹ <span>${esc(prev.t)}</span></button>` : '<span></span>'}${next ? `<button class="btn ghost" data-a="rc-room" data-r="${next.k}"><span>${esc(next.t)}</span> ›</button>` : '<span></span>'}</div>`;
+  return `${rcBar(true)}
+  <div class="rc-rh"><span class="rc-ri" aria-hidden="true">${r.ic}</span><div><h3 style="margin:0">${esc(r.t)}</h3><p class="mut" style="margin:2px 0 0">${esc(r.d)}</p></div></div>
+  ${rcBody(k)}${nav}
+  <button class="btn ghost block mt2" data-a="go-rincon">${esc(L('Volver a Cultura mágica', 'Tornar a Cultura màgica'))}</button>`;
+}
+ROUTES['learn:rincon'] = arg => (arg && RC_ALL[arg]) ? rcRoomView(arg) : rcHubView();
+
+/* ---------- 14) Acciones ---------- */
+RCS.q = ''; RCS.dd = null;
+A['go-rincon'] = () => { RCS.q = ''; go('learn', 'rincon'); };
+A['rc-room'] = el => { if (RC_ALL[el.dataset.r]) go('learn', 'rincon', el.dataset.r); };
+A['rc-find'] = el => { RCS.q = el.dataset.q || ''; go('learn', 'rincon', null); };
+A['rc-clear'] = () => { const i = $('#rcq'); if (i) { i.value = ''; i.focus(); } rcApply(''); };
+A['rc-otra'] = () => {
+  const cur = RCS.dd != null ? RCS.dd : rcDayIdx();
+  RCS.dd = (cur + 1 + Math.floor(Math.random() * (FACTS.length - 1))) % FACTS.length;
+  const h = $('#rcDaily'); if (h) h.innerHTML = rcDailyHTML();
+};
 
 /* ===================== SALTO DE VARITA · saltos por la baraja y efectos de la casa =====================
    Juego original de la app. Se parte de una carta, se salta 1 a 5 puestos hacia delante o hacia atrás y se aterriza en la
@@ -4368,7 +4942,7 @@ const accesosHTML = () => `<div class="acc3" role="group" aria-label="${L('Tu es
    del iPad, que guarda la página vieja en caché), se pide la página otra vez saltándose la caché y se mira su <meta app-rev>.
    Si es mayor, sale un aviso con «Actualizar». Actualizar guarda el progreso y recarga con una dirección nueva, que
    obliga al navegador a bajar el archivo actual. No se toca nada del progreso guardado. */
-const APP_REV = Number('46') || 0;
+const APP_REV = Number('47') || 0;
 const VER = { latest: 0, at: 0, dismissed: 0, show: false, busy: false };
 // Solo en la web propia (FB.web: dirección http/https fuera de Claude). La copia suelta o dentro de Claude no se actualiza sola.
 const verWeb = () => typeof fetch === 'function' && !!FB.web;
@@ -10041,10 +10615,12 @@ trAdd('ca', {
 "A Toni se le pregunta por la Mnemónica y responde con Star Wars. Y, curiosamente, funciona: la baraja tiene su propia galaxia.": "A en Toni li preguntes per la Mnemònica i respon amb Star Wars. I, curiosament, funciona: la baralla té la seva pròpia galàxia.",
 "Toni": "Toni",
 "David, alumno de Gabi Pareras, aprueba: carta bien aprendida, con estilo de maestro.": "En David, alumne de Gabi Pareras, ho aprova: carta ben apresa, amb estil de mestre.",
-"David lo celebra con un cartel nuevo. Lo ha hecho una IA, claro: «Carta acertada. Función a las 20:00».": "En David ho celebra amb un cartell nou. L'ha fet una IA, és clar: «Carta encertada. Funció a les 20:00».",
-"David le pide a la IA un cartel que diga «Hoy no ha salido, pero mañana sí». Le sale con seis dedos y una carta con ocho palos.": "En David li demana a la IA un cartell que digui «Avui no ha sortit, però demà sí». Li surt amb sis dits i una carta amb vuit pals.",
-"David fue alumno de Gabi Pareras y se anuncia como «David tiene magia». Y sí: la tiene, aunque los carteles los haga la IA.": "En David va ser alumne de Gabi Pareras i s'anuncia com a «David té màgia». I sí: en té, encara que els cartells els faci la IA.",
-"David usa tanto la IA para los carteles que ya le pide que haga también el truco. Todavía no sale, pero el cartel es precioso.": "En David fa servir tant la IA per als cartells que ja li demana que faci també el truc. Encara no surt, però el cartell és preciós.",
+"David fue alumno de Gabi Pareras y se anuncia como «David tiene magia». Y sí: la tiene.": "En David va ser alumne de Gabi Pareras i s'anuncia com a «David té màgia». I sí: en té.",
+"David lo celebra a su manera: te enseña una variante para que la próxima salga todavía más limpia.": "En David ho celebra a la seva manera: t'ensenya una variant perquè la propera surti encara més neta.",
+"David te propone repasarla juntos con una baraja y un café. Es el pro: hasta tus fallos los convierte en clase.": "En David et proposa repassar-la plegats amb una baralla i un cafè. És el pro: fins i tot les teves errades les converteix en classe.",
+"David prefiere enseñarte el juego antes que presumir de él. En magia, eso vale más que cualquier aplauso.": "En David prefereix ensenyar-te el joc abans que presumir-ne. En màgia, això val més que qualsevol aplaudiment.",
+"David asiente despacio: ya tiene la explicación preparada para cuando termines.": "En David assenteix a poc a poc: ja té l'explicació preparada per quan acabis.",
+"Tiempo agotado: David ya está sacando la baraja para enseñarte cómo se hacía.": "Temps esgotat: en David ja està treient la baralla per ensenyar-te com es feia.",
 "David": "David",
 "Harvi": "Harvi",
 "Carlos, el canario": "Carlos, el canari",
@@ -10078,13 +10654,11 @@ trAdd('ca', {
 "Santi te aplaude vestido de dragón.": "En Santi t'aplaudeix vestit de drac.",
 "Kao asiente. Los auriculares, también.": "El Kao assenteix. Els auriculars, també.",
 "Toni: «Ayúdame, Mnemónica, eres mi única esperanza».": "Toni: «Ajuda'm, Mnemònica, ets la meva única esperança».",
-"David le pide a la IA un cartel para esto. Le saldrá con seis dedos.": "En David li demana un cartell a la IA per a això. Li sortirà amb sis dits.",
 "Al Sr. Piña se le escapa una risa… y la barba tiembla.": "Al Sr. Piña li escapa una rialla… i la barba tremola.",
 "Sergi, el novato pelón, también se queda sin pelo con esta carta.": "En Sergi, el novell pelat, també es queda sense pèl amb aquesta carta.",
 "Santi, vestido de dragón, chamusca esa carta.": "En Santi, vestit de drac, socarrima aquesta carta.",
 "Kao no te ha oído: lleva los auriculares puestos.": "El Kao no t'ha sentit: porta els auriculars posats.",
 "Tiempo. Toni, el infiltrado, ya ha vuelto al Vallès Oriental.": "Temps. En Toni, l'infiltrat, ja ha tornat al Vallès Oriental.",
-"Tiempo agotado: David ya ha hecho el cartel con la IA anunciando el fallo.": "Temps esgotat: en David ja ha fet el cartell amb la IA anunciant l'errada.",
 "Tiempo. Hasta el Sr. Piña ha terminado el chiste y ha vuelto a empezar.": "Temps. Fins i tot el Sr. Piña ha acabat l'acudit i ha tornat a començar.",
 "Presi": "President",
 "Kao (con imperdibles y auriculares)": "El Kao (amb imperdibles i auriculars)",
